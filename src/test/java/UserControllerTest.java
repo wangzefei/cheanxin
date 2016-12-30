@@ -29,7 +29,7 @@ public class UserControllerTest {
     public void testRegister() throws Exception {
         MockMvc mockMvc = standaloneSetup(userController)
                 .build();
-        ResultActions result = mockMvc.perform(post("/spitters")
+        ResultActions result = mockMvc.perform(post("/users")
                 .param("realName", "Jack Tang")
                 .param("username", "jack")
                 .param("password", "24hours")
@@ -41,7 +41,7 @@ public class UserControllerTest {
     public void testProfile() throws Exception {
         MockMvc mockMvc = standaloneSetup(userController)
                 .build();
-        ResultActions result = mockMvc.perform(get("/spitters/jack"));
+        ResultActions result = mockMvc.perform(get("/users/jack"));
         System.out.println(result.andReturn().getResponse().getContentAsString());
     }
 }

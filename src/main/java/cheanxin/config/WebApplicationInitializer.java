@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 /**
  * Created by 273cn on 16/12/13.
  */
-public class SpittrWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     public String[] getServletMappings() {
         return new String[] { "/" };
