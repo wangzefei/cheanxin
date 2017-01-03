@@ -84,9 +84,9 @@ public class Product {
     private Long cityId;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
-    // 是否禁用
-    private Boolean isDiabled;
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
+    // 是否启用
+    private Boolean enabled;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '修改时间'")
     // 修改时间
@@ -102,7 +102,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanMonthlyInterestRate, Long cityId, Boolean isDiabled, Long modifiedTime, Long createdTime, Long creatorUid) {
+    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanMonthlyInterestRate, Long cityId, Boolean enabled, Long modifiedTime, Long createdTime, Long creatorUid) {
         this.productTemplateId = productTemplateId;
         this.name = name;
         this.productType = productType;
@@ -113,7 +113,7 @@ public class Product {
         this.loanPolicy = loanPolicy;
         this.loanMonthlyInterestRate = loanMonthlyInterestRate;
         this.cityId = cityId;
-        this.isDiabled = isDiabled;
+        this.enabled = enabled;
         this.modifiedTime = modifiedTime;
         this.createdTime = createdTime;
         this.creatorUid = creatorUid;
@@ -207,12 +207,12 @@ public class Product {
         this.cityId = cityId;
     }
 
-    public Boolean getDiabled() {
-        return isDiabled;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setDiabled(Boolean diabled) {
-        isDiabled = diabled;
+    public void setEnabled(Boolean enabled) {
+        enabled = enabled;
     }
 
     public Long getModifiedTime() {

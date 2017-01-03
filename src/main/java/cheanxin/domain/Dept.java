@@ -35,9 +35,9 @@ public class Dept {
     private Long parentDeptId;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
-    // 是否禁用
-    private Boolean isDiabled;
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
+    // 是否启用
+    private Boolean enabled;
 
     // 创建时间
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
@@ -45,10 +45,10 @@ public class Dept {
 
     public Dept() {}
 
-    public Dept(String deptCode, Long parentDeptId, Boolean isDiabled, Long createdTime) {
+    public Dept(String deptCode, Long parentDeptId, Boolean enabled, Long createdTime) {
         this.deptCode = deptCode;
         this.parentDeptId = parentDeptId;
-        this.isDiabled = isDiabled;
+        this.enabled = enabled;
         this.createdTime = createdTime;
     }
 
@@ -76,12 +76,12 @@ public class Dept {
         this.parentDeptId = parentDeptId;
     }
 
-    public Boolean getDiabled() {
-        return isDiabled;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setDiabled(Boolean diabled) {
-        isDiabled = diabled;
+    public void setEnabled(Boolean enabled) {
+        enabled = enabled;
     }
 
     public Long getCreatedTime() {

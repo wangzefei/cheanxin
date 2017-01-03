@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/03/2017 16:41:45 PM
+ Date: 01/03/2017 17:52:06 PM
 */
 
 SET NAMES utf8mb4;
@@ -25,7 +25,7 @@ CREATE TABLE `dept` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `dept_code` varchar(10) NOT NULL COMMENT '部门编码',
-  `is_diabled` tinyint(1) unsigned NOT NULL COMMENT '是否禁用',
+  `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `name` varchar(50) NOT NULL COMMENT '部门名称',
   `parent_dept_id` int(10) unsigned NOT NULL COMMENT '上级部门',
   PRIMARY KEY (`id`),
@@ -156,7 +156,7 @@ DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
-  `is_diabled` tinyint(1) unsigned NOT NULL COMMENT '是否禁用',
+  `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `name` varchar(20) NOT NULL COMMENT '岗位名称',
   `serial_number` char(3) NOT NULL COMMENT '岗位编号',
   `type` tinyint(1) unsigned NOT NULL COMMENT '岗位类型',
@@ -185,7 +185,7 @@ CREATE TABLE `product` (
   `city_id` int(10) unsigned NOT NULL COMMENT '城市id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `creator_uid` int(10) unsigned DEFAULT NULL COMMENT '创建人',
-  `is_diabled` tinyint(1) unsigned NOT NULL COMMENT '是否禁用',
+  `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `loan_monthly_interest_rate` decimal(6,4) unsigned NOT NULL COMMENT '贷款月利率',
   `loan_policy` tinyint(2) unsigned NOT NULL COMMENT '贷款政策',
   `max_available_rate` tinyint(1) unsigned NOT NULL COMMENT '最高可贷成数',

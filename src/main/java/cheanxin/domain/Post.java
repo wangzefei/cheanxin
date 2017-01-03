@@ -37,9 +37,9 @@ public class Post {
     private Integer type;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
-    // 是否禁用
-    private Boolean isDiabled;
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
+    // 是否启用
+    private Boolean enabled;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
@@ -47,11 +47,11 @@ public class Post {
 
     public Post() {}
 
-    public Post(String serialNumber, String name, Integer type, Boolean isDiabled, Long createdTime) {
+    public Post(String serialNumber, String name, Integer type, Boolean enabled, Long createdTime) {
         this.serialNumber = serialNumber;
         this.name = name;
         this.type = type;
-        this.isDiabled = isDiabled;
+        this.enabled = enabled;
         this.createdTime = createdTime;
     }
 
@@ -87,12 +87,12 @@ public class Post {
         this.type = type;
     }
 
-    public Boolean getDiabled() {
-        return isDiabled;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setDiabled(Boolean diabled) {
-        isDiabled = diabled;
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Long getCreatedTime() {
