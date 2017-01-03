@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String username;
 
     @NotNull
-    @Size(min = 80, max = 80)
+    @Size(min = 6, max = 80)
     @Column(columnDefinition = "CHAR(80) COMMENT '用户密码（登录用）,使用Spring Security的BaseEncoder加密'")
     // 用户密码（登录用）
     private String password;

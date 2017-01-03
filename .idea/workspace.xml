@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32654150-7fbb-47f2-b929-2081c08c9ed0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Dept.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Dept.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Loan.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Loan.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanApplicant.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanApplicant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanCoApplicant.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanCoApplicant.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanGuarantor.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanGuarantor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanSource.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanSource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanVehicle.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanVehicle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Post.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Post.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/PostAuthority.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/PostAuthority.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Product.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/Product.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/ProductLog.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/ProductLog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/cheanxin/domain/UserPost.java" afterPath="$PROJECT_DIR$/src/main/java/cheanxin/domain/UserPost.java" />
     </list>
     <ignored path="cheanxin.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,12 +24,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="LoanLog.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java">
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
-              <folding />
+            <state relative-caret-position="270">
+              <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -115,9 +104,9 @@
         <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/PostAuthority.java" />
         <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/Product.java" />
         <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/ProductLog.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java" />
         <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/UserPost.java" />
         <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java" />
       </list>
     </option>
   </component>
@@ -845,12 +834,12 @@
       <workItem from="1483000707654" duration="813000" />
       <workItem from="1483001831511" duration="152000" />
       <workItem from="1483002050073" duration="431000" />
-      <workItem from="1483002508401" duration="31113000" />
+      <workItem from="1483002508401" duration="31320000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32509000" />
+    <option name="totallyTimeSpent" value="32716000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1366" height="682" extended-state="6" />
@@ -873,7 +862,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32952693" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32952693" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1241,16 +1230,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanApplicant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="74">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="65" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanCoApplicant.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -1327,21 +1306,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-226">
-          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="65" />
+        <state relative-caret-position="570">
+          <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanApplicant.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/LoanLog.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cheanxin/domain/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="270">
+          <caret line="34" column="28" selection-start-line="34" selection-start-column="28" selection-end-line="34" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
