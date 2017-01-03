@@ -49,7 +49,7 @@ public class Loan {
 
     private Long extGuarantorId;
 
-    private Long extCarId;
+    private Long extVehicleId;
 
     @NotNull
     @Min(0)
