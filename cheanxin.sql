@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/03/2017 16:31:24 PM
+ Date: 01/03/2017 16:41:45 PM
 */
 
 SET NAMES utf8mb4;
@@ -186,7 +186,7 @@ CREATE TABLE `product` (
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `creator_uid` int(10) unsigned DEFAULT NULL COMMENT '创建人',
   `is_diabled` tinyint(1) unsigned NOT NULL COMMENT '是否禁用',
-  `loan_benefit_per_month` decimal(6,4) unsigned NOT NULL COMMENT '贷款月利率',
+  `loan_monthly_interest_rate` decimal(6,4) unsigned NOT NULL COMMENT '贷款月利率',
   `loan_policy` tinyint(2) unsigned NOT NULL COMMENT '贷款政策',
   `max_available_rate` tinyint(1) unsigned NOT NULL COMMENT '最高可贷成数',
   `min_available_rate` tinyint(1) unsigned NOT NULL COMMENT '最低可贷成数',
