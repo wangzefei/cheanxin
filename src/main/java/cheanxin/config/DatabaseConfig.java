@@ -30,7 +30,7 @@ public class DatabaseConfig {
     public DataSource devDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8");
+        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/cheanxin?useUnicode=true&characterEncoding=UTF-8");
         dataSource.setUsername("root");
         dataSource.setPassword("");
         dataSource.setInitialSize(5);

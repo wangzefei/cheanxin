@@ -1,6 +1,6 @@
 package cheanxin.config;
 
-import cheanxin.service.UserAuthorityService;
+import cheanxin.service.PostAuthorityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,14 +39,14 @@ import java.io.PrintWriter;
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserAuthorityService userAuthorityService;
+    private PostAuthorityService postAuthorityService;
 
     @Autowired
     private ClientDetailsService clientDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userAuthorityService)
+        auth.userDetailsService(postAuthorityService)
         .passwordEncoder(new StandardPasswordEncoder(Constants.PASSWORD_SECRET));
     }
 

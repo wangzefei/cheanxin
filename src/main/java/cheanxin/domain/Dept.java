@@ -18,24 +18,31 @@ public class Dept {
 
     @NotNull
     @Size(min = 1, max = 10)
+    // 部门编码
     private String deptCode;
 
     @NotNull
+    @Size(max = 50)
+    // 部门名称
+    private String name;
+
+    @NotNull
+    // 上级部门
     private Long parentDeptId;
 
     @NotNull
-    @Min(value = 0)
-    @Max(value = 4)
-    private Integer status;
+    // 是否禁用
+    private Boolean isDiabled;
 
+    // 创建时间
     private Long createdTime;
 
     public Dept() {}
 
-    public Dept(String deptCode, Long parentDeptId, Integer status, Long createdTime) {
+    public Dept(String deptCode, Long parentDeptId, Boolean isDiabled, Long createdTime) {
         this.deptCode = deptCode;
         this.parentDeptId = parentDeptId;
-        this.status = status;
+        this.isDiabled = isDiabled;
         this.createdTime = createdTime;
     }
 
@@ -63,12 +70,12 @@ public class Dept {
         this.parentDeptId = parentDeptId;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Boolean getDiabled() {
+        return isDiabled;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setDiabled(Boolean diabled) {
+        isDiabled = diabled;
     }
 
     public Long getCreatedTime() {

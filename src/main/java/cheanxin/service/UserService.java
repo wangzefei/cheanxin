@@ -12,35 +12,16 @@ import cheanxin.global.Constants;
 /**
  * Created by 273cn on 16/12/21.
  */
-@Service
-public class UserService {
-    @Autowired
-    UserRepository userRepository;
+public interface UserService {
+    public User getUserByUsername(String username);
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsernameIgnoringCase(username);
-    }
+    public User getUserByMobileNumber(String mobileNumber);
 
-    public User getUserByMobileNumber(String mobileNumber) {
-        return userRepository.findByMobileNumber(mobileNumber);
-    }
+    public User save(User user);
 
-    public User save(User user) {
-        user.setCreatedTime(System.currentTimeMillis() / 1000);
-        // encode password.
-        user.setPassword(new StandardPasswordEncoder(Constants.PASSWORD_SECRET).encode(user.getPassword()));
-        return userRepository.save(user);
-    }
+    public Page<User> getUsers(int page, int size);
 
-    public Page<User> getUsers(int page, int size) {
-        return userRepository.findAll(new PageRequest(page, size));
-    }
+    public boolean isUsernameExists(String username);
 
-    public boolean isUsernameExists(String username) {
-        return getUserByUsername(username) != null;
-    }
-
-    public boolean isMobileNoExists(String mobileNo) {
-        return getUserByMobileNumber(mobileNo) != null;
-    }
+    public boolean isMobileNoExists(String mobileNo);
 }

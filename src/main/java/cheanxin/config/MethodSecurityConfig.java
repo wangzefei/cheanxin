@@ -1,6 +1,6 @@
 package cheanxin.config;
 
-import cheanxin.service.UserAuthorityService;
+import cheanxin.service.PostAuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,11 +14,11 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Autowired
-    private UserAuthorityService userAuthorityService;
+    private PostAuthorityService postAuthorityService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userAuthorityService);
+        auth.userDetailsService(postAuthorityService);
     }
 
 //    @Override

@@ -5,14 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Collection;
 
 /**
  * Created by 273cn on 16/12/15.
+ * 用户，可以用usernmae登录到系统
  */
 @Entity
 @Table(indexes = { @Index(name = "idx_username", columnList = "username", unique = true) })
@@ -39,6 +37,7 @@ public class User implements UserDetails {
     private String realName;
 
     @NotNull
+    // 部门id
     private Long deptId;
 
     @NotNull
@@ -48,41 +47,53 @@ public class User implements UserDetails {
 
     @NotNull
     @Size(min = 2, max = 20)
+    // 地区
     private String region;
 
     @NotNull
     @Pattern(regexp = "^1[34578][0-9]{9}$")
+    @Size(min = 11, max = 11)
     // 手机号
     private String mobileNumber;
 
     @NotNull
     @Email
+    @Size(max = 64)
     // 邮箱
     private String email;
 
     @NotNull
     @Pattern(regexp = "[0-9]{6}(18|19|20)[0-9]{2}((0[0-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)[0-9]{2}[12][0-9Xx]")
+    @Size(max = 18)
+    // 身份证号码
     private String identityNumber;
 
     @NotNull
     @Size(min = 4, max = 100)
+    // 身份证照片
     private String identityPhoto;
 
     @NotNull
     @Size(min = 10, max = 300)
+    // 地址
     private String address;
 
     @NotNull
     @Size(min = 2, max = 30)
+    // 紧急联系人
     private String emergencyContact;
 
     @NotNull
     @Pattern(regexp = "^1[34578][0-9]{9}$")
+    @Size(min = 11, max = 11)
+    // 紧急联系人号码
     private String emergencyContactMobileNumber;
 
+    // 创建时间
     private Long createdTime;
 
     @Transient
+    // 用户权限
     private Collection<? extends GrantedAuthority> authorities;
 
     public User() {}
