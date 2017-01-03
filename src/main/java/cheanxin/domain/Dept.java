@@ -12,29 +12,35 @@ import javax.validation.constraints.*;
 public class Dept {
     @Id
     @Null
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Size(min = 1, max = 10)
+    @Column(columnDefinition = "VARCHAR(10) COMMENT '部门编码'")
     // 部门编码
     private String deptCode;
 
     @NotNull
     @Size(max = 50)
+    @Column(columnDefinition = "VARCHAR(50) COMMENT '部门名称'")
     // 部门名称
     private String name;
 
     @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '上级部门'")
     // 上级部门
     private Long parentDeptId;
 
     @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
     // 是否禁用
     private Boolean isDiabled;
 
     // 创建时间
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     private Long createdTime;
 
     public Dept() {}

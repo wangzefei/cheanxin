@@ -1,9 +1,6 @@
 package cheanxin.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
@@ -15,63 +12,76 @@ public class LoanApplicant {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Size(max = 20)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 贷款申请人姓名
     private String applicantName;
 
     @NotNull
     @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '申请人电话'")
     // 申请人电话
     private String applicantTel;
 
     @NotNull
     @Min(0)
     @Max(8)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '证件类型'")
     // 证件类型
     private Integer certificateType;
 
     @NotNull
     @Size(min = 6, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '证件号码'")
     // 证件号码
     private String certificateNumber;
 
     @NotNull
     @Min(0)
     @Max(8)
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '婚姻状态'")
     // 婚姻状态
     private Integer marriage;
 
     @NotNull
     @Min(0)
+    @Column(columnDefinition = "INT(10) COMMENT '月收入'")
     // 月收入
     private Long incomePerMonth;
 
     @NotNull
-    @Size(min = 0, max = 100)
+    @Size(max = 100)
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '证件图片'")
     // 证件图片
     private String certificateFileIds;
 
     @Size(max = 200)
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '学历证明图片'")
     // 学历证明图片
     private String qualificationFileIds;
 
     @Size(max = 500)
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '收入证明图片'")
     // 收入证明图片
     private String incomeFileIds;
 
     @Size(max = 200)
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '房产图片'")
     // 房产图片
     private String estateFileIds;
 
     @Size(max = 200)
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '车辆图片'")
     // 车辆图片
     private String vehicleFileIds;
 
     @Size(max = 500)
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '其他图片'")
     // 其他图片
     private String otherFileIds;
 

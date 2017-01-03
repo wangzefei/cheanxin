@@ -18,77 +18,92 @@ public class User implements UserDetails {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Size(min = 3, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '用户账号（登录用）'")
     // 用户账号（登录用）
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 128)
+    @Size(min = 80, max = 80)
+    @Column(columnDefinition = "CHAR(80) COMMENT '用户密码（登录用）,使用Spring Security的BaseEncoder加密'")
     // 用户密码（登录用）
     private String password;
 
     @NotNull
     @Size(min = 2, max = 30)
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '用户姓名'")
     // 用户姓名
     private String realName;
 
     @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '部门id'")
     // 部门id
     private Long deptId;
 
     @NotNull
     @Size(min = 2, max = 50)
+    @Column(columnDefinition = "VARCHAR(50) COMMENT '用户照片'")
     // 用户照片
     private String photo;
 
     @NotNull
     @Size(min = 2, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '地区'")
     // 地区
     private String region;
 
     @NotNull
     @Pattern(regexp = "^1[34578][0-9]{9}$")
     @Size(min = 11, max = 11)
+    @Column(columnDefinition = "CHAR(11) COMMENT '手机号'")
     // 手机号
     private String mobileNumber;
 
     @NotNull
     @Email
     @Size(max = 64)
+    @Column(columnDefinition = "VARCHAR(64) COMMENT '邮箱'")
     // 邮箱
     private String email;
 
     @NotNull
     @Pattern(regexp = "[0-9]{6}(18|19|20)[0-9]{2}((0[0-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)[0-9]{2}[12][0-9Xx]")
     @Size(max = 18)
+    @Column(columnDefinition = "CHAR(18) COMMENT '身份证号码'")
     // 身份证号码
     private String identityNumber;
 
     @NotNull
     @Size(min = 4, max = 100)
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '身份证照片'")
     // 身份证照片
     private String identityPhoto;
 
     @NotNull
     @Size(min = 10, max = 300)
+    @Column(columnDefinition = "VARCHAR(300) COMMENT '地址'")
     // 地址
     private String address;
 
     @NotNull
     @Size(min = 2, max = 30)
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '紧急联系人'")
     // 紧急联系人
     private String emergencyContact;
 
     @NotNull
     @Pattern(regexp = "^1[34578][0-9]{9}$")
     @Size(min = 11, max = 11)
-    // 紧急联系人号码
+    @Column(columnDefinition = "CHAR(11) COMMENT '紧急联系人手机号码'")
+    // 紧急联系人手机号码
     private String emergencyContactMobileNumber;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
     private Long createdTime;
 

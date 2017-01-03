@@ -1,9 +1,6 @@
 package cheanxin.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
@@ -15,26 +12,31 @@ public class LoanSource {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '城市id'")
     // 城市id
     private Long cityId;
 
     @NotNull
     @Min(0)
     @Max(8)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '来源渠道'")
     // 来源渠道
     private Integer applicationSource;
 
     @NotNull
     @Size(max = 30)
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '来源联系人姓名'")
     // 来源联系人姓名
     private String sourcePersonName;
 
     @NotNull
     @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '来源联系人电话'")
     // 来源联系人电话
     private String sourcePersonTel;
 

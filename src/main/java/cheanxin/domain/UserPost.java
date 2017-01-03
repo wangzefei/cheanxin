@@ -15,18 +15,22 @@ public class UserPost {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Size(min = 3, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '用户名'")
     // 用户名
     private String username;
 
     @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '岗位id'")
     // 岗位id
     private Long postId;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
     private Long createdTime;
 

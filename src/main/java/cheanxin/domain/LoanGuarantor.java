@@ -1,9 +1,6 @@
 package cheanxin.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
@@ -16,18 +13,22 @@ public class LoanGuarantor {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @Size(max = 500)
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '收入证明图片'")
     // 收入证明图片
     private String incomeFileIds;
 
     @Size(max = 200)
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '房产图片'")
     // 房产图片
     private String estateFileIds;
 
     @Size(max = 500)
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '其他图片'")
     // 其他图片
     private String otherFileIds;
 

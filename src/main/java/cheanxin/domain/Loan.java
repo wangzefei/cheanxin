@@ -12,64 +12,80 @@ public class Loan {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     // 产品id，如果为空表示为该贷款为意向贷款
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品id，如果为空表示为该贷款为意向贷款'")
     private Long productId;
 
     @Size(max = 50)
+    @Column(columnDefinition = "VARCHAR(50) COMMENT '产品名称'")
     // 产品名称
     private String productName;
 
     @Min(1)
     @Max(16)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '产品类型'")
     // 产品类型
     private Integer productType;
 
     @Min(1)
     @Max(10)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款比率'")
     // 贷款比率
     private Integer loanRate;
 
     @Min(1)
     @Max(360)
+    @Column(columnDefinition = "SMALLINT(3) UNSIGNED COMMENT '贷款期数'")
     // 贷款期数
     private Integer loadTerms;
 
     @Digits(integer = 2, fraction = 4)
+    @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '贷款月利率'")
     // 贷款月利率
     private Float loanMonthlyInterestRate;
 
     @Size(max = 1000)
+    @Column(columnDefinition = "VARCHAR(1000) COMMENT '申请图片列表'")
     // 申请图片列表
     private String applicationPicUrl;
 
-    @Size(max = 200)
+    @Size(max = 255)
+    @Column(columnDefinition = "VARCHAR(255) COMMENT '备注'")
     // 备注
     private String remark;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款来源id'")
     // 贷款来源id
     private Long extSourceId;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款申请人id'")
     // 贷款申请人id
     private Long extApplicantId;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款共同申请人id'")
     // 贷款共同申请人id
     private Long extCoApplicantId;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款担保人id'")
     // 贷款担保人id
     private Long extGuarantorId;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款车辆id'")
     // 贷款车辆id
     private Long extVehicleId;
 
     @NotNull
     @Min(0)
     @Max(32)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款状态'")
     // 贷款状态
     private Integer status;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款创建时间'")
     // 贷款创建时间
     private Long createdTime;
 

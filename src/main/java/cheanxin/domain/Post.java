@@ -1,9 +1,6 @@
 package cheanxin.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
@@ -15,30 +12,36 @@ public class Post {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Digits(integer = 3, fraction = 0)
     @Size(min = 3, max = 3)
-    // 编号
+    @Column(columnDefinition = "CHAR(3) COMMENT '岗位编号'")
+    // 岗位编号
     private String serialNumber;
 
     @NotNull
     @Size(min = 3, max = 20)
-    // 名称
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '岗位名称'")
+    // 岗位名称
     private String name;
 
     @NotNull
     @Min(0)
     @Max(8)
-    // 类型
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '岗位类型'")
+    // 岗位类型
     private Integer type;
 
     @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
     // 是否禁用
     private Boolean isDiabled;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
     private Long createdTime;
 

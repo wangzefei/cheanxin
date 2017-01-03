@@ -1,9 +1,6 @@
 package cheanxin.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 
 /**
@@ -15,80 +12,97 @@ public class Product {
     @Id
     @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
 
     @NotNull
     @Min(0)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品模板id，如果该id为0表示为产品模板'")
     // 产品模板id，如果该id为0表示为产品模板
     private Long productTemplateId;
 
     @NotNull
     @Size(min = 1, max = 50)
+    @Column(columnDefinition = "VARCHAR(50) COMMENT '产品名称'")
     // 产品名称
     private String name;
 
     @NotNull
     @Min(1)
     @Max(16)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '产品类型'")
     // 产品类型
     private Integer productType;
 
     @NotNull
     @Min(1)
     @Max(16)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '还款类型'")
     // 还款类型
     private Integer paybackType;
 
     @NotNull
     @Min(1)
     @Max(10)
-    // 最低还款比例
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '最低可贷成数'")
+    // 最低可贷成数
     private Integer minAvailableRate;
 
     @NotNull
     @Min(1)
     @Max(10)
-    // 最高还款比例
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '最高可贷成数'")
+    // 最高可贷成数
     private Integer maxAvailableRate;
 
     @NotNull
-    @Size(min = 1, max = 50)
-    // 可用期数
-    private String availableTerms;
+    @Min(1)
+    @Max(3600)
+    @Column(columnDefinition = "SMALLINT(4) UNSIGNED COMMENT '可贷期数'")
+    // 可贷期数
+    private Integer availableTerms;
 
     @NotNull
     @Min(1)
     @Max(16)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款政策'")
     // 贷款政策
     private Integer loanPolicy;
 
     @NotNull
-    @Size(min = 1, max = 50)
+    @Min(0)
+    @Max(100)
+    @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '贷款月利率'")
     // 贷款月利率
-    private String loanBenifitPerMonth;
+    private Float loanBenefitPerMonth;
 
     @NotNull
     @Min(0)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '城市id'")
     // 城市id
     private Long cityId;
 
     @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否禁用'")
     // 是否禁用
     private Boolean isDiabled;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '修改时间'")
     // 修改时间
     private Long modifiedTime;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
     private Long createdTime;
 
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建人'")
     // 创建人
     private Long creatorUid;
 
     public Product() {}
 
-    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, String availableTerms, Integer loanPolicy, String loanBenifitPerMonth, Long cityId, Boolean isDiabled, Long modifiedTime, Long createdTime, Long creatorUid) {
+    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanBenefitPerMonth, Long cityId, Boolean isDiabled, Long modifiedTime, Long createdTime, Long creatorUid) {
         this.productTemplateId = productTemplateId;
         this.name = name;
         this.productType = productType;
@@ -97,7 +111,7 @@ public class Product {
         this.maxAvailableRate = maxAvailableRate;
         this.availableTerms = availableTerms;
         this.loanPolicy = loanPolicy;
-        this.loanBenifitPerMonth = loanBenifitPerMonth;
+        this.loanBenefitPerMonth = loanBenefitPerMonth;
         this.cityId = cityId;
         this.isDiabled = isDiabled;
         this.modifiedTime = modifiedTime;
@@ -161,11 +175,11 @@ public class Product {
         this.maxAvailableRate = maxAvailableRate;
     }
 
-    public String getAvailableTerms() {
+    public Integer getAvailableTerms() {
         return availableTerms;
     }
 
-    public void setAvailableTerms(String availableTerms) {
+    public void setAvailableTerms(Integer availableTerms) {
         this.availableTerms = availableTerms;
     }
 
@@ -177,12 +191,12 @@ public class Product {
         this.loanPolicy = loanPolicy;
     }
 
-    public String getLoanBenifitPerMonth() {
-        return loanBenifitPerMonth;
+    public Float getLoanBenefitPerMonth() {
+        return loanBenefitPerMonth;
     }
 
-    public void setLoanBenifitPerMonth(String loanBenifitPerMonth) {
-        this.loanBenifitPerMonth = loanBenifitPerMonth;
+    public void setLoanBenefitPerMonth(Float loanBenefitPerMonth) {
+        this.loanBenefitPerMonth = loanBenefitPerMonth;
     }
 
     public Long getCityId() {
