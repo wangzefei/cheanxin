@@ -75,7 +75,7 @@ public class Product {
     @Max(100)
     @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '贷款月利率'")
     // 贷款月利率
-    private Float loanBenefitPerMonth;
+    private Float loanMonthlyInterestRate;
 
     @NotNull
     @Min(0)
@@ -102,7 +102,7 @@ public class Product {
 
     public Product() {}
 
-    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanBenefitPerMonth, Long cityId, Boolean isDiabled, Long modifiedTime, Long createdTime, Long creatorUid) {
+    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanMonthlyInterestRate, Long cityId, Boolean isDiabled, Long modifiedTime, Long createdTime, Long creatorUid) {
         this.productTemplateId = productTemplateId;
         this.name = name;
         this.productType = productType;
@@ -111,7 +111,7 @@ public class Product {
         this.maxAvailableRate = maxAvailableRate;
         this.availableTerms = availableTerms;
         this.loanPolicy = loanPolicy;
-        this.loanBenefitPerMonth = loanBenefitPerMonth;
+        this.loanMonthlyInterestRate = loanMonthlyInterestRate;
         this.cityId = cityId;
         this.isDiabled = isDiabled;
         this.modifiedTime = modifiedTime;
@@ -191,12 +191,12 @@ public class Product {
         this.loanPolicy = loanPolicy;
     }
 
-    public Float getLoanBenefitPerMonth() {
-        return loanBenefitPerMonth;
+    public Float getLoanMonthlyInterestRate() {
+        return loanMonthlyInterestRate;
     }
 
-    public void setLoanBenefitPerMonth(Float loanBenefitPerMonth) {
-        this.loanBenefitPerMonth = loanBenefitPerMonth;
+    public void setLoanMonthlyInterestRate(Float loanMonthlyInterestRate) {
+        this.loanMonthlyInterestRate = loanMonthlyInterestRate;
     }
 
     public Long getCityId() {
