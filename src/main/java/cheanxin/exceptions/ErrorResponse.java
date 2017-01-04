@@ -4,29 +4,27 @@ package cheanxin.exceptions;
  * Created by 273cn on 16/12/22.
  */
 public class ErrorResponse {
-    private int code;
-    private String message;
-    private String fieldName;
+    private String errorCode;
+    private String errorMessage;
 
-    public ErrorResponse(int code, String message) {
-        this(code, message, null);
+    public ErrorResponse(String errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
     }
 
-    public ErrorResponse(int code, String message, String fieldName) {
-        this.code = code;
-        this.message = message;
-        this.fieldName = fieldName;
+    public String getErrorCode() {
+        return errorCode;
     }
 
-    public int getCode() {
-        return code;
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public String getMessage() {
-        return message;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }

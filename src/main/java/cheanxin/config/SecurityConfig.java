@@ -1,5 +1,7 @@
 package cheanxin.config;
 
+import cheanxin.exceptions.ErrorResponse;
+import cheanxin.global.Constants;
 import cheanxin.service.PostAuthorityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,6 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
-import cheanxin.exceptions.ErrorResponse;
-import cheanxin.global.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -120,7 +120,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             PrintWriter writer = response.getWriter();
             ObjectMapper mapper = new ObjectMapper();
-            writer.println(mapper.writeValueAsString(new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), authException.getMessage())));
+            writer.println(mapper.writeValueAsString(new ErrorResponse(HttpStatus.UNAUTHORIZED.getReasonPhrase(), authException.getMessage())));
         }
 
         @Override

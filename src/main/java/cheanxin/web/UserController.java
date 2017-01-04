@@ -36,7 +36,7 @@ public class UserController extends BaseController {
             UriComponentsBuilder ucb) {
         if (errors.hasErrors()) throw new InvalidArgumentException(errors);
         if (user.getPassword().length() > 20) {
-            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "password len greater than 20", "password"));
+            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "password len greater than 20"));
         }
         if (userService.isUsernameExists(user.getUsername())) throw new ResourceConflictException(User.class.getSimpleName(), "username", user.getUsername());
         if (userService.isMobileNoExists(user.getMobileNumber())) throw new ResourceConflictException(User.class.getSimpleName(), "mobileNumber", user.getMobileNumber());

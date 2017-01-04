@@ -18,8 +18,8 @@ import java.util.List;
 public class BaseController {
     @ExceptionHandler(InvalidArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public List<ErrorResponse> invalidArgument(InvalidArgumentException e) {
-        return e.getErrorResponseList();
+    public ErrorResponse invalidArgument(InvalidArgumentException e) {
+        return e.getErrorResponse();
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
