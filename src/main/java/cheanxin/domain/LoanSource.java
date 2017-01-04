@@ -17,6 +17,16 @@ public class LoanSource {
     private Long id;
 
     @NotNull
+    @Size(max = 30)
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '跟单金融专员'")
+    private String financialCommissioner;
+
+    @NotNull
+    @Size(max = 30)
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '收单员'")
+    private String receiver;
+
+    @NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '城市id'")
     // 城市id
     private Long cityId;
@@ -42,7 +52,9 @@ public class LoanSource {
 
     public LoanSource() {}
 
-    public LoanSource(Long cityId, Integer applicationSource, String sourcePersonName, String sourcePersonTel) {
+    public LoanSource(String financialCommissioner, String receiver, Long cityId, Integer applicationSource, String sourcePersonName, String sourcePersonTel) {
+        this.financialCommissioner = financialCommissioner;
+        this.receiver = receiver;
         this.cityId = cityId;
         this.applicationSource = applicationSource;
         this.sourcePersonName = sourcePersonName;
@@ -55,6 +67,22 @@ public class LoanSource {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFinancialCommissioner() {
+        return financialCommissioner;
+    }
+
+    public void setFinancialCommissioner(String financialCommissioner) {
+        this.financialCommissioner = financialCommissioner;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public Long getCityId() {

@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/03/2017 17:52:06 PM
+ Date: 01/04/2017 11:06:48 AM
 */
 
 SET NAMES utf8mb4;
@@ -53,6 +53,7 @@ CREATE TABLE `loan` (
   `product_type` tinyint(2) unsigned DEFAULT NULL COMMENT '产品类型',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `status` tinyint(2) unsigned NOT NULL COMMENT '贷款状态',
+  `vehicle_deal_price` int(10) unsigned DEFAULT NULL COMMENT '车辆成交价格',
   PRIMARY KEY (`id`),
   KEY `idx_product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -63,18 +64,43 @@ CREATE TABLE `loan` (
 DROP TABLE IF EXISTS `loan_applicant`;
 CREATE TABLE `loan_applicant` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `applicant_name` int(10) unsigned NOT NULL COMMENT '自增id',
-  `applicant_tel` varchar(20) NOT NULL COMMENT '申请人电话',
+  `address` varchar(200) NOT NULL COMMENT '现居住地',
+  `birth_year_month` char(6) NOT NULL COMMENT '出生年月',
+  `census` varchar(20) NOT NULL COMMENT '户籍',
   `certificate_file_ids` varchar(100) NOT NULL COMMENT '证件图片',
   `certificate_number` varchar(20) NOT NULL COMMENT '证件号码',
   `certificate_type` tinyint(2) unsigned NOT NULL COMMENT '证件类型',
+  `employer_address` varchar(200) DEFAULT NULL COMMENT '单位居住地',
+  `employer_industry` varchar(100) DEFAULT NULL COMMENT '工作单位所属行业',
+  `employer_name` int(10) DEFAULT NULL COMMENT '工作单位名称',
+  `employer_telephone` varchar(20) DEFAULT NULL COMMENT '单位电话',
+  `employer_type` varchar(50) DEFAULT NULL COMMENT '工作单位性质(国企、私企、外企等等)',
   `estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
+  `first_emergency_contact` varchar(30) NOT NULL COMMENT '紧急联系人1',
+  `first_emergency_contact_address` varchar(200) NOT NULL COMMENT '紧急联系人1地址',
+  `first_emergency_contact_mobile_number` char(11) NOT NULL COMMENT '紧急联系人1手机号码',
+  `first_emergency_contact_relationship` varchar(10) NOT NULL COMMENT '紧急联系人1与申请人的关系',
+  `gender` tinyint(1) unsigned NOT NULL COMMENT '性别',
   `income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
   `income_per_month` int(10) NOT NULL COMMENT '月收入',
+  `job_title` varchar(50) DEFAULT NULL COMMENT '申请人职称',
   `marriage` tinyint(1) unsigned NOT NULL COMMENT '婚姻状态',
+  `mobile_number` char(11) NOT NULL COMMENT '申请人手机号',
+  `name` int(10) unsigned NOT NULL COMMENT '贷款申请人姓名',
+  `occupation` varchar(50) DEFAULT NULL COMMENT '申请人职业',
   `other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
+  `position` varchar(50) DEFAULT NULL COMMENT '申请人职务',
+  `post` varchar(50) DEFAULT NULL COMMENT '申请人工作岗位',
+  `post_address` varchar(200) DEFAULT NULL COMMENT '邮寄地址',
+  `qualification` varchar(30) NOT NULL COMMENT '学历',
   `qualification_file_ids` varchar(200) DEFAULT NULL COMMENT '学历证明图片',
+  `second_emergency_contact` varchar(30) DEFAULT NULL COMMENT '紧急联系人2',
+  `second_emergency_contact_address` varchar(200) DEFAULT NULL COMMENT '紧急联系人2地址',
+  `second_emergency_contact_mobile_number` char(11) DEFAULT NULL COMMENT '紧急联系人2手机号码',
+  `second_emergency_contact_relationship` varchar(10) DEFAULT NULL COMMENT '紧急联系人1与申请人的关系',
+  `telephone` varchar(20) DEFAULT NULL COMMENT '申请人电话',
   `vehicle_file_ids` varchar(200) DEFAULT NULL COMMENT '车辆图片',
+  `work_years` tinyint(2) unsigned DEFAULT NULL COMMENT '申请人工作年限',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -84,10 +110,22 @@ CREATE TABLE `loan_applicant` (
 DROP TABLE IF EXISTS `loan_co_applicant`;
 CREATE TABLE `loan_co_applicant` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `address` varchar(200) NOT NULL COMMENT '现居住地',
+  `census` varchar(20) NOT NULL COMMENT '户籍',
   `certificate_file_ids` varchar(100) NOT NULL COMMENT '证件图片',
+  `certificate_number` varchar(20) NOT NULL COMMENT '证件号码',
+  `certificate_type` tinyint(2) unsigned NOT NULL COMMENT '证件类型',
+  `employer_address` varchar(200) DEFAULT NULL COMMENT '单位居住地',
+  `employer_name` int(10) DEFAULT NULL COMMENT '工作单位名称',
+  `employer_telephone` varchar(20) DEFAULT NULL COMMENT '单位电话',
   `estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
   `income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
+  `income_per_month` int(10) NOT NULL COMMENT '月收入',
+  `mobile_number` char(11) NOT NULL COMMENT '共同申请人手机号',
+  `name` int(10) unsigned NOT NULL COMMENT '共同申请人姓名',
   `other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
+  `qualification` varchar(30) NOT NULL COMMENT '学历',
+  `telephone` varchar(20) DEFAULT NULL COMMENT '共同申请人电话',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -97,6 +135,7 @@ CREATE TABLE `loan_co_applicant` (
 DROP TABLE IF EXISTS `loan_guarantor`;
 CREATE TABLE `loan_guarantor` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `certificate_file_ids` varchar(100) NOT NULL COMMENT '证件图片',
   `estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
   `income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
   `other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
@@ -127,6 +166,8 @@ CREATE TABLE `loan_source` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `application_source` tinyint(2) unsigned NOT NULL COMMENT '来源渠道',
   `city_id` int(10) unsigned NOT NULL COMMENT '城市id',
+  `financial_commissioner` varchar(30) NOT NULL COMMENT '跟单金融专员',
+  `receiver` varchar(30) NOT NULL COMMENT '收单员',
   `source_person_name` varchar(30) NOT NULL COMMENT '来源联系人姓名',
   `source_person_tel` varchar(20) NOT NULL COMMENT '来源联系人电话',
   PRIMARY KEY (`id`)
@@ -139,11 +180,15 @@ DROP TABLE IF EXISTS `loan_vehicle`;
 CREATE TABLE `loan_vehicle` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `brand` varchar(20) NOT NULL COMMENT '品牌',
+  `emission` varchar(10) NOT NULL COMMENT '排放标准',
   `kilometers` decimal(7,4) unsigned NOT NULL COMMENT '公里数',
   `license_file_ids` varchar(100) NOT NULL COMMENT '机动车行驶证图片',
   `manufacturers` varchar(20) NOT NULL COMMENT '厂家',
+  `production_year_month` varchar(10) NOT NULL COMMENT '生产年月',
   `registration_certificate_file_ids` varchar(100) NOT NULL COMMENT '车辆登记证书图片',
+  `registration_year_month` varchar(10) NOT NULL COMMENT '首次登记年月',
   `series` varchar(50) NOT NULL COMMENT '车系',
+  `utility_type` varchar(20) NOT NULL COMMENT '使用性质',
   `vehicle_file_ids` varchar(2000) NOT NULL COMMENT '车辆图片',
   `vin` char(17) NOT NULL COMMENT '车辆vin码',
   PRIMARY KEY (`id`)

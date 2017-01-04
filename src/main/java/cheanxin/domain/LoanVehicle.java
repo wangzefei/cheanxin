@@ -41,10 +41,30 @@ public class LoanVehicle {
     private String series;
 
     @NotNull
+    @Size(min = 4, max = 10)
+    @Column(columnDefinition = "VARCHAR(10) COMMENT '生产年月'")
+    private String productionYearMonth;
+
+    @NotNull
+    @Size(min = 4, max = 10)
+    @Column(columnDefinition = "VARCHAR(10) COMMENT '首次登记年月'")
+    private String registrationYearMonth;
+
+    @NotNull
     @Digits(integer = 3, fraction = 4)
     @Column(columnDefinition = "DECIMAL(7,4) UNSIGNED COMMENT '公里数'")
     // 公里数
     private Float kilometers;
+
+    @NotNull
+    @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '使用性质'")
+    private String utilityType;
+
+    @NotNull
+    @Size(max = 10)
+    @Column(columnDefinition = "VARCHAR(10) COMMENT '排放标准'")
+    private String emission;
 
     @NotNull
     @Size(min = 5, max = 100)
@@ -66,12 +86,16 @@ public class LoanVehicle {
 
     public LoanVehicle() {}
 
-    public LoanVehicle(String vin, String manufacturers, String brand, String series, Float kilometers, String registrationCertificateFileIds, String licenseFileIds, String vehicleFileIds) {
+    public LoanVehicle(String vin, String manufacturers, String brand, String series, String productionYearMonth, String registrationYearMonth, Float kilometers, String utilityType, String emission, String registrationCertificateFileIds, String licenseFileIds, String vehicleFileIds) {
         this.vin = vin;
         this.manufacturers = manufacturers;
         this.brand = brand;
         this.series = series;
+        this.productionYearMonth = productionYearMonth;
+        this.registrationYearMonth = registrationYearMonth;
         this.kilometers = kilometers;
+        this.utilityType = utilityType;
+        this.emission = emission;
         this.registrationCertificateFileIds = registrationCertificateFileIds;
         this.licenseFileIds = licenseFileIds;
         this.vehicleFileIds = vehicleFileIds;
@@ -117,12 +141,44 @@ public class LoanVehicle {
         this.series = series;
     }
 
+    public String getProductionYearMonth() {
+        return productionYearMonth;
+    }
+
+    public void setProductionYearMonth(String productionYearMonth) {
+        this.productionYearMonth = productionYearMonth;
+    }
+
+    public String getRegistrationYearMonth() {
+        return registrationYearMonth;
+    }
+
+    public void setRegistrationYearMonth(String registrationYearMonth) {
+        this.registrationYearMonth = registrationYearMonth;
+    }
+
     public Float getKilometers() {
         return kilometers;
     }
 
     public void setKilometers(Float kilometers) {
         this.kilometers = kilometers;
+    }
+
+    public String getUtilityType() {
+        return utilityType;
+    }
+
+    public void setUtilityType(String utilityType) {
+        this.utilityType = utilityType;
+    }
+
+    public String getEmission() {
+        return emission;
+    }
+
+    public void setEmission(String emission) {
+        this.emission = emission;
     }
 
     public String getRegistrationCertificateFileIds() {

@@ -16,6 +16,11 @@ public class Loan {
     // 自增id
     private Long id;
 
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '车辆成交价格'")
+    private Integer vehicleDealPrice;
+
     // 产品id，如果为空表示为该贷款为意向贷款
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品id，如果为空表示为该贷款为意向贷款'")
     private Long productId;
@@ -91,7 +96,8 @@ public class Loan {
 
     public Loan() {}
 
-    public Loan(Long productId, String productName, Integer productType, Integer loanRate, Integer loadTerms, Float loanMonthlyInterestRate, String applicationPicUrl, String remark, Long extSourceId, Long extApplicantId, Long extCoApplicantId, Long extGuarantorId, Long extVehicleId, Integer status, Long createdTime) {
+    public Loan(Integer vehicleDealPrice, Long productId, String productName, Integer productType, Integer loanRate, Integer loadTerms, Float loanMonthlyInterestRate, String applicationPicUrl, String remark, Long extSourceId, Long extApplicantId, Long extCoApplicantId, Long extGuarantorId, Long extVehicleId, Integer status, Long createdTime) {
+        this.vehicleDealPrice = vehicleDealPrice;
         this.productId = productId;
         this.productName = productName;
         this.productType = productType;
@@ -115,6 +121,14 @@ public class Loan {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getVehicleDealPrice() {
+        return vehicleDealPrice;
+    }
+
+    public void setVehicleDealPrice(Integer vehicleDealPrice) {
+        this.vehicleDealPrice = vehicleDealPrice;
     }
 
     public Long getProductId() {

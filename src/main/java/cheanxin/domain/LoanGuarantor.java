@@ -1,6 +1,7 @@
 package cheanxin.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
@@ -16,6 +17,12 @@ public class LoanGuarantor {
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id
     private Long id;
+
+    @NotNull
+    @Size(min = 5, max = 100)
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '证件图片'")
+    // 证件图片
+    private String certificateFileIds;
 
     @Size(max = 500)
     @Column(columnDefinition = "VARCHAR(500) COMMENT '收入证明图片'")
@@ -46,6 +53,14 @@ public class LoanGuarantor {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCertificateFileIds() {
+        return certificateFileIds;
+    }
+
+    public void setCertificateFileIds(String certificateFileIds) {
+        this.certificateFileIds = certificateFileIds;
     }
 
     public String getIncomeFileIds() {
