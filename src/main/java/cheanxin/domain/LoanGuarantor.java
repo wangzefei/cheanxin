@@ -2,7 +2,6 @@ package cheanxin.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 /**
@@ -12,7 +11,6 @@ import javax.validation.constraints.Size;
 @Entity
 public class LoanGuarantor {
     @Id
-    @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id

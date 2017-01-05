@@ -1,7 +1,10 @@
 package cheanxin.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by 273cn on 16/12/30.
@@ -11,7 +14,6 @@ import javax.validation.constraints.*;
 @Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_uid", columnList = "operatorUid")})
 public class LoanLog {
     @Id
-    @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id

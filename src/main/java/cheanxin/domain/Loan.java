@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 @Table(indexes = {@Index(name = "idx_product_id", columnList = "productId")})
 public class Loan {
     @Id
-    @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id

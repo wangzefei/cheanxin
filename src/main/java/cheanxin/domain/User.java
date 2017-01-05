@@ -5,7 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 /**
@@ -16,7 +18,6 @@ import java.util.Collection;
 @Table(indexes = { @Index(name = "idx_username", columnList = "username", unique = true) })
 public class User implements UserDetails {
     @Id
-    @Null
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
     // 自增id

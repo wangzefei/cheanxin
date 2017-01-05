@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/05/2017 09:22:18 AM
+ Date: 01/05/2017 09:47:17 AM
 */
 
 SET NAMES utf8mb4;
@@ -228,6 +228,7 @@ CREATE TABLE `post_type` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `name` varchar(20) NOT NULL COMMENT '岗位类型名称',
   `sort_index` int(10) unsigned NOT NULL COMMENT '岗位类型排序索引',
+  `enabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -235,7 +236,7 @@ CREATE TABLE `post_type` (
 --  Records of `post_type`
 -- ----------------------------
 BEGIN;
-INSERT INTO `post_type` VALUES ('1', '高层领导岗', '1'), ('2', '中层领导岗', '2'), ('3', '执行岗', '3');
+INSERT INTO `post_type` VALUES ('1', '高层领导岗', '1', '1'), ('2', '中层领导岗', '2', '1'), ('3', '执行岗', '3', '1');
 COMMIT;
 
 -- ----------------------------
