@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/04/2017 11:06:48 AM
+ Date: 01/05/2017 09:22:18 AM
 */
 
 SET NAMES utf8mb4;
@@ -203,8 +203,8 @@ CREATE TABLE `post` (
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `name` varchar(20) NOT NULL COMMENT '岗位名称',
+  `post_type_id` tinyint(1) unsigned NOT NULL COMMENT '岗位类型',
   `serial_number` char(3) NOT NULL COMMENT '岗位编号',
-  `type` tinyint(1) unsigned NOT NULL COMMENT '岗位类型',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -219,6 +219,24 @@ CREATE TABLE `post_authority` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_post_id_authority` (`post_id`,`authority`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Table structure for `post_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `post_type`;
+CREATE TABLE `post_type` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `name` varchar(20) NOT NULL COMMENT '岗位类型名称',
+  `sort_index` int(10) unsigned NOT NULL COMMENT '岗位类型排序索引',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `post_type`
+-- ----------------------------
+BEGIN;
+INSERT INTO `post_type` VALUES ('1', '高层领导岗', '1'), ('2', '中层领导岗', '2'), ('3', '执行岗', '3');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `product`
@@ -281,7 +299,14 @@ CREATE TABLE `user` (
   `username` varchar(20) NOT NULL COMMENT '用户账号（登录用）',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `user`
+-- ----------------------------
+BEGIN;
+INSERT INTO `user` VALUES ('1', '福州gu\'lou\'qu鼓楼区', '1483578389', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884433', '35623d53e176367d6d211f5fe56e7fb79ec90ac674eac3674c43b73198ad7088e0c93b432f54cd14', '/1/jack/avatar.jpg', '杰克', '华南', '273');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `user_post`

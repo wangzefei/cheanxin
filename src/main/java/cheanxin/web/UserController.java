@@ -34,7 +34,7 @@ public class UserController extends BaseController {
             @Valid @RequestBody User user,
             Errors errors,
             UriComponentsBuilder ucb) {
-        if (errors.hasErrors()) throw new InvalidArgumentException(errors);
+        if (errors.hasErrors()) throw new InvalidArgumentException(errors.getAllErrors().get(0));
         if (user.getPassword().length() > 20) {
             throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "password len greater than 20"));
         }

@@ -34,7 +34,7 @@ public class Post {
     @Max(8)
     @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '岗位类型'")
     // 岗位类型
-    private Integer type;
+    private Integer postTypeId;
 
     @NotNull
     @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
@@ -47,10 +47,10 @@ public class Post {
 
     public Post() {}
 
-    public Post(String serialNumber, String name, Integer type, Boolean enabled, Long createdTime) {
+    public Post(String serialNumber, String name, Integer postTypeId, Boolean enabled, Long createdTime) {
         this.serialNumber = serialNumber;
         this.name = name;
-        this.type = type;
+        this.postTypeId = postTypeId;
         this.enabled = enabled;
         this.createdTime = createdTime;
     }
@@ -79,12 +79,12 @@ public class Post {
         this.name = name;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getPostTypeId() {
+        return postTypeId;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setPostTypeId(Integer postTypeId) {
+        this.postTypeId = postTypeId;
     }
 
     public Boolean getEnabled() {
