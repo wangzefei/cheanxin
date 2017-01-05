@@ -30,11 +30,16 @@ public class PostType {
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '岗位类型排序索引'")
     private Integer sortIndex;
 
+    @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
+    private Boolean enabled;
+
     public PostType() {}
 
-    public PostType(String name, Integer sortIndex) {
+    public PostType(String name, Integer sortIndex, Boolean enabled) {
         this.name = name;
         this.sortIndex = sortIndex;
+        this.enabled = enabled;
     }
 
     public Long getId() {
@@ -59,5 +64,13 @@ public class PostType {
 
     public void setSortIndex(Integer sortIndex) {
         this.sortIndex = sortIndex;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

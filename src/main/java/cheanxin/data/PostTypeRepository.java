@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Repository
 public interface PostTypeRepository extends JpaRepository<PostType, Long> {
-    List<PostType> findAllByOrderBySortIndexAsc();
+    List<PostType> findAllByEnabledOrderBySortIndexAsc(Boolean enabled);
 }

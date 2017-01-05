@@ -17,7 +17,7 @@ public class PostTypeServiceImpl implements PostTypeService {
     PostTypeRepository postTypeRepository;
 
     @Override
-    public List<PostType> getPostTypes() {
-        return postTypeRepository.findAllByOrderBySortIndexAsc();
+    public List<PostType> getPostTypes(boolean enabled) {
+        return postTypeRepository.findAllByEnabledOrderBySortIndexAsc(enabled);
     }
 }

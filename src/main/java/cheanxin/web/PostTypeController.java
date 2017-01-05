@@ -21,8 +21,8 @@ public class PostTypeController extends BaseController {
     private PostTypeService postTypeService;
 
     @RequestMapping(method=RequestMethod.GET)
-    public List<PostType> allPostTypes() {
-        return postTypeService.getPostTypes();
+    public List<PostType> allPostTypes(@RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
+        return postTypeService.getPostTypes(enabled);
     }
 
 }
