@@ -2,6 +2,7 @@ package cheanxin.web;
 
 import cheanxin.domain.Post;
 import cheanxin.domain.PostType;
+import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.global.Constants;
 import cheanxin.service.PostService;
 import cheanxin.service.PostTypeService;
@@ -34,7 +35,10 @@ public class PostController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Post> get(@PathVariable(value = "id") long id) {
-        return new ResponseEntity<>(postService.get(id), HttpStatus.OK);
+        Post post = postService.get(id);
+        if (post == null)
+            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
