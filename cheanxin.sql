@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/06/2017 10:26:34 AM
+ Date: 01/06/2017 14:06:07 PM
 */
 
 SET NAMES utf8mb4;
@@ -26,11 +26,19 @@ CREATE TABLE `dept` (
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `dept_code` varchar(10) NOT NULL COMMENT '部门编码',
   `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
+  `level` tinyint(1) unsigned NOT NULL COMMENT '部门层级',
   `name` varchar(50) NOT NULL COMMENT '部门名称',
   `parent_dept_id` int(10) unsigned NOT NULL COMMENT '上级部门',
   PRIMARY KEY (`id`),
   KEY `idx_parent_dept_id` (`parent_dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `dept`
+-- ----------------------------
+BEGIN;
+INSERT INTO `dept` VALUES ('1', '1234567890', '001', '1', '1', '车安心', '0'), ('2', '1234567890', '002', '1', '2', '金融中心', '1'), ('3', '1234567890', '003', '1', '3', '华南', '2');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `loan`
