@@ -6,6 +6,9 @@ import cheanxin.domain.OAuth2Client;
  * Created by 273cn on 16/12/24.
  */
 public class Constants {
+    // department's max level
+    public static final long DEPT_MAX_LEVEL = 5;
+
     // password secret
     public static final String PASSWORD_SECRET = "7EsF+0BCtNRW1hLtf39QLDQq5G+4Eh1/euW4azW7Qux";
 

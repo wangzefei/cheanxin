@@ -71,7 +71,7 @@ public class PostController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Post> patch(
+    public ResponseEntity<Post> enableOrDisablePost(
             @PathVariable(value = "id") long id,
             @RequestBody Post post) {
         Post unsavedPost = postService.findOne(id);

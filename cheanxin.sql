@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/05/2017 09:47:17 AM
+ Date: 01/06/2017 10:26:34 AM
 */
 
 SET NAMES utf8mb4;
@@ -203,10 +203,17 @@ CREATE TABLE `post` (
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `name` varchar(20) NOT NULL COMMENT '岗位名称',
-  `post_type_id` tinyint(1) unsigned NOT NULL COMMENT '岗位类型',
+  `post_type_id` int(10) unsigned NOT NULL COMMENT '岗位类型',
   `serial_number` char(3) NOT NULL COMMENT '岗位编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `post`
+-- ----------------------------
+BEGIN;
+INSERT INTO `post` VALUES ('1', '1234567890', '1', '金融专员', '3', '001'), ('2', '1234567890', '1', '意向分配员', '3', '002'), ('3', '1234567890', '1', '大区经理', '2', '003');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `post_authority`

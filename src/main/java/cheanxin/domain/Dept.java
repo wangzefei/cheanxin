@@ -1,7 +1,11 @@
 package cheanxin.domain;
 
 
+import cheanxin.global.Constants;
+
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,6 +38,11 @@ public class Dept {
     // 上级部门
     private Long parentDeptId;
 
+    @Min(1)
+    @Max(Constants.DEPT_MAX_LEVEL)
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED NOT NULL COMMENT '部门层级'")
+    private Integer level;
+
     @NotNull
     @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
     // 是否启用
@@ -45,9 +54,11 @@ public class Dept {
 
     public Dept() {}
 
-    public Dept(String deptCode, Long parentDeptId, Boolean enabled, Long createdTime) {
+    public Dept(String deptCode, String name, Long parentDeptId, Integer level, Boolean enabled, Long createdTime) {
         this.deptCode = deptCode;
+        this.name = name;
         this.parentDeptId = parentDeptId;
+        this.level = level;
         this.enabled = enabled;
         this.createdTime = createdTime;
     }
@@ -68,6 +79,14 @@ public class Dept {
         this.deptCode = deptCode;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Long getParentDeptId() {
         return parentDeptId;
     }
@@ -76,12 +95,20 @@ public class Dept {
         this.parentDeptId = parentDeptId;
     }
 
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }
 
     public void setEnabled(Boolean enabled) {
-        enabled = enabled;
+        this.enabled = enabled;
     }
 
     public Long getCreatedTime() {
