@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface PostTypeService {
     List<PostType> getPostTypes(boolean enabled);
+    PostType findOne(long id);
+    boolean isExists(long id);
 }

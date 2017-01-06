@@ -2,6 +2,8 @@ package cheanxin.web;
 
 import cheanxin.domain.Post;
 import cheanxin.domain.PostType;
+import cheanxin.exceptions.ErrorResponse;
+import cheanxin.exceptions.InvalidArgumentException;
 import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.global.Constants;
 import cheanxin.service.PostService;
@@ -24,6 +26,9 @@ public class PostController extends BaseController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private PostTypeService postTypeService;
+
     @RequestMapping(method = RequestMethod.GET)
     public Page<Post> getPosts(
             @RequestParam(value = "name", defaultValue = "") String name,
@@ -35,7 +40,7 @@ public class PostController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Post> get(@PathVariable(value = "id") long id) {
-        Post post = postService.get(id);
+        Post post = postService.findOne(id);
         if (post == null)
             throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
         return new ResponseEntity<>(post, HttpStatus.OK);
@@ -43,6 +48,8 @@ public class PostController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Post> add(@Valid @RequestBody Post post) {
+        if (!postTypeService.isExists(post.getPostTypeId()))
+            throw new ResourceNotFoundException(PostType.class.getSimpleName(), "id", String.valueOf(post.getPostTypeId()));
         return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
     }
 
@@ -50,6 +57,10 @@ public class PostController extends BaseController {
     public ResponseEntity<Post> update(
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Post post) {
+        if (!postService.isExists(id))
+            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
+        if (!postTypeService.isExists(post.getPostTypeId()))
+            throw new ResourceNotFoundException(PostType.class.getSimpleName(), "id", String.valueOf(post.getPostTypeId()));
         post.setId(id);
         return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
     }
@@ -63,6 +74,12 @@ public class PostController extends BaseController {
     public ResponseEntity<Post> patch(
             @PathVariable(value = "id") long id,
             @RequestBody Post post) {
-        return new ResponseEntity<>(postService.enableOrDisablePost(id, post.getEnabled()), HttpStatus.OK);
+        Post unsavedPost = postService.findOne(id);
+        if (unsavedPost == null)
+            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
+        if (post.getEnabled() == null)
+            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "Field enabled is empty."));
+        unsavedPost.setEnabled(post.getEnabled());
+        return new ResponseEntity<>(postService.save(unsavedPost), HttpStatus.OK);
     }
 }

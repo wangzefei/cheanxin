@@ -19,12 +19,12 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User getUserByUsername(String username) {
+    public User findUserByUsername(String username) {
         return userRepository.findByUsernameIgnoringCase(username);
     }
 
     @Override
-    public User getUserByMobileNumber(String mobileNumber) {
+    public User findUserByMobileNumber(String mobileNumber) {
         return userRepository.findByMobileNumber(mobileNumber);
     }
 
@@ -43,11 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUsernameExists(String username) {
-        return getUserByUsername(username) != null;
+        return findUserByUsername(username) != null;
     }
 
     @Override
     public boolean isMobileNoExists(String mobileNo) {
-        return getUserByMobileNumber(mobileNo) != null;
+        return findUserByMobileNumber(mobileNo) != null;
     }
 }

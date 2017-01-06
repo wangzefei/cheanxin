@@ -4,6 +4,7 @@ import cheanxin.data.PostRepository;
 import cheanxin.data.PostTypeRepository;
 import cheanxin.domain.Post;
 import cheanxin.domain.PostType;
+import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.service.PostService;
 import cheanxin.service.PostTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +34,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post get(long id) {
+    public Post findOne(long id) {
         return postRepository.findOne(id);
     }
 
     @Override
-    public Post enableOrDisablePost(long id, boolean enabled) {
-        Post post = get(id);
-        post.setEnabled(enabled);
-        return save(post);
+    public boolean isExists(long id) {
+        return findOne(id) != null;
     }
 
     @Override

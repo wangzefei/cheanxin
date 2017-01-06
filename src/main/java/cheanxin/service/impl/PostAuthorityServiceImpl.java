@@ -40,7 +40,7 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         if (user == null)
             throw new UsernameNotFoundException("User " + username + " not found.");
 

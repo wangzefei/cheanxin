@@ -64,7 +64,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<User> profile(@PathVariable String username) {
-        User user = userService.getUserByUsername(username);
+        User user = userService.findUserByUsername(username);
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getSimpleName(), "username", username);
         }

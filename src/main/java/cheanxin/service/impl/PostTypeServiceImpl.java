@@ -20,4 +20,14 @@ public class PostTypeServiceImpl implements PostTypeService {
     public List<PostType> getPostTypes(boolean enabled) {
         return postTypeRepository.findAllByEnabledOrderBySortIndexAsc(enabled);
     }
+
+    @Override
+    public PostType findOne(long id) {
+        return postTypeRepository.findOne(id);
+    }
+
+    @Override
+    public boolean isExists(long id) {
+        return findOne(id) != null;
+    }
 }

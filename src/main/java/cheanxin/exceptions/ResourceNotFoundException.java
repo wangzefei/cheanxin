@@ -18,7 +18,7 @@ public class ResourceNotFoundException extends RuntimeException implements Error
 
     @Override
     public ErrorResponse getErrorResponse() {
-        return new ErrorResponse(HttpStatus.CONFLICT.getReasonPhrase(),
+        return new ErrorResponse(HttpStatus.NOT_FOUND.getReasonPhrase(),
                 resourceObjectName + " with " + resourceFieldName + " " + resourceFieldValue + " not found.");
     }
 }

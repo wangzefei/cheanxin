@@ -30,10 +30,9 @@ public class Post {
 
     @NotNull
     @Min(0)
-    @Max(8)
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '岗位类型'")
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '岗位类型'")
     // 岗位类型
-    private Integer postTypeId;
+    private Long postTypeId;
 
     @NotNull
     @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
@@ -46,7 +45,7 @@ public class Post {
 
     public Post() {}
 
-    public Post(String serialNumber, String name, Integer postTypeId, Boolean enabled, Long createdTime) {
+    public Post(String serialNumber, String name, Long postTypeId, Boolean enabled, Long createdTime) {
         this.serialNumber = serialNumber;
         this.name = name;
         this.postTypeId = postTypeId;
@@ -78,11 +77,11 @@ public class Post {
         this.name = name;
     }
 
-    public Integer getPostTypeId() {
+    public Long getPostTypeId() {
         return postTypeId;
     }
 
-    public void setPostTypeId(Integer postTypeId) {
+    public void setPostTypeId(Long postTypeId) {
         this.postTypeId = postTypeId;
     }
 
