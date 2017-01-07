@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by 273cn on 16/12/14.
@@ -47,7 +47,9 @@ public class PostController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Post> add(@Valid @RequestBody Post post) {
+    public ResponseEntity<Post> add(@Valid @RequestBody Post post, Errors errors) {
+        if (errors.hasErrors())
+            throw new InvalidArgumentException(errors.getAllErrors().get(0));
         if (!postTypeService.isExists(post.getPostTypeId()))
             throw new ResourceNotFoundException(PostType.class.getSimpleName(), "id", String.valueOf(post.getPostTypeId()));
         return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
@@ -56,7 +58,10 @@ public class PostController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Post> update(
             @PathVariable(value = "id") long id,
-            @Valid @RequestBody Post post) {
+            @Valid @RequestBody Post post,
+            Errors errors) {
+        if (errors.hasErrors())
+            throw new InvalidArgumentException(errors.getAllErrors().get(0));
         if (!postService.isExists(id))
             throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
         if (!postTypeService.isExists(post.getPostTypeId()))

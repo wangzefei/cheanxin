@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  * 产品操作日志
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_product_id", columnList = "productId"), @Index(name = "idx_operator_uid", columnList = "operatorUid")})
+@Table(indexes = {@Index(name = "idx_product_id", columnList = "productId"), @Index(name = "idx_operator_username", columnList = "operatorUsername")})
 public class ProductLog {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -25,9 +25,8 @@ public class ProductLog {
     private Long productId;
 
     @NotNull
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '操作人uid'")
-    // 操作人uid
-    private Long operatorUid;
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '操作人username'")
+    private String operatorUsername;
 
     @NotNull
     @Min(0)
@@ -37,7 +36,7 @@ public class ProductLog {
     private Integer operatorType;
 
     @Size(max = 255)
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '备注'")
+    @Column(columnDefinition = "VARCHAR(255) COMMENT '备注'")
     // 备注
     private String remark;
 
@@ -47,9 +46,9 @@ public class ProductLog {
 
     public ProductLog() {}
 
-    public ProductLog(Long productId, Long operatorUid, Integer operatorType, String remark, Long createdTime) {
+    public ProductLog(Long productId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
         this.productId = productId;
-        this.operatorUid = operatorUid;
+        this.operatorUsername = operatorUsername;
         this.operatorType = operatorType;
         this.remark = remark;
         this.createdTime = createdTime;
@@ -71,12 +70,12 @@ public class ProductLog {
         this.productId = productId;
     }
 
-    public Long getOperatorUid() {
-        return operatorUid;
+    public String getOperatorUsername() {
+        return operatorUsername;
     }
 
-    public void setOperatorUid(Long operatorUid) {
-        this.operatorUid = operatorUid;
+    public void setOperatorUsername(String operatorUsername) {
+        this.operatorUsername = operatorUsername;
     }
 
     public Integer getOperatorType() {

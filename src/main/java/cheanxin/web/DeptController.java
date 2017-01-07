@@ -8,6 +8,7 @@ import cheanxin.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,10 +46,13 @@ public class DeptController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Dept> add(@Valid @RequestBody Dept dept) {
-        if (dept.getParentDeptId() == 0L) {
+    public ResponseEntity<Dept> add(
+            @Valid @RequestBody Dept dept,
+            Errors errors) {
+        if (errors.hasErrors())
+            throw new InvalidArgumentException(errors.getAllErrors().get(0));
+        if (dept.getParentDeptId() == 0L)
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
-        }
 
         Dept parentDept = deptService.findOne(dept.getParentDeptId());
         if (parentDept == null)
@@ -59,7 +63,10 @@ public class DeptController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Dept> update(
             @PathVariable(value = "id") long id,
-            @Valid @RequestBody Dept dept) {
+            @Valid @RequestBody Dept dept,
+            Errors errors) {
+        if (errors.hasErrors())
+            throw new InvalidArgumentException(errors.getAllErrors().get(0));
         if (!deptService.isExists(id))
             throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(id));
         if (dept.getParentDeptId() == 0L) {

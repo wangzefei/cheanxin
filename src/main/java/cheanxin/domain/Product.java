@@ -3,11 +3,8 @@ package cheanxin.domain;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
+import javax.validation.constraints.*;
+import java.util.Collection;
 
 /**
  * Created by 273cn on 16/12/30.
@@ -63,9 +60,10 @@ public class Product {
 
     @NotNull
     @NotEmpty
-//    @Column(columnDefinition = "VARCHAR(64) UNSIGNED COMMENT '可贷期数'")
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '可贷期数'")
+    @Pattern(regexp = "([0-9]+,)*[0-9]+")
     // 可贷期数
-    private Set<Integer> availableTerms;
+    private String availableTerms;
 
     @NotNull
     @Min(1)
@@ -77,7 +75,7 @@ public class Product {
     @NotNull
     @Min(0)
     @Max(10)
-    @Column(columnDefinition = "DECIMAL(1,4) UNSIGNED COMMENT '贷款月利率'")
+    @Column(columnDefinition = "DECIMAL(5,4) UNSIGNED COMMENT '贷款月利率'")
     // 贷款月利率
     private Float loanMonthlyInterestRate;
 
@@ -109,6 +107,9 @@ public class Product {
     @Column(columnDefinition = "VARCHAR(20) COMMENT '创建人'")
     // 创建人
     private String creatorUsername;
+
+    @Transient
+    private String remark;
 
     public Product() {}
 
@@ -168,11 +169,11 @@ public class Product {
         this.maxAvailableRate = maxAvailableRate;
     }
 
-    public Set<Integer> getAvailableTerms() {
+    public String getAvailableTerms() {
         return availableTerms;
     }
 
-    public void setAvailableTerms(Set<Integer> availableTerms) {
+    public void setAvailableTerms(String availableTerms) {
         this.availableTerms = availableTerms;
     }
 
@@ -238,5 +239,13 @@ public class Product {
 
     public void setCreatorUsername(String creatorUsername) {
         this.creatorUsername = creatorUsername;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

@@ -1,6 +1,7 @@
 package cheanxin.service;
 
 import cheanxin.domain.Product;
+import cheanxin.domain.User;
 import org.springframework.data.domain.Page;
 
 /**
@@ -12,6 +13,6 @@ public interface ProductService {
     Product findOne(long id);
     Page<Product> getProducts(long productTemplateId, String name, int status, int page, int size);
     Page<Product> getProducts(String username, long productTemplateId, String name, int status, int page, int size);
-    boolean isExists(long id);
-    Product review(Product product, int toStatus);
+    Product review(User user, Product fromProduct, Product toProduct);
+    boolean hasChildProducts(Product product);
 }

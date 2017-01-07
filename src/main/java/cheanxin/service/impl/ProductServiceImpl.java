@@ -2,6 +2,10 @@ package cheanxin.service.impl;
 
 import cheanxin.data.ProductRepository;
 import cheanxin.domain.Product;
+import cheanxin.domain.ProductLog;
+import cheanxin.domain.User;
+import cheanxin.enums.ProductStatusTransfer;
+import cheanxin.service.ProductLogService;
 import cheanxin.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,9 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    ProductLogService productLogService;
 
     @Override
     public Product save(Product unsavedProduct) {
@@ -33,11 +40,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean isExists(long id) {
-        return findOne(id) != null;
-    }
-
-    @Override
     public Page<Product> getProducts(String username, long productTemplateId, String name, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
         if (name == null || name.trim().isEmpty()) name = "";
@@ -49,8 +51,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if (productTemplateId < 0)
-            return productRepository.findByUsernameAndNameIgnoreCaseContainingAndStatus(username, name, status, pageable);
-        return productRepository.findByUsernameAndProductTemplateIdAndNameIgnoreCaseContainingAndStatus(username, productTemplateId, name, status, pageable);
+            return productRepository.findByCreatorUsernameAndNameIgnoreCaseContainingAndStatus(username, name, status, pageable);
+        return productRepository.findByCreatorUsernameAndProductTemplateIdAndNameIgnoreCaseContainingAndStatus(username, productTemplateId, name, status, pageable);
     }
 
     @Override
@@ -59,12 +61,29 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product review(Product product, int toStatus) {
-        product.setStatus(toStatus);
-        Product savedProduct = save(product);
+    public Product review(User user, Product fromProduct, Product toProduct) {
+        // save from status before save product.
+        int fromStatus = fromProduct.getStatus().intValue();
+        int toStatus = toProduct.getStatus().intValue();
+        fromProduct.setStatus(toStatus);
+        Product savedProduct = save(fromProduct);
 
-        // TODO: save product operation log.
+        // save product operation log.
+        ProductLog productLog = new ProductLog(
+                savedProduct.getId(),
+                user.getUsername(),
+                ProductStatusTransfer.valueOf(fromStatus, toStatus).getValue(),
+                toProduct.getRemark(),
+                System.currentTimeMillis() / 1000);
+        productLogService.save(productLog);
 
         return savedProduct;
+    }
+
+    @Override
+    public boolean hasChildProducts(Product product) {
+        if (product.getProductTemplateId() != 0L)
+            return false;
+        return productRepository.findByProductTemplateId(product.getId(), new PageRequest(0, 1)).hasContent();
     }
 }

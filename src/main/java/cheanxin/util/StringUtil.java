@@ -1,5 +1,11 @@
 package cheanxin.util;
 
+import cheanxin.global.Constants;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by 273cn on 16/12/19.
  */
@@ -47,5 +53,24 @@ public class StringUtil {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Whether elements of stringArray1 separated by STRING_ARRAY_SEPARATOR contains all elements of stringArray2.
+     * @param String stringArray1
+     * @param String stringArray2
+     * @return
+     */
+    public static boolean containsAll(String string1, String string2) {
+        String[] strings = string1.trim().split(Constants.STRING_ARRAY_SEPARATOR);
+        Set<String> stringSet = new HashSet<>(strings.length);
+        for (String string : strings) {
+            stringSet.add(string);
+        }
+        for (String string : string2.trim().split(Constants.STRING_ARRAY_SEPARATOR)) {
+            if (!stringSet.contains(string))
+                return false;
+        }
+        return true;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findByProductTemplateIdAndNameIgnoreCaseContainingAndStatus(long productTemplateId, String name, int status, Pageable pageable);
     Page<Product> findByNameIgnoreCaseContainingAndStatus(String name, int status, Pageable pageable);
-    Page<Product> findByUsernameAndProductTemplateIdAndNameIgnoreCaseContainingAndStatus(String username, long productTemplateId, String name, int status, Pageable pageable);
-    Page<Product> findByUsernameAndNameIgnoreCaseContainingAndStatus(String username, String name, int status, Pageable pageable);
+    Page<Product> findByCreatorUsernameAndProductTemplateIdAndNameIgnoreCaseContainingAndStatus(String username, long productTemplateId, String name, int status, Pageable pageable);
+    Page<Product> findByCreatorUsernameAndNameIgnoreCaseContainingAndStatus(String username, String name, int status, Pageable pageable);
+    Page<Product> findByProductTemplateId(long productTemplateId, Pageable pageable);
 }

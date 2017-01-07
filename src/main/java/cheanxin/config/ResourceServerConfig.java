@@ -8,7 +8,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 
-import static cheanxin.enums.Authority.ROLE_LOAN_ALLOCATE;
 import static org.springframework.http.HttpMethod.GET;
 
 /**
@@ -25,8 +24,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(GET, "/users/me").hasAuthority(ROLE_LOAN_ALLOCATE.name()) // role name should start with ROLE_
-                .antMatchers(GET, "/users/**").authenticated()
+                .antMatchers(GET, "/users/me").authenticated()
+//                .antMatchers(GET, "/users/**").hasAuthority("") // role name should start with ROLE_
                 .anyRequest().permitAll();
         http.exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }

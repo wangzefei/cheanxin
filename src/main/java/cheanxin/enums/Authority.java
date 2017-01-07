@@ -5,5 +5,5 @@ package cheanxin.enums;
  */
 public enum Authority {
     ROLE_PENDING_REVIEW_TO_ACCEPTED,
-    ROLE_PENDING_REVIEW_TO_REJECT;
+    ROLE_PENDING_REVIEW_TO_REJECTED;
 }

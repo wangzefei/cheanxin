@@ -6,6 +6,9 @@ import cheanxin.domain.OAuth2Client;
  * Created by 273cn on 16/12/24.
  */
 public class Constants {
+    // string array separator
+    public static final String STRING_ARRAY_SEPARATOR = ",";
+
     // department's max level
     public static final long DEPT_MAX_LEVEL = 5;
 
@@ -34,7 +37,7 @@ public class Constants {
                 new String[]{"password", "refresh_token"},
                 new String[]{"CLIENT"},
                 new String[]{"read", "write"},
-                1800,
+                3600,
                 86400 * 30)
     };
 }

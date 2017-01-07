@@ -1,5 +1,6 @@
 package cheanxin.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 
@@ -10,11 +11,15 @@ public class InvalidArgumentException extends RuntimeException implements ErrorR
     private ErrorResponse errorResponse;
 
     public InvalidArgumentException(ObjectError error) {
-        errorResponse = new ErrorResponse(error.getCode(), error.getDefaultMessage());
+        this.errorResponse = new ErrorResponse(error.getCode(), error.getDefaultMessage());
     }
 
     public InvalidArgumentException(ErrorResponse errorResponse) {
         this.errorResponse = errorResponse;
+    }
+
+    public InvalidArgumentException(String errorMessage) {
+        this.errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), errorMessage);
     }
 
     public ErrorResponse getErrorResponse() {

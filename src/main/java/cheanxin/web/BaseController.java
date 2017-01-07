@@ -34,4 +34,10 @@ public class BaseController {
     public ErrorResponse invalidArgument(UnauthorizedException e) {
         return e.getErrorResponse();
     }
+
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse invalidArgument(ForbiddenException e) {
+        return e.getErrorResponse();
+    }
 }
