@@ -2,6 +2,7 @@ package cheanxin.enums;
 
 import cheanxin.domain.Product;
 import cheanxin.domain.User;
+import cheanxin.exceptions.UnauthorizedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -39,11 +40,14 @@ public enum ProductStatusTransfer {
         return null;
     }
 
-    public static boolean hasAuthority(User user, int fromStatus, int toStatus) {
+    public static void checkAuthority(User user, int fromStatus, int toStatus) throws UnauthorizedException {
         ProductStatusTransfer productStatusTransfer = ProductStatusTransfer.valueOf(fromStatus, toStatus);
-        if (productStatusTransfer == null) return false;
+        if (productStatusTransfer == null)
+            throw new UnauthorizedException("Unauthorized.");
         GrantedAuthority neededAuthority = productStatusTransfer.authority;
         Collection<? extends GrantedAuthority> userAuthorities = user.getAuthorities();
-        return userAuthorities != null && userAuthorities.contains(neededAuthority);
+        if (userAuthorities == null || !userAuthorities.contains(neededAuthority))
+            throw new UnauthorizedException("Unauthorized.");
+
     }
 }

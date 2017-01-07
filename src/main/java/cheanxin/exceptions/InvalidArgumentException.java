@@ -10,10 +10,6 @@ import org.springframework.validation.ObjectError;
 public class InvalidArgumentException extends RuntimeException implements ErrorResponseException {
     private ErrorResponse errorResponse;
 
-    public InvalidArgumentException(ObjectError error) {
-        this.errorResponse = new ErrorResponse(error.getCode(), error.getDefaultMessage());
-    }
-
     public InvalidArgumentException(ErrorResponse errorResponse) {
         this.errorResponse = errorResponse;
     }

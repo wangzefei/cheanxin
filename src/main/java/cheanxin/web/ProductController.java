@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,8 +43,7 @@ public class ProductController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Product> get(@PathVariable(value = "id") long id) {
         Product product = productService.findOne(id);
-        if (product == null)
-            throw new ResourceNotFoundException(Product.class.getSimpleName(), "id", String.valueOf(id));
+        Assert.notNull(product, "Product not found.");
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
@@ -52,10 +52,8 @@ public class ProductController extends BaseController {
             @Valid @RequestBody Product unsavedProduct,
             Errors errors,
             @AuthenticationPrincipal User user) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
-        if (unsavedProduct.getStatus().intValue() != ProductStatus.PENDING_REVIEW.value())
-            throw new InvalidArgumentException("Product is not in pending review status.");
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        Assert.isTrue(unsavedProduct.getStatus().intValue() == ProductStatus.PENDING_REVIEW.value(), "Product is not in pending review status.");
 
         unsavedProduct.setCreatorUsername(user.getUsername());
         long now = System.currentTimeMillis() / 1000;
@@ -70,15 +68,12 @@ public class ProductController extends BaseController {
             @Valid @RequestBody Product unsavedProduct,
             Errors errors,
             @AuthenticationPrincipal User user) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+
         Product savedProduct = productService.findOne(id);
-        if (savedProduct == null)
-            throw new ResourceNotFoundException(Product.class.getSimpleName(), "id", String.valueOf(id));
-        if (savedProduct.getStatus().intValue() != ProductStatus.PENDING_REVIEW.value())
-            throw new ForbiddenException("Only product of status pending review can be modified.");
-        if (!savedProduct.getCreatorUsername().equals(user.getUsername()))
-            throw new UnauthorizedException("Current user is not owner of this product.");
+        Assert.notNull(savedProduct, "Product not found.");
+        Assert.isTrue(savedProduct.getStatus().intValue() == ProductStatus.PENDING_REVIEW.value(), "Only product of status pending review can be modified.");
+        Assert.isTrue(savedProduct.getCreatorUsername().equals(user.getUsername()), "Current user is not owner of this product.");
 
         // attributes below can not be modified.
         unsavedProduct.setId(id);
@@ -96,12 +91,11 @@ public class ProductController extends BaseController {
             @PathVariable(value = "id") long id,
             @AuthenticationPrincipal User user) {
         Product savedProduct = productService.findOne(id);
-        if (savedProduct == null)
-            throw new ResourceNotFoundException(Product.class.getSimpleName(), "id", String.valueOf(id));
-        if (!user.getUsername().equals(savedProduct.getCreatorUsername()))
-            throw new UnauthorizedException("You are not the owner of this product");
-        if (productService.hasChildProducts(savedProduct))
-            throw new ForbiddenException("This product template already has child product.");
+
+        Assert.notNull(savedProduct);
+        Assert.isTrue(user.getUsername().equals(savedProduct.getCreatorUsername()), "You are not the owner of this product");
+        Assert.isTrue(!productService.hasChildProducts(savedProduct), "This product template already has child product.");
+
         productService.delete(id);
     }
 
@@ -110,29 +104,22 @@ public class ProductController extends BaseController {
             @PathVariable(value = "id") long id,
             @RequestBody Product unsaveProduct,
             @AuthenticationPrincipal User user) {
-        if (unsaveProduct.getRemark() == null || unsaveProduct.getRemark().trim().isEmpty())
-            throw new InvalidArgumentException("Remark should not be empty.");
+        Assert.isTrue(unsaveProduct.getRemark() != null && !unsaveProduct.getRemark().trim().isEmpty(), "Remark should not be empty.");
 
         Product savedProduct = productService.findOne(id);
-        if (savedProduct == null)
-            throw new ResourceNotFoundException(Product.class.getSimpleName(), "id", String.valueOf(id));
-        if (savedProduct.getProductTemplateId() == 0L)
-            throw new ForbiddenException("Product template shouldn't be reviewed.");
-        if (!ProductStatusTransfer.hasAuthority(user, savedProduct.getStatus().intValue(), unsaveProduct.getStatus().intValue()))
-            throw new UnauthorizedException(user.getUsername());
+
+        Assert.notNull(savedProduct, "Product not found");
+        Assert.isTrue(savedProduct.getProductTemplateId() != 0L, "Product template shouldn't be reviewed.");
+        ProductStatusTransfer.checkAuthority(user, savedProduct.getStatus().intValue(), unsaveProduct.getStatus().intValue());
 
         return new ResponseEntity<>(productService.review(user, savedProduct, unsaveProduct), HttpStatus.OK);
     }
 
     private Product save(Product product) {
-        if (!LoanPolicy.contains(product.getLoanPolicy().intValue()))
-            throw new InvalidArgumentException("Product's loan policy does not exist.");
-        if (!ProductType.contains(product.getProductType().intValue()))
-            throw new InvalidArgumentException("Product's product type does not exist.");
-        if (!RepaymentMethod.contains(product.getRepaymentMethod().intValue()))
-            throw new InvalidArgumentException("Product's repayment method does not exist.");
-        if (product.getMinAvailableRate() > product.getMaxAvailableRate())
-            throw new InvalidArgumentException("Product's min available rate should be less than max available rate.");
+        Assert.isTrue(LoanPolicy.contains(product.getLoanPolicy().intValue()), "Product's loan policy does not exist.");
+        Assert.isTrue(ProductType.contains(product.getProductType().intValue()), "Product's product type does not exist.");
+        Assert.isTrue(RepaymentMethod.contains(product.getRepaymentMethod().intValue()), "Product's repayment method does not exist.");
+        Assert.isTrue(product.getMinAvailableRate() <= product.getMaxAvailableRate(), "Product's min available rate should be less than max available rate.");
 
         if (product.getProductTemplateId() == 0L) {
             product.setProvinceId(0L);
@@ -140,18 +127,14 @@ public class ProductController extends BaseController {
         } else {
             long productTemplateId = product.getProductTemplateId().longValue();
             Product productTemplate = productService.findOne(productTemplateId);
-            if (productTemplate == null)
-                throw new ResourceNotFoundException(Product.class.getSimpleName(), "id", String.valueOf(productTemplateId));
-            if (product.getMinAvailableRate() < productTemplate.getMinAvailableRate())
-                throw new InvalidArgumentException("Product's min available rate should be greater than product template's min available rate.");
-            if (product.getMaxAvailableRate() > productTemplate.getMaxAvailableRate())
-                throw new InvalidArgumentException("Product's max available rate should be less than product template's max available rate.");
-            if (!StringUtil.containsAll(productTemplate.getAvailableTerms(), product.getAvailableTerms()))
-              throw new InvalidArgumentException("Product's terms are unavailable.");
-            if (product.getProvinceId() <= 0L)
-                throw new InvalidArgumentException("Product's province id should be assigned.");
-            if (product.getCityId() <= 0L)
-                throw new InvalidArgumentException("Product's city id should be assigned.");
+
+            Assert.notNull(productTemplate, "Product template not found.");
+
+            Assert.isTrue(product.getMinAvailableRate() >= productTemplate.getMinAvailableRate(), "Product's min available rate should be greater than product template's min available rate.");
+            Assert.isTrue(product.getMaxAvailableRate() <= productTemplate.getMaxAvailableRate(), "Product's max available rate should be less than product template's max available rate.");
+            Assert.isTrue(StringUtil.containsAll(productTemplate.getAvailableTerms(), product.getAvailableTerms()), "Product's terms are unavailable.");
+            Assert.isTrue(product.getProvinceId() > 0L, "Product's province id should be assigned.");
+            Assert.isTrue(product.getCityId() > 0L, "Product's city id should be assigned.");
         }
 
         return productService.save(product);

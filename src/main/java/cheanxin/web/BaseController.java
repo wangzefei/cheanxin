@@ -40,4 +40,10 @@ public class BaseController {
     public ErrorResponse invalidArgument(ForbiddenException e) {
         return e.getErrorResponse();
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse illegalArgument(IllegalArgumentException e) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), e.getMessage());
+    }
 }

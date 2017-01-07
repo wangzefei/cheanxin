@@ -8,6 +8,7 @@ import cheanxin.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,7 @@ public class DeptController extends BaseController {
             @RequestParam(value = "level", defaultValue = "1") int level,
             @RequestParam(value = "parentDeptId", defaultValue = "0") long parentDeptId,
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
-        if (level != 1 && parentDeptId != 0)
-            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "level and parentDeptId are exclusive."));
+        Assert.isTrue(level == 1 || parentDeptId == 0, "level and parentDeptId are exclusive.");
 
         if (level != 1)
             return deptService.getDepts(level, enabled);
@@ -40,8 +40,9 @@ public class DeptController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Dept> get(@PathVariable(value = "id") long id) {
         Dept dept = deptService.findOne(id);
-        if (dept == null)
-            throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(id));
+
+        Assert.notNull(dept, "Dept not found");
+
         return new ResponseEntity<>(dept, HttpStatus.OK);
     }
 
@@ -49,14 +50,13 @@ public class DeptController extends BaseController {
     public ResponseEntity<Dept> add(
             @Valid @RequestBody Dept dept,
             Errors errors) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
         if (dept.getParentDeptId() == 0L)
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
 
         Dept parentDept = deptService.findOne(dept.getParentDeptId());
-        if (parentDept == null)
-            throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(dept.getParentDeptId()));
+        Assert.notNull(parentDept, "Parent dept not found");
+
         return new ResponseEntity<>(deptService.save(dept, parentDept), HttpStatus.CREATED);
     }
 
@@ -65,18 +65,17 @@ public class DeptController extends BaseController {
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Dept dept,
             Errors errors) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
-        if (!deptService.isExists(id))
-            throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(id));
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        Assert.isTrue(deptService.isExists(id), "Dept not found.");
+
         if (dept.getParentDeptId() == 0L) {
             dept.setId(id);
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.OK);
         }
 
         Dept parentDept = deptService.findOne(dept.getParentDeptId());
-        if (parentDept == null)
-            throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(dept.getParentDeptId()));
+        Assert.notNull(parentDept, "Parent dept not found");
+
         dept.setId(id);
         return new ResponseEntity<>(deptService.save(dept, parentDept), HttpStatus.CREATED);
     }
@@ -91,10 +90,10 @@ public class DeptController extends BaseController {
             @PathVariable(value = "id") long id,
             @RequestBody Dept dept) {
         Dept unsavedDept = deptService.findOne(id);
-        if (unsavedDept == null)
-            throw new ResourceNotFoundException(Dept.class.getSimpleName(), "id", String.valueOf(id));
-        if (dept.getEnabled() == null)
-            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "Field enabled is empty."));
+
+        Assert.notNull(unsavedDept, "Dept not found");
+        Assert.notNull(dept.getEnabled(), "Field enabled is empty.");
+
         unsavedDept.setEnabled(dept.getEnabled());
         return new ResponseEntity<>(deptService.save(unsavedDept), HttpStatus.OK);
     }

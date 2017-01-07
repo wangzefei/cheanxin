@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,17 +42,17 @@ public class PostController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Post> get(@PathVariable(value = "id") long id) {
         Post post = postService.findOne(id);
-        if (post == null)
-            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
+
+        Assert.notNull(post, "Post not found");
+
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Post> add(@Valid @RequestBody Post post, Errors errors) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
-        if (!postTypeService.isExists(post.getPostTypeId()))
-            throw new ResourceNotFoundException(PostType.class.getSimpleName(), "id", String.valueOf(post.getPostTypeId()));
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        Assert.isTrue(postTypeService.isExists(post.getPostTypeId()), "Post type not found.");
+
         return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
     }
 
@@ -60,12 +61,11 @@ public class PostController extends BaseController {
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Post post,
             Errors errors) {
-        if (errors.hasErrors())
-            throw new InvalidArgumentException(errors.getAllErrors().get(0));
-        if (!postService.isExists(id))
-            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
-        if (!postTypeService.isExists(post.getPostTypeId()))
-            throw new ResourceNotFoundException(PostType.class.getSimpleName(), "id", String.valueOf(post.getPostTypeId()));
+
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        Assert.isTrue(postService.isExists(id), "Post not found.");
+        Assert.isTrue(postTypeService.isExists(post.getPostTypeId()), "Post type not found.");
+
         post.setId(id);
         return new ResponseEntity<>(postService.save(post), HttpStatus.OK);
     }
@@ -80,10 +80,10 @@ public class PostController extends BaseController {
             @PathVariable(value = "id") long id,
             @RequestBody Post post) {
         Post unsavedPost = postService.findOne(id);
-        if (unsavedPost == null)
-            throw new ResourceNotFoundException(Post.class.getSimpleName(), "id", String.valueOf(id));
-        if (post.getEnabled() == null)
-            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "Field enabled is empty."));
+
+        Assert.notNull(unsavedPost, "Post not found.");
+        Assert.notNull(post.getEnabled(), "Field enabled is empty.");
+
         unsavedPost.setEnabled(post.getEnabled());
         return new ResponseEntity<>(postService.save(unsavedPost), HttpStatus.OK);
     }

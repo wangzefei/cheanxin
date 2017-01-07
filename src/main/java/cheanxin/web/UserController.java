@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.util.Assert;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,12 +35,12 @@ public class UserController extends BaseController {
             @Valid @RequestBody User user,
             Errors errors,
             UriComponentsBuilder ucb) {
-        if (errors.hasErrors()) throw new InvalidArgumentException(errors.getAllErrors().get(0));
-        if (user.getPassword().length() > 20) {
-            throw new InvalidArgumentException(new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), "password len greater than 20"));
-        }
-        if (userService.isUsernameExists(user.getUsername())) throw new ResourceConflictException(User.class.getSimpleName(), "username", user.getUsername());
-        if (userService.isMobileNoExists(user.getMobileNumber())) throw new ResourceConflictException(User.class.getSimpleName(), "mobileNumber", user.getMobileNumber());
+
+        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        Assert.isTrue(user.getPassword().length() <= 20, "password len greater than 20");
+        Assert.isTrue(!userService.isUsernameExists(user.getUsername()), "Username already exists.");
+        Assert.isTrue(!userService.isMobileNoExists(user.getMobileNumber()), "Mobile number already exists.");
+
         HttpHeaders httpHeaders = new HttpHeaders();
         URI locationUri = ucb.path("/users/")
                 .path(String.valueOf(user.getUsername()))
@@ -66,9 +67,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<User> profile(@PathVariable String username) {
         User user = userService.findUserByUsername(username);
-        if (user == null) {
-            throw new ResourceNotFoundException(User.class.getSimpleName(), "username", username);
-        }
+        Assert.notNull(user, "User not found.");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
