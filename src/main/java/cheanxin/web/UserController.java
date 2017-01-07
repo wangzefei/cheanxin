@@ -30,7 +30,7 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<User> register(
+    public ResponseEntity<User> add(
             @Valid @RequestBody User user,
             Errors errors,
             UriComponentsBuilder ucb) {
@@ -46,6 +46,7 @@ public class UserController extends BaseController {
                 .build()
                 .toUri();
         httpHeaders.setLocation(locationUri);
+        user.setCreatedTime(System.currentTimeMillis() / 1000);
         User savedUser = userService.save(user);
         return new ResponseEntity<>(savedUser, httpHeaders, HttpStatus.CREATED);
     }

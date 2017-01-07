@@ -1,16 +1,20 @@
 package cheanxin.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * Created by 273cn on 16/12/30.
  * 产品
  */
 @Entity
+@Table(indexes = { @Index(name = "idx_product_template_id", columnList = "productTemplateId") })
 public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -20,8 +24,7 @@ public class Product {
 
     @NotNull
     @Min(0)
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品模板id，如果该id为0表示为产品模板'")
-    // 产品模板id，如果该id为0表示为产品模板
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品模板id，如果productTemplateId为0表示自身为产品模板'")
     private Long productTemplateId;
 
     @NotNull
@@ -42,7 +45,7 @@ public class Product {
     @Max(16)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '还款类型'")
     // 还款类型
-    private Integer paybackType;
+    private Integer repaymentMethod;
 
     @NotNull
     @Min(1)
@@ -59,11 +62,10 @@ public class Product {
     private Integer maxAvailableRate;
 
     @NotNull
-    @Min(1)
-    @Max(3600)
-    @Column(columnDefinition = "SMALLINT(4) UNSIGNED COMMENT '可贷期数'")
+    @NotEmpty
+//    @Column(columnDefinition = "VARCHAR(64) UNSIGNED COMMENT '可贷期数'")
     // 可贷期数
-    private Integer availableTerms;
+    private Set<Integer> availableTerms;
 
     @NotNull
     @Min(1)
@@ -74,10 +76,15 @@ public class Product {
 
     @NotNull
     @Min(0)
-    @Max(100)
-    @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '贷款月利率'")
+    @Max(10)
+    @Column(columnDefinition = "DECIMAL(1,4) UNSIGNED COMMENT '贷款月利率'")
     // 贷款月利率
     private Float loanMonthlyInterestRate;
+
+    @NotNull
+    @Min(0)
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '省份id'")
+    private Long provinceId;
 
     @NotNull
     @Min(0)
@@ -86,9 +93,10 @@ public class Product {
     private Long cityId;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '是否启用'")
-    // 是否启用
-    private Boolean enabled;
+    @Min(0)
+    @Max(8)
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '产品状态'")
+    private Integer status;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '修改时间'")
     // 修改时间
@@ -98,28 +106,11 @@ public class Product {
     // 创建时间
     private Long createdTime;
 
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建人'")
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '创建人'")
     // 创建人
-    private Long creatorUid;
+    private String creatorUsername;
 
     public Product() {}
-
-    public Product(Long productTemplateId, String name, Integer productType, Integer paybackType, Integer minAvailableRate, Integer maxAvailableRate, Integer availableTerms, Integer loanPolicy, Float loanMonthlyInterestRate, Long cityId, Boolean enabled, Long modifiedTime, Long createdTime, Long creatorUid) {
-        this.productTemplateId = productTemplateId;
-        this.name = name;
-        this.productType = productType;
-        this.paybackType = paybackType;
-        this.minAvailableRate = minAvailableRate;
-        this.maxAvailableRate = maxAvailableRate;
-        this.availableTerms = availableTerms;
-        this.loanPolicy = loanPolicy;
-        this.loanMonthlyInterestRate = loanMonthlyInterestRate;
-        this.cityId = cityId;
-        this.enabled = enabled;
-        this.modifiedTime = modifiedTime;
-        this.createdTime = createdTime;
-        this.creatorUid = creatorUid;
-    }
 
     public Long getId() {
         return id;
@@ -153,12 +144,12 @@ public class Product {
         this.productType = productType;
     }
 
-    public Integer getPaybackType() {
-        return paybackType;
+    public Integer getRepaymentMethod() {
+        return repaymentMethod;
     }
 
-    public void setPaybackType(Integer paybackType) {
-        this.paybackType = paybackType;
+    public void setRepaymentMethod(Integer repaymentMethod) {
+        this.repaymentMethod = repaymentMethod;
     }
 
     public Integer getMinAvailableRate() {
@@ -177,11 +168,11 @@ public class Product {
         this.maxAvailableRate = maxAvailableRate;
     }
 
-    public Integer getAvailableTerms() {
+    public Set<Integer> getAvailableTerms() {
         return availableTerms;
     }
 
-    public void setAvailableTerms(Integer availableTerms) {
+    public void setAvailableTerms(Set<Integer> availableTerms) {
         this.availableTerms = availableTerms;
     }
 
@@ -201,6 +192,14 @@ public class Product {
         this.loanMonthlyInterestRate = loanMonthlyInterestRate;
     }
 
+    public Long getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Long provinceId) {
+        this.provinceId = provinceId;
+    }
+
     public Long getCityId() {
         return cityId;
     }
@@ -209,12 +208,12 @@ public class Product {
         this.cityId = cityId;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setEnabled(Boolean enabled) {
-        enabled = enabled;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Long getModifiedTime() {
@@ -233,11 +232,11 @@ public class Product {
         this.createdTime = createdTime;
     }
 
-    public Long getCreatorUid() {
-        return creatorUid;
+    public String getCreatorUsername() {
+        return creatorUsername;
     }
 
-    public void setCreatorUid(Long creatorUid) {
-        this.creatorUid = creatorUid;
+    public void setCreatorUsername(String creatorUsername) {
+        this.creatorUsername = creatorUsername;
     }
 }

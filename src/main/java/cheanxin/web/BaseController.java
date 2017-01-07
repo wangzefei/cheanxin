@@ -1,15 +1,10 @@
 package cheanxin.web;
 
+import cheanxin.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import cheanxin.exceptions.ErrorResponse;
-import cheanxin.exceptions.InvalidArgumentException;
-import cheanxin.exceptions.ResourceConflictException;
-import cheanxin.exceptions.ResourceNotFoundException;
-
-import java.util.List;
 
 /**
  * Created by 273cn on 16/12/22.
@@ -31,6 +26,12 @@ public class BaseController {
     @ExceptionHandler(ResourceConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse conflict(ResourceConflictException e) {
+        return e.getErrorResponse();
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse invalidArgument(UnauthorizedException e) {
         return e.getErrorResponse();
     }
 }

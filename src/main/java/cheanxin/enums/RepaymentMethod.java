@@ -1,0 +1,42 @@
+package cheanxin.enums;
+
+/**
+ * Created by 273cn on 17/1/3.
+ */
+public enum RepaymentMethod {
+    EQUALITY_CORPUS_AND_INTEREST(1, "等额本息");
+
+    private final int value;
+    private final String desc;
+
+    private RepaymentMethod(int value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
+
+    public int value() {
+        return this.value;
+    }
+
+    public String getDesc() {
+        return this.desc;
+    }
+
+    public static int[] getAllValues() {
+        RepaymentMethod repaymentMethods[] = RepaymentMethod.values();
+        int values[] = new int[repaymentMethods.length];
+        for (int i = 0; i < repaymentMethods.length; i++) {
+            values[i] = repaymentMethods[i].value();
+        }
+        return values;
+    }
+
+    public static boolean contains(int value) {
+        RepaymentMethod repaymentMethods[] = RepaymentMethod.values();
+        for (RepaymentMethod repaymentMethod : repaymentMethods) {
+            if (repaymentMethod.value() == value)
+                return true;
+        }
+        return false;
+    }
+}

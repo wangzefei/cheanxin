@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        user.setCreatedTime(System.currentTimeMillis() / 1000);
         // encode password.
         user.setPassword(new StandardPasswordEncoder(Constants.PASSWORD_SECRET).encode(user.getPassword()));
         return userRepository.save(user);
