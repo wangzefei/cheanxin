@@ -11,7 +11,7 @@
  Target Server Version : 100110
  File Encoding         : utf-8
 
- Date: 01/06/2017 14:06:07 PM
+ Date: 01/07/2017 18:32:54 PM
 */
 
 SET NAMES utf8mb4;
@@ -214,13 +214,13 @@ CREATE TABLE `post` (
   `post_type_id` int(10) unsigned NOT NULL COMMENT '岗位类型',
   `serial_number` char(3) NOT NULL COMMENT '岗位编号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `post`
 -- ----------------------------
 BEGIN;
-INSERT INTO `post` VALUES ('1', '1234567890', '1', '金融专员', '3', '001'), ('2', '1234567890', '1', '意向分配员', '3', '002'), ('3', '1234567890', '1', '大区经理', '2', '003');
+INSERT INTO `post` VALUES ('1', '1234567890', '1', '金融专员', '3', '001'), ('2', '1234567890', '1', '意向分配员', '3', '002'), ('3', '1234567890', '1', '大区经理', '2', '003'), ('4', '1234567890', '1', 'ADMIN', '0', '000');
 COMMIT;
 
 -- ----------------------------
@@ -233,7 +233,14 @@ CREATE TABLE `post_authority` (
   `post_id` int(10) unsigned NOT NULL COMMENT '岗位id',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_post_id_authority` (`post_id`,`authority`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `post_authority`
+-- ----------------------------
+BEGIN;
+INSERT INTO `post_authority` VALUES ('1', 'ROLE_PENDING_REVIEW_TO_ACCEPTED', '4'), ('2', 'ROLE_PENDING_REVIEW_TO_REJECTED', '4');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `post_type`
@@ -260,22 +267,31 @@ COMMIT;
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `available_terms` smallint(4) unsigned NOT NULL COMMENT '可贷期数',
+  `available_terms` varchar(100) NOT NULL COMMENT '可贷期数',
   `city_id` int(10) unsigned NOT NULL COMMENT '城市id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
-  `creator_uid` int(10) unsigned DEFAULT NULL COMMENT '创建人',
-  `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
-  `loan_monthly_interest_rate` decimal(6,4) unsigned NOT NULL COMMENT '贷款月利率',
+  `creator_username` varchar(20) DEFAULT NULL COMMENT '创建人',
+  `loan_monthly_interest_rate` decimal(5,4) unsigned NOT NULL COMMENT '贷款月利率',
   `loan_policy` tinyint(2) unsigned NOT NULL COMMENT '贷款政策',
   `max_available_rate` tinyint(1) unsigned NOT NULL COMMENT '最高可贷成数',
   `min_available_rate` tinyint(1) unsigned NOT NULL COMMENT '最低可贷成数',
   `modified_time` int(10) unsigned DEFAULT NULL COMMENT '修改时间',
   `name` varchar(50) NOT NULL COMMENT '产品名称',
-  `payback_type` tinyint(2) unsigned NOT NULL COMMENT '还款类型',
-  `product_template_id` int(10) unsigned NOT NULL COMMENT '产品模板id，如果该id为0表示为产品模板',
+  `product_template_id` int(10) unsigned NOT NULL COMMENT '产品模板id，如果productTemplateId为0表示自身为产品模板',
   `product_type` tinyint(2) unsigned NOT NULL COMMENT '产品类型',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `province_id` int(10) unsigned NOT NULL COMMENT '省份id',
+  `repayment_method` tinyint(2) unsigned NOT NULL COMMENT '还款类型',
+  `status` tinyint(1) unsigned NOT NULL COMMENT '产品状态',
+  PRIMARY KEY (`id`),
+  KEY `idx_product_template_id` (`product_template_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `product`
+-- ----------------------------
+BEGIN;
+INSERT INTO `product` VALUES ('1', '6,12,24,36,48,60', '0', '1483778458', '273', '0.8000', '1', '9', '1', '1483778458', '车安心1号', '0', '1', '0', '1', '0'), ('2', '6,12,24,36', '1', '1483778588', '273', '0.8200', '1', '9', '1', '1483778659', '车安心1号', '1', '1', '1', '1', '1');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `product_log`
@@ -285,13 +301,20 @@ CREATE TABLE `product_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `operator_type` tinyint(1) unsigned NOT NULL COMMENT '操作类型',
-  `operator_uid` int(10) unsigned NOT NULL COMMENT '操作人uid',
+  `operator_username` varchar(20) NOT NULL COMMENT '操作人username',
   `product_id` int(10) unsigned NOT NULL COMMENT '产品id',
-  `remark` int(10) unsigned DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `idx_product_id` (`product_id`),
-  KEY `idx_operator_uid` (`operator_uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `idx_operator_username` (`operator_username`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `product_log`
+-- ----------------------------
+BEGIN;
+INSERT INTO `product_log` VALUES ('1', '1483780887', '1', '273', '2', 'nice');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `user`
@@ -315,13 +338,13 @@ CREATE TABLE `user` (
   `username` varchar(20) NOT NULL COMMENT '用户账号（登录用）',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `user` VALUES ('1', '福州gu\'lou\'qu鼓楼区', '1483578389', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884433', '35623d53e176367d6d211f5fe56e7fb79ec90ac674eac3674c43b73198ad7088e0c93b432f54cd14', '/1/jack/avatar.jpg', '杰克', '华南', '273');
+INSERT INTO `user` VALUES ('1', '福州gu\'lou\'qu鼓楼区', '1483578389', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884433', '35623d53e176367d6d211f5fe56e7fb79ec90ac674eac3674c43b73198ad7088e0c93b432f54cd14', '/1/jack/avatar.jpg', '杰克', '华南', '273'), ('2', '福州gu\'lou\'qu鼓楼区', '1483772833', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884333', '27391db1a77b0a72a76073b461ba81f82d1ba02177e609adee3d92ff4947d2407d58329eb7dd49ef', '/1/jack/avatar.jpg', '杰克', '华南', '2731');
 COMMIT;
 
 -- ----------------------------
@@ -335,6 +358,13 @@ CREATE TABLE `user_post` (
   `username` varchar(20) NOT NULL COMMENT '用户名',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_username_post_id` (`username`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `user_post`
+-- ----------------------------
+BEGIN;
+INSERT INTO `user_post` VALUES ('1', '1234567890', '4', '273');
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
