@@ -50,7 +50,8 @@ public class PostController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Post> add(@Valid @RequestBody Post post, Errors errors) {
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(postTypeService.isExists(post.getPostTypeId()), "Post type not found.");
 
         return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
@@ -61,8 +62,8 @@ public class PostController extends BaseController {
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Post post,
             Errors errors) {
-
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(postService.isExists(id), "Post not found.");
         Assert.isTrue(postTypeService.isExists(post.getPostTypeId()), "Post type not found.");
 

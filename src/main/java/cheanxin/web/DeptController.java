@@ -50,7 +50,9 @@ public class DeptController extends BaseController {
     public ResponseEntity<Dept> add(
             @Valid @RequestBody Dept dept,
             Errors errors) {
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
+
         if (dept.getParentDeptId() == 0L)
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
 
@@ -65,7 +67,8 @@ public class DeptController extends BaseController {
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Dept dept,
             Errors errors) {
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(deptService.isExists(id), "Dept not found.");
 
         if (dept.getParentDeptId() == 0L) {

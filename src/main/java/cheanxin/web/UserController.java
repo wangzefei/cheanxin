@@ -35,8 +35,8 @@ public class UserController extends BaseController {
             @Valid @RequestBody User user,
             Errors errors,
             UriComponentsBuilder ucb) {
-
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(user.getPassword().length() <= 20, "password len greater than 20");
         Assert.isTrue(!userService.isUsernameExists(user.getUsername()), "Username already exists.");
         Assert.isTrue(!userService.isMobileNoExists(user.getMobileNumber()), "Mobile number already exists.");

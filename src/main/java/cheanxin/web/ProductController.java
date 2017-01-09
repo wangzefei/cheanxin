@@ -52,7 +52,8 @@ public class ProductController extends BaseController {
             @Valid @RequestBody Product unsavedProduct,
             Errors errors,
             @AuthenticationPrincipal User user) {
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(unsavedProduct.getStatus().intValue() == ProductStatus.PENDING_REVIEW.value(), "Product is not in pending review status.");
 
         unsavedProduct.setCreatorUsername(user.getUsername());
@@ -68,7 +69,8 @@ public class ProductController extends BaseController {
             @Valid @RequestBody Product unsavedProduct,
             Errors errors,
             @AuthenticationPrincipal User user) {
-        Assert.isTrue(!errors.hasErrors(), errors.getAllErrors().get(0).getDefaultMessage());
+        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+        Assert.isNull(errorMessage, errorMessage);
 
         Product savedProduct = productService.findOne(id);
         Assert.notNull(savedProduct, "Product not found.");
