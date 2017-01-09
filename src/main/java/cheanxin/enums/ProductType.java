@@ -4,7 +4,7 @@ package cheanxin.enums;
  * Created by 273cn on 17/1/3.
  */
 public enum ProductType {
-    NEW_CAR_LOAN(1, "二手车贷款"),
+    NEW_CAR_LOAN(1, "新车贷款"),
     USED_CAR_LOAN(2, "二手车贷款");
 
     private final int value;
