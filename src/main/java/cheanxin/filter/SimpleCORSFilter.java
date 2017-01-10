@@ -22,8 +22,7 @@ public class SimpleCORSFilter implements Filter {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT, PATCH");
         response.setHeader("Access-Control-Max-Age", "3600");
-//        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
-        response.addHeader("Access-Control-Allow-Headers", "Content-Type, authorization");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type, authorization");//x-requested-with表示支持ajax请求
         chain.doFilter(req, res);
     }
 
