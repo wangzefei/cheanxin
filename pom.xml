@@ -159,10 +159,10 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupid>org.apache.maven.plugins</groupid>
-                <artifactid>maven-war-plugin</artifactid>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warname>spittr</warname>
+                    <warname>cheanxin</warname>
                     <failonmissingwebxml>false</failonmissingwebxml>
                 </configuration>
             </plugin>
