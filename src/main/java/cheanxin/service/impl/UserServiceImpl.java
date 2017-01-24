@@ -1,14 +1,18 @@
 package cheanxin.service.impl;
 
 import cheanxin.data.UserRepository;
+import cheanxin.domain.Dept;
 import cheanxin.domain.User;
 import cheanxin.global.Constants;
+import cheanxin.service.DeptService;
 import cheanxin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -17,6 +21,9 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DeptService deptService;
 
     @Override
     public User findUserByUsername(String username) {
@@ -37,7 +44,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> getUsers(int page, int size) {
-        return userRepository.findAll(new PageRequest(page, size));
+        Page<User> userPage = userRepository.findAll(new PageRequest(page, size));
+
+        // set user dept info.
+        Map<Long, Dept> deptMap = new HashMap<>();
+        for (User user : userPage) {
+            deptMap.put(user.getDeptId(), null);
+        }
+        List<Dept> deptList = deptService.getDepts(deptMap.keySet());
+        for (Dept dept : deptList) {
+            deptMap.put(dept.getId(), dept);
+        }
+        for (User user : userPage) {
+            user.setDept(deptMap.get(user.getDeptId()));
+        }
+
+        return userPage;
     }
 
     @Override

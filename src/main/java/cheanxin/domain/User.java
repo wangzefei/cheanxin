@@ -112,6 +112,10 @@ public class User implements UserDetails {
     // 用户权限
     private Collection<? extends GrantedAuthority> authorities;
 
+    @Transient
+    // 部门
+    private Dept dept;
+
     public User() {}
 
     public User(String username, String password, String realName, Long deptId, String photo, String region, String mobileNumber, String email, String identityNumber, String identityPhoto, String address, String emergencyContact, String emergencyContactMobileNumber, Long createdTime, Collection<? extends GrantedAuthority> authorities) {
@@ -281,5 +285,13 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public Dept getDept() {
+        return dept;
+    }
+
+    public void setDept(Dept dept) {
+        this.dept = dept;
     }
 }
