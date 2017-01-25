@@ -43,11 +43,11 @@ public enum ProductStatusTransfer {
     public static void checkAuthority(User user, int fromStatus, int toStatus) throws UnauthorizedException {
         ProductStatusTransfer productStatusTransfer = ProductStatusTransfer.valueOf(fromStatus, toStatus);
         if (productStatusTransfer == null)
-            throw new UnauthorizedException("Unauthorized.");
+            throw new UnauthorizedException("Undefined state transfer.");
         GrantedAuthority neededAuthority = productStatusTransfer.authority;
         Collection<? extends GrantedAuthority> userAuthorities = user.getAuthorities();
         if (userAuthorities == null || !userAuthorities.contains(neededAuthority))
-            throw new UnauthorizedException("Unauthorized.");
+            throw new UnauthorizedException("User unauthorized.");
 
     }
 }
