@@ -75,6 +75,9 @@ public class DatabaseConfig {
         return adapter;
     }
 
+    /**
+     * Transaction configuration.
+     */
     @Configuration
     @EnableTransactionManagement
     public static class TransactionConfig {
@@ -82,10 +85,14 @@ public class DatabaseConfig {
         @Autowired
         private EntityManagerFactory emf;
 
+        @Autowired
+        private DataSource dataSource;
+
         @Bean
         public PlatformTransactionManager transactionManager() {
             JpaTransactionManager transactionManager = new JpaTransactionManager();
             transactionManager.setEntityManagerFactory(emf);
+            transactionManager.setDataSource(dataSource);
             return transactionManager;
         }
     }
