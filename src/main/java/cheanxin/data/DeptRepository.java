@@ -13,4 +13,5 @@ import java.util.List;
 public interface DeptRepository extends JpaRepository<Dept, Long> {
     List<Dept> findAllByLevelAndEnabled(int level, boolean enabled);
     List<Dept> findAllByParentDeptIdAndEnabled(long parentDeptId, boolean enabled);
+    List<Dept> findAllByEnabled(boolean enabled);
 }

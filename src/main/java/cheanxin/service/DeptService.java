@@ -14,5 +14,6 @@ public interface DeptService {
     Dept findOne(long id);
     List<Dept> getDepts(Integer level, boolean enabled);
     List<Dept> getDepts(Long parentDeptId, boolean enabled);
+    List<Dept> getDepts(boolean enabled);
     boolean isExists(long id);
 }

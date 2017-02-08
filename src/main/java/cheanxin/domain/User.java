@@ -73,7 +73,8 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull
-    @Pattern(regexp = "[0-9]{6}(18|19|20)[0-9]{2}((0[0-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)[0-9]{2}[12][0-9Xx]")
+//    @Pattern(regexp = "[0-9]{6}(18|19|20)[0-9]{2}((0[0-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)[0-9]{2}[12][0-9Xx]")
+//    @Pattern(regexp = "^\\\\d{15}|^\\\\d{17}([0-9]|X|x)$")
     @Size(max = 18)
     @Column(columnDefinition = "CHAR(18) COMMENT '身份证号码'")
     // 身份证号码
@@ -114,23 +115,6 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String username, String password, String realName, Long deptId, String photo, String region, String mobileNumber, String email, String identityNumber, String identityPhoto, String address, String emergencyContact, String emergencyContactMobileNumber, Long createdTime, Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
-        this.password = password;
-        this.realName = realName;
-        this.deptId = deptId;
-        this.photo = photo;
-        this.region = region;
-        this.mobileNumber = mobileNumber;
-        this.email = email;
-        this.identityNumber = identityNumber;
-        this.identityPhoto = identityPhoto;
-        this.address = address;
-        this.emergencyContact = emergencyContact;
-        this.emergencyContactMobileNumber = emergencyContactMobileNumber;
-        this.createdTime = createdTime;
-        this.authorities = authorities;
-    }
 
     public Long getId() {
         return id;

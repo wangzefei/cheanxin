@@ -37,7 +37,7 @@ public class UserController extends BaseController {
             UriComponentsBuilder ucb) {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
-        Assert.isTrue(user.getPassword().length() <= 20, "password len greater than 20");
+//        Assert.isTrue(user.getPassword().length() <= 20, "password len greater than 20");
         Assert.isTrue(!userService.isUsernameExists(user.getUsername()), "Username already exists.");
         Assert.isTrue(!userService.isMobileNoExists(user.getMobileNumber()), "Mobile number already exists.");
 
@@ -58,6 +58,8 @@ public class UserController extends BaseController {
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
         return userService.getUsers(page, size);
     }
+
+
 
     @RequestMapping(value="/me", method=RequestMethod.GET)
     public ResponseEntity<User> me(@AuthenticationPrincipal User user) {

@@ -12,4 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long>, UserDao {
     User findByUsernameIgnoringCase(String username);
 
     User findByMobileNumber(String mobileNumber);
+    Long countAll();
 }

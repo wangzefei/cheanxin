@@ -44,6 +44,11 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
+    public List<Dept> getDepts(boolean enabled) {
+        return deptRepository.findAllByEnabled(enabled);
+    }
+
+    @Override
     public Dept save(Dept unsavedDept) {
         return save(unsavedDept, null);
     }

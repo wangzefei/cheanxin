@@ -36,6 +36,12 @@ public class DeptController extends BaseController {
 
         return deptService.getDepts(parentDeptId, enabled);
     }
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public List<Dept> getAllDepts(
+            @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
+
+        return deptService.getDepts(enabled);
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Dept> get(@PathVariable(value = "id") long id) {
@@ -46,7 +52,7 @@ public class DeptController extends BaseController {
         return new ResponseEntity<>(dept, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST ,consumes = "application/json")
     public ResponseEntity<Dept> add(
             @Valid @RequestBody Dept dept,
             Errors errors) {
@@ -62,7 +68,7 @@ public class DeptController extends BaseController {
         return new ResponseEntity<>(deptService.save(dept, parentDept), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<Dept> update(
             @PathVariable(value = "id") long id,
             @Valid @RequestBody Dept dept,

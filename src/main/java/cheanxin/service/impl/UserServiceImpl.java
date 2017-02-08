@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
     public boolean isMobileNoExists(String mobileNo) {
         return findUserByMobileNumber(mobileNo) != null;
     }
+
+    @Override
+    public Long countAll() {
+        return userRepository.countAll();
+    }
 }

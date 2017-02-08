@@ -12,7 +12,7 @@ public class UserRepositoryImpl implements UserDao {
 
     @Override
     public Long countAll() {
-        final String sql = "SELECT COUNT(1) FROM Spitter";
+        final String sql = "SELECT COUNT(1) FROM user";
         Long result = (Long) entityManager.createQuery(sql).getSingleResult();
         return result == null ? -1L : result;
     }
