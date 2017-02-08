@@ -1,30 +1,27 @@
 /*
- Navicat Premium Data Transfer
+Navicat MySQL Data Transfer
 
- Source Server         : local
- Source Server Type    : MySQL
- Source Server Version : 100110
- Source Host           : localhost
- Source Database       : cheanxin
+Source Server         : localhost
+Source Server Version : 50505
+Source Host           : localhost:3306
+Source Database       : cheanxin
 
- Target Server Type    : MySQL
- Target Server Version : 100110
- File Encoding         : utf-8
+Target Server Type    : MYSQL
+Target Server Version : 50505
+File Encoding         : 65001
 
- Date: 01/09/2017 09:23:06 AM
+Date: 2017-02-08 14:25:30
 */
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
---  Table structure for `dept`
+-- Table structure for `dept`
 -- ----------------------------
 DROP TABLE IF EXISTS `dept`;
 CREATE TABLE `dept` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
-  `dept_code` varchar(10) NOT NULL COMMENT '部门编码',
   `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `level` tinyint(1) unsigned NOT NULL COMMENT '部门层级',
   `name` varchar(50) NOT NULL COMMENT '部门名称',
@@ -34,14 +31,14 @@ CREATE TABLE `dept` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `dept`
+-- Records of dept
 -- ----------------------------
-BEGIN;
-INSERT INTO `dept` VALUES ('1', '1234567890', '001', '1', '1', '车安心', '0'), ('2', '1234567890', '002', '1', '2', '金融中心', '1'), ('3', '1234567890', '003', '1', '3', '华南', '2');
-COMMIT;
+INSERT INTO `dept` VALUES ('1', '1234567890', '1', '1', '车安心', '0');
+INSERT INTO `dept` VALUES ('2', '1234567890', '1', '2', '金融中心', '1');
+INSERT INTO `dept` VALUES ('3', '1234567890', '1', '3', '华南', '2');
 
 -- ----------------------------
---  Table structure for `loan`
+-- Table structure for `loan`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan`;
 CREATE TABLE `loan` (
@@ -67,7 +64,11 @@ CREATE TABLE `loan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_applicant`
+-- Records of loan
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_applicant`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_applicant`;
 CREATE TABLE `loan_applicant` (
@@ -113,7 +114,11 @@ CREATE TABLE `loan_applicant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_co_applicant`
+-- Records of loan_applicant
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_co_applicant`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_co_applicant`;
 CREATE TABLE `loan_co_applicant` (
@@ -138,7 +143,11 @@ CREATE TABLE `loan_co_applicant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_guarantor`
+-- Records of loan_co_applicant
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_guarantor`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_guarantor`;
 CREATE TABLE `loan_guarantor` (
@@ -151,7 +160,11 @@ CREATE TABLE `loan_guarantor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_log`
+-- Records of loan_guarantor
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_log`;
 CREATE TABLE `loan_log` (
@@ -167,7 +180,11 @@ CREATE TABLE `loan_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_source`
+-- Records of loan_log
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_source`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_source`;
 CREATE TABLE `loan_source` (
@@ -182,7 +199,11 @@ CREATE TABLE `loan_source` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `loan_vehicle`
+-- Records of loan_source
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `loan_vehicle`
 -- ----------------------------
 DROP TABLE IF EXISTS `loan_vehicle`;
 CREATE TABLE `loan_vehicle` (
@@ -203,7 +224,11 @@ CREATE TABLE `loan_vehicle` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `post`
+-- Records of loan_vehicle
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `post`
 -- ----------------------------
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
@@ -212,19 +237,19 @@ CREATE TABLE `post` (
   `enabled` tinyint(1) unsigned NOT NULL COMMENT '是否启用',
   `name` varchar(20) NOT NULL COMMENT '岗位名称',
   `post_type_id` int(10) unsigned NOT NULL COMMENT '岗位类型',
-  `serial_number` char(3) NOT NULL COMMENT '岗位编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `post`
+-- Records of post
 -- ----------------------------
-BEGIN;
-INSERT INTO `post` VALUES ('1', '1234567890', '1', '金融专员', '3', '001'), ('2', '1234567890', '1', '意向分配员', '3', '002'), ('3', '1234567890', '1', '大区经理', '2', '003'), ('4', '1234567890', '1', 'ADMIN', '0', '000');
-COMMIT;
+INSERT INTO `post` VALUES ('1', '1234567890', '1', '金融专员', '3');
+INSERT INTO `post` VALUES ('2', '1234567890', '1', '意向分配员', '3');
+INSERT INTO `post` VALUES ('3', '1234567890', '1', '大区经理', '2');
+INSERT INTO `post` VALUES ('4', '1234567890', '1', 'ADMIN', '0');
 
 -- ----------------------------
---  Table structure for `post_authority`
+-- Table structure for `post_authority`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_authority`;
 CREATE TABLE `post_authority` (
@@ -236,14 +261,13 @@ CREATE TABLE `post_authority` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `post_authority`
+-- Records of post_authority
 -- ----------------------------
-BEGIN;
-INSERT INTO `post_authority` VALUES ('1', 'ROLE_PENDING_REVIEW_TO_ACCEPTED', '4'), ('2', 'ROLE_PENDING_REVIEW_TO_REJECTED', '4');
-COMMIT;
+INSERT INTO `post_authority` VALUES ('1', 'ROLE_PENDING_REVIEW_TO_ACCEPTED', '4');
+INSERT INTO `post_authority` VALUES ('2', 'ROLE_PENDING_REVIEW_TO_REJECTED', '4');
 
 -- ----------------------------
---  Table structure for `post_type`
+-- Table structure for `post_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `post_type`;
 CREATE TABLE `post_type` (
@@ -255,14 +279,14 @@ CREATE TABLE `post_type` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `post_type`
+-- Records of post_type
 -- ----------------------------
-BEGIN;
-INSERT INTO `post_type` VALUES ('1', '高层领导岗', '1', '1'), ('2', '中层领导岗', '2', '1'), ('3', '执行岗', '3', '1');
-COMMIT;
+INSERT INTO `post_type` VALUES ('1', '高层领导岗', '1', '1');
+INSERT INTO `post_type` VALUES ('2', '中层领导岗', '2', '1');
+INSERT INTO `post_type` VALUES ('3', '执行岗', '3', '1');
 
 -- ----------------------------
---  Table structure for `product`
+-- Table structure for `product`
 -- ----------------------------
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
@@ -284,17 +308,17 @@ CREATE TABLE `product` (
   `status` tinyint(1) unsigned NOT NULL COMMENT '产品状态',
   PRIMARY KEY (`id`),
   KEY `idx_product_template_id` (`product_template_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `product`
+-- Records of product
 -- ----------------------------
-BEGIN;
-INSERT INTO `product` VALUES ('1', '6,12,24,36,48,60', '0', '1483778458', '273', '0.8000', '1', '9', '1', '1483778458', '车安心1号', '0', '1', '0', '1', '0'), ('2', '6,12,24,36', '1', '1483778588', '273', '0.8200', '1', '9', '1', '1483778659', '车安心1号', '1', '1', '1', '1', '1');
-COMMIT;
+INSERT INTO `product` VALUES ('1', '6,12,24,36,48,60', '0', '1483778458', '273', '0.8000', '1', '9', '1', '1483778458', '车安心1号', '0', '1', '0', '1', '0');
+INSERT INTO `product` VALUES ('2', '6,12,24,36', '1', '1483778588', '273', '0.8200', '1', '9', '1', '1483778659', '车安心1号', '1', '1', '1', '1', '1');
+INSERT INTO `product` VALUES ('3', '6,12', '1', '1485329343', '273', '0.8100', '1', '8', '3', '1485329343', '车安心2号', '1', '1', '1', '1', '2');
 
 -- ----------------------------
---  Table structure for `product_log`
+-- Table structure for `product_log`
 -- ----------------------------
 DROP TABLE IF EXISTS `product_log`;
 CREATE TABLE `product_log` (
@@ -307,17 +331,16 @@ CREATE TABLE `product_log` (
   PRIMARY KEY (`id`),
   KEY `idx_product_id` (`product_id`),
   KEY `idx_operator_username` (`operator_username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `product_log`
+-- Records of product_log
 -- ----------------------------
-BEGIN;
 INSERT INTO `product_log` VALUES ('1', '1483780887', '1', '273', '2', 'nice');
-COMMIT;
+INSERT INTO `product_log` VALUES ('2', '1485329395', '2', '273', '3', 'BAD');
 
 -- ----------------------------
---  Table structure for `user`
+-- Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
@@ -341,14 +364,13 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `user`
+-- Records of user
 -- ----------------------------
-BEGIN;
-INSERT INTO `user` VALUES ('1', '福州gu\'lou\'qu鼓楼区', '1483578389', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884433', '35623d53e176367d6d211f5fe56e7fb79ec90ac674eac3674c43b73198ad7088e0c93b432f54cd14', '/1/jack/avatar.jpg', '杰克', '华南', '273'), ('2', '福州gu\'lou\'qu鼓楼区', '1483772833', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884333', '27391db1a77b0a72a76073b461ba81f82d1ba02177e609adee3d92ff4947d2407d58329eb7dd49ef', '/1/jack/avatar.jpg', '杰克', '华南', '2731');
-COMMIT;
+INSERT INTO `user` VALUES ('1', '福州gu\'lou\'qu鼓楼区', '1483578389', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884433', '35623d53e176367d6d211f5fe56e7fb79ec90ac674eac3674c43b73198ad7088e0c93b432f54cd14', '/1/jack/avatar.jpg', '杰克', '华南', '273');
+INSERT INTO `user` VALUES ('2', '福州gu\'lou\'qu鼓楼区', '1483772833', '1', 'jack163@163.com', '杰克他爸', '13452457689', '24313519381214192X', '/1/jack/identity_0.jpg', '14567884333', '27391db1a77b0a72a76073b461ba81f82d1ba02177e609adee3d92ff4947d2407d58329eb7dd49ef', '/1/jack/avatar.jpg', '杰克', '华南', '2731');
 
 -- ----------------------------
---  Table structure for `user_post`
+-- Table structure for `user_post`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_post`;
 CREATE TABLE `user_post` (
@@ -361,10 +383,6 @@ CREATE TABLE `user_post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Records of `user_post`
+-- Records of user_post
 -- ----------------------------
-BEGIN;
 INSERT INTO `user_post` VALUES ('1', '1234567890', '4', '273');
-COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;

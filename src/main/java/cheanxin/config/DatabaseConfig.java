@@ -85,14 +85,10 @@ public class DatabaseConfig {
         @Autowired
         private EntityManagerFactory emf;
 
-        @Autowired
-        private DataSource dataSource;
-
         @Bean
         public PlatformTransactionManager transactionManager() {
             JpaTransactionManager transactionManager = new JpaTransactionManager();
             transactionManager.setEntityManagerFactory(emf);
-            transactionManager.setDataSource(dataSource);
             return transactionManager;
         }
     }

@@ -22,12 +22,6 @@ public class Dept {
     private Long id;
 
     @NotNull
-    @Size(min = 1, max = 10)
-    @Column(columnDefinition = "VARCHAR(10) COMMENT '部门编码'")
-    // 部门编码
-    private String deptCode;
-
-    @NotNull
     @Size(max = 50)
     @Column(columnDefinition = "VARCHAR(50) COMMENT '部门名称'")
     // 部门名称
@@ -54,29 +48,12 @@ public class Dept {
 
     public Dept() {}
 
-    public Dept(String deptCode, String name, Long parentDeptId, Integer level, Boolean enabled, Long createdTime) {
-        this.deptCode = deptCode;
-        this.name = name;
-        this.parentDeptId = parentDeptId;
-        this.level = level;
-        this.enabled = enabled;
-        this.createdTime = createdTime;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getDeptCode() {
-        return deptCode;
-    }
-
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode;
     }
 
     public String getName() {
