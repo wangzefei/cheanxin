@@ -11,7 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 273cn on 17/01/07.
@@ -39,20 +48,73 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findOne(id);
     }
 
+    private class SearchProduct {
+        private String username;
+        private long productTemplateId;
+        private String name;
+
+        public SearchProduct() {}
+
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public long getProductTemplateId() {
+            return productTemplateId;
+        }
+
+        public void setProductTemplateId(long productTemplateId) {
+            this.productTemplateId = productTemplateId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    /**
+     * generate where clause dynamically.
+     * @param searchProduct
+     * @return
+     */
+    private Specification<Product> getWhereClause(final SearchProduct searchProduct){
+        return new Specification<Product>() {
+            @Override
+            public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicate = new ArrayList<>();
+                if (searchProduct.getProductTemplateId() >= 0) {
+                    predicate.add(cb.equal(root.get("productTemplateId").as(Long.class), searchProduct.getProductTemplateId()));
+                }
+                if (searchProduct.getUsername() != null && !searchProduct.getUsername().trim().isEmpty()) {
+                    predicate.add(cb.equal(root.get("creatorUsername").as(String.class), searchProduct.getUsername()));
+                }
+                if (searchProduct.getName() != null && !searchProduct.getName().trim().isEmpty()) {
+                    predicate.add(cb.like(root.get("name").as(String.class), "%" + searchProduct.getName() + "%"));
+                }
+                Predicate[] pre = new Predicate[predicate.size()];
+                return query.where(predicate.toArray(pre)).getRestriction();
+            }
+        };
+    }
+
     @Override
     public Page<Product> getProducts(String username, long productTemplateId, String name, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
-        if (name == null || name.trim().isEmpty()) name = "";
-
-        if (username == null) {
-            if (productTemplateId < 0)
-                return productRepository.findByNameIgnoreCaseContainingAndStatus(name, status, pageable);
-            return productRepository.findByProductTemplateIdAndNameIgnoreCaseContainingAndStatus(productTemplateId, name, status, pageable);
-        }
-
-        if (productTemplateId < 0)
-            return productRepository.findByCreatorUsernameAndNameIgnoreCaseContainingAndStatus(username, name, status, pageable);
-        return productRepository.findByCreatorUsernameAndProductTemplateIdAndNameIgnoreCaseContainingAndStatus(username, productTemplateId, name, status, pageable);
+        SearchProduct searchProduct = new SearchProduct();
+        searchProduct.setName(name);
+        searchProduct.setProductTemplateId(productTemplateId);
+        searchProduct.setUsername(username);
+        Specification<Product> specification = this.getWhereClause(searchProduct);
+        return productRepository.findAll(specification, pageable);
     }
 
     @Override
@@ -61,6 +123,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Product review(User user, Product fromProduct, Product toProduct) {
         // save from status before save product.
         int fromStatus = fromProduct.getStatus().intValue();
