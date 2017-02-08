@@ -32,7 +32,7 @@ public class DatabaseConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/cheanxin?useUnicode=true&characterEncoding=UTF-8");
         dataSource.setUsername("root");
-        dataSource.setPassword("123456");
+        dataSource.setPassword("");
         dataSource.setInitialSize(5);
         dataSource.setMaxActive(10);
         return dataSource;
@@ -75,6 +75,9 @@ public class DatabaseConfig {
         return adapter;
     }
 
+    /**
+     * Transaction configuration.
+     */
     @Configuration
     @EnableTransactionManagement
     public static class TransactionConfig {
@@ -82,10 +85,14 @@ public class DatabaseConfig {
         @Autowired
         private EntityManagerFactory emf;
 
+        @Autowired
+        private DataSource dataSource;
+
         @Bean
         public PlatformTransactionManager transactionManager() {
             JpaTransactionManager transactionManager = new JpaTransactionManager();
             transactionManager.setEntityManagerFactory(emf);
+            transactionManager.setDataSource(dataSource);
             return transactionManager;
         }
     }

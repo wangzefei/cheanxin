@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -46,6 +47,11 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public List<Dept> getDepts(boolean enabled) {
         return deptRepository.findAllByEnabled(enabled);
+    }
+
+    @Override
+    public List<Dept> getDepts(Set<Long> deptIds) {
+        return deptRepository.findAllByIdIn(deptIds);
     }
 
     @Override

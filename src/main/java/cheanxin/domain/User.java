@@ -113,6 +113,10 @@ public class User implements UserDetails {
     // 用户权限
     private Collection<? extends GrantedAuthority> authorities;
 
+    @Transient
+    // 部门
+    private Dept dept;
+
     public User() {}
 
 
@@ -265,5 +269,13 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public Dept getDept() {
+        return dept;
+    }
+
+    public void setDept(Dept dept) {
+        this.dept = dept;
     }
 }

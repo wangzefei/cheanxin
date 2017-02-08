@@ -147,11 +147,11 @@
             <version>1.4.2</version>
         </dependency>
         <!--图片服务器控件-->
-        <dependency>
-            <groupId>org.csource</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <version>1.25</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.csource</groupId>-->
+            <!--<artifactId>fastdfs-client-java</artifactId>-->
+            <!--<version>1.25</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -165,10 +165,10 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupid>org.apache.maven.plugins</groupid>
-                <artifactid>maven-war-plugin</artifactid>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warname>spittr</warname>
+                    <warname>cheanxin</warname>
                     <failonmissingwebxml>false</failonmissingwebxml>
                 </configuration>
             </plugin>
