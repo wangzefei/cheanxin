@@ -16,13 +16,6 @@ public class Post {
     private Long id;
 
     @NotNull
-    @Digits(integer = 3, fraction = 0)
-    @Size(min = 3, max = 3)
-    @Column(columnDefinition = "CHAR(3) COMMENT '岗位编号'")
-    // 岗位编号
-    private String serialNumber;
-
-    @NotNull
     @Size(min = 3, max = 20)
     @Column(columnDefinition = "VARCHAR(20) COMMENT '岗位名称'")
     // 岗位名称
@@ -49,28 +42,12 @@ public class Post {
 
     public Post() {}
 
-    public Post(String serialNumber, String name, Long postTypeId, Boolean enabled, Long createdTime) {
-        this.serialNumber = serialNumber;
-        this.name = name;
-        this.postTypeId = postTypeId;
-        this.enabled = enabled;
-        this.createdTime = createdTime;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
     }
 
     public String getName() {
