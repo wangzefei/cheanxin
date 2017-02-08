@@ -17,6 +17,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by 273cn on 16/12/14.
@@ -36,7 +37,17 @@ public class PostController extends BaseController {
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled,
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
-        return postService.getPosts(name, enabled, page, size);
+        Page<Post> posts = postService.getPosts(name, enabled, page, size);
+        List<Post> postList = posts.getContent();
+        List<PostType> postTypeList = postTypeService.getPostTypes(true);
+        for (Post post:postList){
+            for (PostType postType:postTypeList){
+                if (post.getPostTypeId() == postType.getId()){
+                    post.setPostType(postType.getName());
+                }
+            }
+        }
+        return posts;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")

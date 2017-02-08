@@ -43,6 +43,10 @@ public class Post {
     // 创建时间
     private Long createdTime;
 
+    @Transient
+    // 岗位类型
+    private String postType;
+
     public Post() {}
 
     public Post(String serialNumber, String name, Long postTypeId, Boolean enabled, Long createdTime) {
@@ -99,5 +103,13 @@ public class Post {
 
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public String getPostType() {
+        return postType;
+    }
+
+    public void setPostType(String postType) {
+        this.postType = postType;
     }
 }

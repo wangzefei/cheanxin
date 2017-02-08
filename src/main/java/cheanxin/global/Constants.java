@@ -23,7 +23,7 @@ public class Constants {
 
     // query constants
     public static final String DEFAULT_PAGE = "0";
-    public static final String DEFAULT_SIZE = "20";
+    public static final String DEFAULT_SIZE = "10";
 
     // security constants
     public static final String REALM = "cheanxin";

@@ -24,4 +24,5 @@ public interface UserService {
     boolean isUsernameExists(String username);
 
     boolean isMobileNoExists(String mobileNo);
+    Long countAll();
 }
