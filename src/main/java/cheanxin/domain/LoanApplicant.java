@@ -203,44 +203,44 @@ public class LoanApplicant {
 
     public LoanApplicant() {}
 
-    public LoanApplicant(String name, Integer marriage, Integer certificateType, String certificateNumber, Integer gender, String birthYearMonth, String qualification, String mobileNumber, String census, String address, Long incomePerMonth, String telephone, String employerName, String employerTelephone, String employerAddress, String employerType, String employerIndustry, String post, String occupation, Integer workYears, String position, String jobTitle, String postAddress, String firstEmergencyContact, String firstEmergencyContactRelationship, String firstEmergencyContactMobileNumber, String firstEmergencyContactAddress, String secondEmergencyContact, String secondEmergencyContactRelationship, String secondEmergencyContactMobileNumber, String secondEmergencyContactAddress, String certificateFileIds, String qualificationFileIds, String incomeFileIds, String estateFileIds, String vehicleFileIds, String otherFileIds) {
-        this.name = name;
-        this.marriage = marriage;
-        this.certificateType = certificateType;
-        this.certificateNumber = certificateNumber;
-        this.gender = gender;
-        this.birthYearMonth = birthYearMonth;
-        this.qualification = qualification;
-        this.mobileNumber = mobileNumber;
-        this.census = census;
-        this.address = address;
-        this.incomePerMonth = incomePerMonth;
-        this.telephone = telephone;
-        this.employerName = employerName;
-        this.employerTelephone = employerTelephone;
-        this.employerAddress = employerAddress;
-        this.employerType = employerType;
-        this.employerIndustry = employerIndustry;
-        this.post = post;
-        this.occupation = occupation;
-        this.workYears = workYears;
-        this.position = position;
-        this.jobTitle = jobTitle;
-        this.postAddress = postAddress;
-        this.firstEmergencyContact = firstEmergencyContact;
-        this.firstEmergencyContactRelationship = firstEmergencyContactRelationship;
-        this.firstEmergencyContactMobileNumber = firstEmergencyContactMobileNumber;
-        this.firstEmergencyContactAddress = firstEmergencyContactAddress;
-        this.secondEmergencyContact = secondEmergencyContact;
-        this.secondEmergencyContactRelationship = secondEmergencyContactRelationship;
-        this.secondEmergencyContactMobileNumber = secondEmergencyContactMobileNumber;
-        this.secondEmergencyContactAddress = secondEmergencyContactAddress;
-        this.certificateFileIds = certificateFileIds;
-        this.qualificationFileIds = qualificationFileIds;
-        this.incomeFileIds = incomeFileIds;
-        this.estateFileIds = estateFileIds;
-        this.vehicleFileIds = vehicleFileIds;
-        this.otherFileIds = otherFileIds;
+    public LoanApplicant(LoanDraft loanDraft) {
+        this.name = loanDraft.getApplicantName();
+        this.marriage = loanDraft.getApplicantMarriage();
+        this.certificateType = loanDraft.getApplicantCertificateType();
+        this.certificateNumber = loanDraft.getApplicantCertificateNumber();
+        this.gender = loanDraft.getApplicantGender();
+        this.birthYearMonth = loanDraft.getApplicantBirthYearMonth();
+        this.qualification = loanDraft.getApplicantQualification();
+        this.mobileNumber = loanDraft.getApplicantMobileNumber();
+        this.census = loanDraft.getApplicantCensus();
+        this.address = loanDraft.getApplicantAddress();
+        this.incomePerMonth = loanDraft.getApplicantIncomePerMonth();
+        this.telephone = loanDraft.getApplicantTelephone();
+        this.employerName = loanDraft.getApplicantEmployerName();
+        this.employerTelephone = loanDraft.getApplicantEmployerTelephone();
+        this.employerAddress = loanDraft.getApplicantEmployerAddress();
+        this.employerType = loanDraft.getApplicantEmployerType();
+        this.employerIndustry = loanDraft.getApplicantEmployerIndustry();
+        this.post = loanDraft.getApplicantPost();
+        this.occupation = loanDraft.getApplicantOccupation();
+        this.workYears = loanDraft.getApplicantWorkYears();
+        this.position = loanDraft.getApplicantPosition();
+        this.jobTitle = loanDraft.getApplicantJobTitle();
+        this.postAddress = loanDraft.getApplicantPostAddress();
+        this.firstEmergencyContact = loanDraft.getApplicantFirstEmergencyContact();
+        this.firstEmergencyContactRelationship = loanDraft.getApplicantFirstEmergencyContactRelationship();
+        this.firstEmergencyContactMobileNumber = loanDraft.getApplicantFirstEmergencyContactMobileNumber();
+        this.firstEmergencyContactAddress = loanDraft.getApplicantFirstEmergencyContactAddress();
+        this.secondEmergencyContact = loanDraft.getApplicantSecondEmergencyContact();
+        this.secondEmergencyContactRelationship = loanDraft.getApplicantSecondEmergencyContactRelationship();
+        this.secondEmergencyContactMobileNumber = loanDraft.getApplicantSecondEmergencyContactMobileNumber();
+        this.secondEmergencyContactAddress = loanDraft.getApplicantSecondEmergencyContactAddress();
+        this.certificateFileIds = loanDraft.getApplicantCertificateFileIds();
+        this.qualificationFileIds = loanDraft.getApplicantQualificationFileIds();
+        this.incomeFileIds = loanDraft.getApplicantIncomeFileIds();
+        this.estateFileIds = loanDraft.getApplicantEstateFileIds();
+        this.vehicleFileIds = loanDraft.getApplicantVehicleFileIds();
+        this.otherFileIds = loanDraft.getApplicantOtherFileIds();
     }
 
     public Long getId() {

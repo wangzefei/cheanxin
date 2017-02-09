@@ -9,18 +9,20 @@ import java.util.Collection;
 
 
 /**
- * Created by 273cn on 17/1/3.
+ * Created by Jawinton on 17/02/09.
  */
-public enum ProductStatusTransfer {
-    PENDING_REVIEW_TO_ACCEPTED(1, ProductStatus.PENDING_REVIEW, ProductStatus.ACCEPTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_ACCEPTED.name())),
-    PENDING_REVIEW_TO_REJECTED(2, ProductStatus.PENDING_REVIEW, ProductStatus.REJECTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_REJECTED.name()));
+public enum LoanDraftStatusTransfer {
+    FIRST_DRAFT_TO_FIRST_DRAFT(1, LoanDraftStatus.FIRST_DRAFT, LoanDraftStatus.FIRST_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_FIRST_DRAFT.name())),
+    FIRST_DRAFT_TO_SECOND_DRAFT(2, LoanDraftStatus.FIRST_DRAFT, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_SECOND_DRAFT.name())),
+    SECOND_DRAFT_TO_SECOND_DRAFT(3, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_SECOND_DRAFT.name())),
+    SECOND_DRAFT_TO_LOAN(4, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.LOAN, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_LOAN.name()));
 
     private final int value;
-    private final ProductStatus fromStatus;
-    private final ProductStatus toStatus;
+    private final LoanDraftStatus fromStatus;
+    private final LoanDraftStatus toStatus;
     private final GrantedAuthority authority;
 
-    ProductStatusTransfer(int value, ProductStatus fromStatus, ProductStatus toStatus, GrantedAuthority authority) {
+    LoanDraftStatusTransfer(int value, LoanDraftStatus fromStatus, LoanDraftStatus toStatus, GrantedAuthority authority) {
         this.value = value;
         this.fromStatus = fromStatus;
         this.toStatus = toStatus;
@@ -31,8 +33,8 @@ public enum ProductStatusTransfer {
         return value;
     }
 
-    public static ProductStatusTransfer valueOf(int fromStatus, int toStatus) {
-        for (ProductStatusTransfer productStatusTransfer : ProductStatusTransfer.values()) {
+    public static LoanDraftStatusTransfer valueOf(int fromStatus, int toStatus) {
+        for (LoanDraftStatusTransfer productStatusTransfer : LoanDraftStatusTransfer.values()) {
             if (productStatusTransfer.fromStatus.value() == fromStatus && productStatusTransfer.toStatus.value() == toStatus)
                 return productStatusTransfer;
         }
@@ -40,7 +42,7 @@ public enum ProductStatusTransfer {
     }
 
     public static void checkAuthority(User user, int fromStatus, int toStatus) throws UnauthorizedException {
-        ProductStatusTransfer productStatusTransfer = ProductStatusTransfer.valueOf(fromStatus, toStatus);
+        LoanDraftStatusTransfer productStatusTransfer = LoanDraftStatusTransfer.valueOf(fromStatus, toStatus);
         if (productStatusTransfer == null)
             throw new UnauthorizedException("Undefined state transfer.");
         GrantedAuthority neededAuthority = productStatusTransfer.authority;

@@ -39,10 +39,10 @@ public class LoanGuarantor {
 
     public LoanGuarantor() {}
 
-    public LoanGuarantor(String incomeFileIds, String estateFileIds, String otherFileIds) {
-        this.incomeFileIds = incomeFileIds;
-        this.estateFileIds = estateFileIds;
-        this.otherFileIds = otherFileIds;
+    public LoanGuarantor(LoanDraft loanDraft) {
+        this.incomeFileIds = loanDraft.getGuarantorIncomeFileIds();
+        this.estateFileIds = loanDraft.getGuarantorEstateFileIds();
+        this.otherFileIds = loanDraft.getGuarantorOtherFileIds();
     }
 
     public Long getId() {

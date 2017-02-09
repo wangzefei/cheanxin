@@ -9,18 +9,19 @@ import java.util.Collection;
 
 
 /**
- * Created by 273cn on 17/1/3.
+ * Created by Jawinton on 17/02/09.
  */
-public enum ProductStatusTransfer {
-    PENDING_REVIEW_TO_ACCEPTED(1, ProductStatus.PENDING_REVIEW, ProductStatus.ACCEPTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_ACCEPTED.name())),
-    PENDING_REVIEW_TO_REJECTED(2, ProductStatus.PENDING_REVIEW, ProductStatus.REJECTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_REJECTED.name()));
+public enum LoanStatusTransfer {
+    FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_PENDING(1, LoanStatus.FIRST_REVIEW_PENDING, LoanStatus.FIRST_REVIEW_PENDING, new SimpleGrantedAuthority(Authority.ROLE_FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_PENDING.name())),
+    FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_ACCEPTED(1, LoanStatus.FIRST_REVIEW_PENDING, LoanStatus.FIRST_REVIEW_ACCEPTED, new SimpleGrantedAuthority(Authority.ROLE_FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_ACCEPTED.name())),
+    FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_REJECTED(1, LoanStatus.FIRST_REVIEW_PENDING, LoanStatus.FIRST_REVIEW_REJECTED, new SimpleGrantedAuthority(Authority.ROLE_FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_REJECTED.name()));
 
     private final int value;
-    private final ProductStatus fromStatus;
-    private final ProductStatus toStatus;
+    private final LoanStatus fromStatus;
+    private final LoanStatus toStatus;
     private final GrantedAuthority authority;
 
-    ProductStatusTransfer(int value, ProductStatus fromStatus, ProductStatus toStatus, GrantedAuthority authority) {
+    LoanStatusTransfer(int value, LoanStatus fromStatus, LoanStatus toStatus, GrantedAuthority authority) {
         this.value = value;
         this.fromStatus = fromStatus;
         this.toStatus = toStatus;
@@ -31,8 +32,8 @@ public enum ProductStatusTransfer {
         return value;
     }
 
-    public static ProductStatusTransfer valueOf(int fromStatus, int toStatus) {
-        for (ProductStatusTransfer productStatusTransfer : ProductStatusTransfer.values()) {
+    public static LoanStatusTransfer valueOf(int fromStatus, int toStatus) {
+        for (LoanStatusTransfer productStatusTransfer : LoanStatusTransfer.values()) {
             if (productStatusTransfer.fromStatus.value() == fromStatus && productStatusTransfer.toStatus.value() == toStatus)
                 return productStatusTransfer;
         }
@@ -40,7 +41,7 @@ public enum ProductStatusTransfer {
     }
 
     public static void checkAuthority(User user, int fromStatus, int toStatus) throws UnauthorizedException {
-        ProductStatusTransfer productStatusTransfer = ProductStatusTransfer.valueOf(fromStatus, toStatus);
+        LoanStatusTransfer productStatusTransfer = LoanStatusTransfer.valueOf(fromStatus, toStatus);
         if (productStatusTransfer == null)
             throw new UnauthorizedException("Undefined state transfer.");
         GrantedAuthority neededAuthority = productStatusTransfer.authority;

@@ -1,7 +1,9 @@
 package cheanxin.service.impl;
 
+import cheanxin.data.LoanRepository;
 import cheanxin.domain.Loan;
 import cheanxin.service.LoanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,13 +11,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoanServiceImpl implements LoanService {
+    @Autowired
+    LoanRepository loanRepository;
+
     @Override
     public Loan save(Loan unsavedLoan) {
-        return null;
+        return loanRepository.save(unsavedLoan);
     }
 
     @Override
     public Loan findOne(long id) {
-        return null;
+        return loanRepository.getOne(id);
     }
 }

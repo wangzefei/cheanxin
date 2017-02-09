@@ -99,23 +99,23 @@ public class LoanCoApplicant {
 
     public LoanCoApplicant() {}
 
-    public LoanCoApplicant(String name, Integer certificateType, String certificateNumber, String mobileNumber, String qualification, String census, String address, Long incomePerMonth, String telephone, String employerName, String employerTelephone, String employerAddress, String certificateFileIds, String incomeFileIds, String estateFileIds, String otherFileIds) {
-        this.name = name;
-        this.certificateType = certificateType;
-        this.certificateNumber = certificateNumber;
-        this.mobileNumber = mobileNumber;
-        this.qualification = qualification;
-        this.census = census;
-        this.address = address;
-        this.incomePerMonth = incomePerMonth;
-        this.telephone = telephone;
-        this.employerName = employerName;
-        this.employerTelephone = employerTelephone;
-        this.employerAddress = employerAddress;
-        this.certificateFileIds = certificateFileIds;
-        this.incomeFileIds = incomeFileIds;
-        this.estateFileIds = estateFileIds;
-        this.otherFileIds = otherFileIds;
+    public LoanCoApplicant(LoanDraft loanDraft) {
+        this.name = loanDraft.getCoApplicantName();
+        this.certificateType = loanDraft.getCoApplicantCertificateType();
+        this.certificateNumber = loanDraft.getCoApplicantCertificateNumber();
+        this.mobileNumber = loanDraft.getCoApplicantMobileNumber();
+        this.qualification = loanDraft.getCoApplicantQualification();
+        this.census = loanDraft.getCoApplicantCensus();
+        this.address = loanDraft.getCoApplicantAddress();
+        this.incomePerMonth = loanDraft.getCoApplicantIncomePerMonth();
+        this.telephone = loanDraft.getCoApplicantTelephone();
+        this.employerName = loanDraft.getCoApplicantEmployerName();
+        this.employerTelephone = loanDraft.getCoApplicantEmployerTelephone();
+        this.employerAddress = loanDraft.getCoApplicantEmployerAddress();
+        this.certificateFileIds = loanDraft.getCoApplicantCertificateFileIds();
+        this.incomeFileIds = loanDraft.getCoApplicantIncomeFileIds();
+        this.estateFileIds = loanDraft.getCoApplicantEstateFileIds();
+        this.otherFileIds = loanDraft.getCoApplicantOtherFileIds();
     }
 
     public Long getId() {

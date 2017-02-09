@@ -54,13 +54,13 @@ public class LoanSource {
 
     public LoanSource() {}
 
-    public LoanSource(String financialCommissioner, String receiver, Long cityId, Integer applicationSource, String sourcePersonName, String sourcePersonTel) {
-        this.financialCommissioner = financialCommissioner;
-        this.receiver = receiver;
-        this.cityId = cityId;
-        this.applicationSource = applicationSource;
-        this.sourcePersonName = sourcePersonName;
-        this.sourcePersonTel = sourcePersonTel;
+    public LoanSource(LoanDraft loanDraft) {
+        this.financialCommissioner = loanDraft.getSourceFinancialCommissioner();
+        this.receiver = loanDraft.getSourceReceiver();
+        this.cityId = loanDraft.getSourceCityId();
+        this.applicationSource = loanDraft.getSourceApplicationSource();
+        this.sourcePersonName = loanDraft.getSourceSourcePersonName();
+        this.sourcePersonTel = loanDraft.getSourceSourcePersonTel();
     }
 
     public Long getId() {

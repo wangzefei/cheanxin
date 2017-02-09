@@ -87,19 +87,19 @@ public class LoanVehicle {
 
     public LoanVehicle() {}
 
-    public LoanVehicle(String vin, String manufacturers, String brand, String series, String productionYearMonth, String registrationYearMonth, Float kilometers, String utilityType, String emission, String registrationCertificateFileIds, String licenseFileIds, String vehicleFileIds) {
-        this.vin = vin;
-        this.manufacturers = manufacturers;
-        this.brand = brand;
-        this.series = series;
-        this.productionYearMonth = productionYearMonth;
-        this.registrationYearMonth = registrationYearMonth;
-        this.kilometers = kilometers;
-        this.utilityType = utilityType;
-        this.emission = emission;
-        this.registrationCertificateFileIds = registrationCertificateFileIds;
-        this.licenseFileIds = licenseFileIds;
-        this.vehicleFileIds = vehicleFileIds;
+    public LoanVehicle(LoanDraft loanDraft) {
+        this.vin = loanDraft.getVehicleVin();
+        this.manufacturers = loanDraft.getVehicleManufacturers();
+        this.brand = loanDraft.getVehicleBrand();
+        this.series = loanDraft.getVehicleSeries();
+        this.productionYearMonth = loanDraft.getVehicleProductionYearMonth();
+        this.registrationYearMonth = loanDraft.getVehicleRegistrationYearMonth();
+        this.kilometers = loanDraft.getVehicleKilometers();
+        this.utilityType = loanDraft.getVehicleUtilityType();
+        this.emission = loanDraft.getVehicleEmission();
+        this.registrationCertificateFileIds = loanDraft.getVehicleRegistrationCertificateFileIds();
+        this.licenseFileIds = loanDraft.getVehicleLicenseFileIds();
+        this.vehicleFileIds = loanDraft.getVehicleVehicleFileIds();
     }
 
     public Long getId() {

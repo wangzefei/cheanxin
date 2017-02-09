@@ -34,7 +34,7 @@ public class Loan {
     @Min(1)
     @Max(360)
     @Column(columnDefinition = "SMALLINT(3) UNSIGNED COMMENT '贷款期数'")
-    private Integer loadTerms;
+    private Integer loanTerms;
 
     @NotNull
     @Digits(integer = 2, fraction = 4)
@@ -84,6 +84,17 @@ public class Loan {
 
     public Loan() {}
 
+    public Loan(LoanDraft loanDraft) {
+        this.vehicleDealPrice = loanDraft.getVehicleDealPrice();
+        this.productId = loanDraft.getProductId();
+        this.loanRate = loanDraft.getLoanRate();
+        this.loanTerms = loanDraft.getLoanTerms();
+        this.loanMonthlyInterestRate = loanDraft.getLoanMonthlyInterestRate();
+        this.prepaymentPenaltyRate = loanDraft.getPrepaymentPenaltyRate();
+        this.applicationPicUrl = loanDraft.getApplicationPicUrl();
+        this.remark = loanDraft.getRemark();
+    }
+
     public Long getId() {
         return id;
     }
@@ -116,12 +127,12 @@ public class Loan {
         this.loanRate = loanRate;
     }
 
-    public Integer getLoadTerms() {
-        return loadTerms;
+    public Integer getLoanTerms() {
+        return loanTerms;
     }
 
-    public void setLoadTerms(Integer loadTerms) {
-        this.loadTerms = loadTerms;
+    public void setLoanTerms(Integer loanTerms) {
+        this.loanTerms = loanTerms;
     }
 
     public Float getLoanMonthlyInterestRate() {
