@@ -7,112 +7,82 @@ import javax.validation.constraints.*;
  * Created by 273cn on 16/12/30.
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_product_id", columnList = "productId")})
+@Table(indexes = {@Index(name = "idx_product_id", columnList = "productId"), @Index(name = "idx_created_time", columnList = "createdTime")})
 public class Loan {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
-    // 自增id
     private Long id;
 
+    @NotNull
     @Min(0)
     @Max(Integer.MAX_VALUE)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '车辆成交价格'")
     private Integer vehicleDealPrice;
 
-    // 产品id，如果为空表示为该贷款为意向贷款
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品id，如果为空表示为该贷款为意向贷款'")
+    @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品id'")
     private Long productId;
 
-    @Size(max = 50)
-    @Column(columnDefinition = "VARCHAR(50) COMMENT '产品名称'")
-    // 产品名称
-    private String productName;
-
-    @Min(1)
-    @Max(16)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '产品类型'")
-    // 产品类型
-    private Integer productType;
-
+    @NotNull
     @Min(1)
     @Max(10)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款比率'")
-    // 贷款比率
     private Integer loanRate;
 
+    @NotNull
     @Min(1)
     @Max(360)
     @Column(columnDefinition = "SMALLINT(3) UNSIGNED COMMENT '贷款期数'")
-    // 贷款期数
     private Integer loadTerms;
 
+    @NotNull
     @Digits(integer = 2, fraction = 4)
     @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '贷款月利率'")
-    // 贷款月利率
     private Float loanMonthlyInterestRate;
+
+    @NotNull
+    @Digits(integer = 2, fraction = 4)
+    @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '提前还款违约金比例'")
+    private Float prepaymentPenaltyRate;
 
     @Size(max = 1000)
     @Column(columnDefinition = "VARCHAR(1000) COMMENT '申请图片列表'")
-    // 申请图片列表
     private String applicationPicUrl;
 
     @Size(max = 255)
     @Column(columnDefinition = "VARCHAR(255) COMMENT '备注'")
-    // 备注
     private String remark;
 
+    @NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款来源id'")
-    // 贷款来源id
     private Long extSourceId;
 
+    @NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款申请人id'")
-    // 贷款申请人id
     private Long extApplicantId;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款共同申请人id'")
-    // 贷款共同申请人id
     private Long extCoApplicantId;
 
+
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款担保人id'")
-    // 贷款担保人id
     private Long extGuarantorId;
 
+    @NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款车辆id'")
-    // 贷款车辆id
     private Long extVehicleId;
 
     @NotNull
     @Min(0)
     @Max(32)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款状态'")
-    // 贷款状态
     private Integer status;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款创建时间'")
-    // 贷款创建时间
     private Long createdTime;
 
     public Loan() {}
-
-    public Loan(Integer vehicleDealPrice, Long productId, String productName, Integer productType, Integer loanRate, Integer loadTerms, Float loanMonthlyInterestRate, String applicationPicUrl, String remark, Long extSourceId, Long extApplicantId, Long extCoApplicantId, Long extGuarantorId, Long extVehicleId, Integer status, Long createdTime) {
-        this.vehicleDealPrice = vehicleDealPrice;
-        this.productId = productId;
-        this.productName = productName;
-        this.productType = productType;
-        this.loanRate = loanRate;
-        this.loadTerms = loadTerms;
-        this.loanMonthlyInterestRate = loanMonthlyInterestRate;
-        this.applicationPicUrl = applicationPicUrl;
-        this.remark = remark;
-        this.extSourceId = extSourceId;
-        this.extApplicantId = extApplicantId;
-        this.extCoApplicantId = extCoApplicantId;
-        this.extGuarantorId = extGuarantorId;
-        this.extVehicleId = extVehicleId;
-        this.status = status;
-        this.createdTime = createdTime;
-    }
 
     public Long getId() {
         return id;
@@ -138,22 +108,6 @@ public class Loan {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getProductType() {
-        return productType;
-    }
-
-    public void setProductType(Integer productType) {
-        this.productType = productType;
-    }
-
     public Integer getLoanRate() {
         return loanRate;
     }
@@ -176,6 +130,14 @@ public class Loan {
 
     public void setLoanMonthlyInterestRate(Float loanMonthlyInterestRate) {
         this.loanMonthlyInterestRate = loanMonthlyInterestRate;
+    }
+
+    public Float getPrepaymentPenaltyRate() {
+        return prepaymentPenaltyRate;
+    }
+
+    public void setPrepaymentPenaltyRate(Float prepaymentPenaltyRate) {
+        this.prepaymentPenaltyRate = prepaymentPenaltyRate;
     }
 
     public String getApplicationPicUrl() {

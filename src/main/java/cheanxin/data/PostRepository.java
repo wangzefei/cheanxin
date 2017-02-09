@@ -16,4 +16,6 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     Page<Post> findByNameIgnoreCaseContainingAndEnabled(String name, boolean enabled, Pageable pageable);
 
     Page<Post> findByEnabled(boolean enabled, Pageable pageable);
+
+    List<Post> findByEnabled(boolean enabled);
 }
