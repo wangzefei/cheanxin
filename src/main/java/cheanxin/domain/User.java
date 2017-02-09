@@ -105,6 +105,10 @@ public class User implements UserDetails {
     // 紧急联系人手机号码
     private String emergencyContactMobileNumber;
 
+    @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED DEFAULT TRUE COMMENT '是否启用'")
+    private Boolean enabled;
+
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     // 创建时间
     private Long createdTime;
@@ -112,6 +116,9 @@ public class User implements UserDetails {
     @Transient
     // 用户权限
     private Collection<? extends GrantedAuthority> authorities;
+
+    @Transient
+    private Collection<? extends Post> posts;
 
     @Transient
     // 部门
@@ -224,6 +231,14 @@ public class User implements UserDetails {
         this.emergencyContactMobileNumber = emergencyContactMobileNumber;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public Long getCreatedTime() {
         return createdTime;
     }
@@ -263,12 +278,20 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public Collection<? extends Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Collection<? extends Post> posts) {
+        this.posts = posts;
     }
 
     public Dept getDept() {

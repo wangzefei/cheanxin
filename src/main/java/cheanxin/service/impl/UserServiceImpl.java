@@ -2,9 +2,13 @@ package cheanxin.service.impl;
 
 import cheanxin.data.UserRepository;
 import cheanxin.domain.Dept;
+import cheanxin.domain.Post;
 import cheanxin.domain.User;
+import cheanxin.domain.UserPost;
 import cheanxin.global.Constants;
 import cheanxin.service.DeptService;
+import cheanxin.service.PostService;
+import cheanxin.service.UserPostService;
 import cheanxin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +28,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     DeptService deptService;
+
+    @Autowired
+    UserPostService userPostService;
+
+    @Autowired
+    PostService postService;
 
     @Override
     public User findUserByUsername(String username) {
@@ -57,6 +67,15 @@ public class UserServiceImpl implements UserService {
         }
         for (User user : userPage) {
             user.setDept(deptMap.get(user.getDeptId()));
+
+            // get user posts
+            List<UserPost> userPostList = userPostService.getUserPostList(user.getUsername());
+            Map<Long, Post> postMap = postService.getPosts(true);
+            Collection<Post> posts = new ArrayList<>();
+            for (UserPost userPost : userPostList) {
+                posts.add(postMap.get(userPost.getPostId()));
+            }
+            user.setPosts(posts);
         }
 
         return userPage;

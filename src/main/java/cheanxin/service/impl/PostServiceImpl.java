@@ -1,19 +1,17 @@
 package cheanxin.service.impl;
 
 import cheanxin.data.PostRepository;
-import cheanxin.data.PostTypeRepository;
 import cheanxin.domain.Post;
-import cheanxin.domain.PostType;
-import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.service.PostService;
-import cheanxin.service.PostTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -50,5 +48,15 @@ public class PostServiceImpl implements PostService {
             return postRepository.findByEnabled(enabled, pageable);
         }
         return postRepository.findByNameIgnoreCaseContainingAndEnabled(name, enabled, pageable);
+    }
+
+    @Override
+    public Map<Long, Post> getPosts(boolean enabled) {
+        List<Post> postList = postRepository.findByEnabled(enabled);
+        Map<Long, Post> postMap = new HashMap<>();
+        for (Post post : postList) {
+            postMap.put(post.getId(), post);
+        }
+        return postMap;
     }
 }

@@ -85,7 +85,7 @@ public class LoanApplicant {
     private String telephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "INT(10) COMMENT '工作单位名称'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '工作单位名称'")
     private String employerName;
 
     @Size(max = 20)
