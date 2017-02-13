@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  * 贷款操作日志
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_uid", columnList = "operatorUid")})
+@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_username", columnList = "operatorUsername")})
 public class LoanLog {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -25,9 +25,8 @@ public class LoanLog {
     private Long loanId;
 
     @NotNull
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '操作人uid'")
-    // 操作人uid
-    private Long operatorUid;
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '操作人username'")
+    private String operatorUsername;
 
     @NotNull
     @Min(0)
@@ -47,9 +46,9 @@ public class LoanLog {
 
     public LoanLog() {}
 
-    public LoanLog(Long loanId, Long operatorUid, Integer operatorType, String remark, Long createdTime) {
+    public LoanLog(Long loanId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
         this.loanId = loanId;
-        this.operatorUid = operatorUid;
+        this.operatorUsername = operatorUsername;
         this.operatorType = operatorType;
         this.remark = remark;
         this.createdTime = createdTime;
@@ -71,12 +70,12 @@ public class LoanLog {
         this.loanId = loanId;
     }
 
-    public Long getOperatorUid() {
-        return operatorUid;
+    public String getOperatorUsername() {
+        return operatorUsername;
     }
 
-    public void setOperatorUid(Long operatorUid) {
-        this.operatorUid = operatorUid;
+    public void setOperatorUsername(String operatorUsername) {
+        this.operatorUsername = operatorUsername;
     }
 
     public Integer getOperatorType() {

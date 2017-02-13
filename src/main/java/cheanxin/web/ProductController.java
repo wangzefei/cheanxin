@@ -3,10 +3,6 @@ package cheanxin.web;
 import cheanxin.domain.Product;
 import cheanxin.domain.User;
 import cheanxin.enums.*;
-import cheanxin.exceptions.ForbiddenException;
-import cheanxin.exceptions.InvalidArgumentException;
-import cheanxin.exceptions.ResourceNotFoundException;
-import cheanxin.exceptions.UnauthorizedException;
 import cheanxin.global.Constants;
 import cheanxin.service.ProductService;
 import cheanxin.util.StringUtil;
@@ -34,7 +30,7 @@ public class ProductController extends BaseController {
     public Page<Product> getProducts(
             @RequestParam(value = "productTemplateId", defaultValue = "-1") long productTemplateId,
             @RequestParam(value = "name", defaultValue = "") String name,
-            @RequestParam(value = "status", defaultValue = "0") int status,
+            @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
         return productService.getProducts(productTemplateId, name, status, page, size);
@@ -80,7 +76,7 @@ public class ProductController extends BaseController {
         // attributes below can not be modified.
         unsavedProduct.setId(id);
         unsavedProduct.setProductTemplateId(savedProduct.getProductTemplateId());
-        unsavedProduct.setStatus(unsavedProduct.getStatus());
+        unsavedProduct.setStatus(savedProduct.getStatus());
         unsavedProduct.setModifiedTime(System.currentTimeMillis() / 1000);
         unsavedProduct.setCreatorUsername(savedProduct.getCreatorUsername());
         unsavedProduct.setCreatedTime(savedProduct.getCreatedTime());
@@ -102,19 +98,19 @@ public class ProductController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Product> updateStatus(
+    public ResponseEntity<Product> patch(
             @PathVariable(value = "id") long id,
-            @RequestBody Product unsaveProduct,
+            @RequestBody Product unsavedProduct,
             @AuthenticationPrincipal User user) {
-        Assert.isTrue(unsaveProduct.getRemark() != null && !unsaveProduct.getRemark().trim().isEmpty(), "Remark should not be empty.");
+        Assert.isTrue(unsavedProduct.getRemark() != null && !unsavedProduct.getRemark().trim().isEmpty(), "Remark should not be empty.");
 
         Product savedProduct = productService.findOne(id);
 
         Assert.notNull(savedProduct, "Product not found");
         Assert.isTrue(savedProduct.getProductTemplateId() != 0L, "Product template shouldn't be reviewed.");
-        ProductStatusTransfer.checkAuthority(user, savedProduct.getStatus().intValue(), unsaveProduct.getStatus().intValue());
+        ProductStatusTransfer.checkAuthority(user, savedProduct.getStatus().intValue(), unsavedProduct.getStatus().intValue());
 
-        return new ResponseEntity<>(productService.review(user, savedProduct, unsaveProduct), HttpStatus.OK);
+        return new ResponseEntity<>(productService.review(user, savedProduct, unsavedProduct), HttpStatus.OK);
     }
 
     private Product save(Product product) {

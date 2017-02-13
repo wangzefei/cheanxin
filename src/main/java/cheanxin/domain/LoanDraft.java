@@ -7,7 +7,7 @@ import javax.validation.constraints.*;
  * Created by Jawinton on 17/02/08.
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_creator_username", columnList = "creatorUsername"), @Index(name = "idx_updated_time", columnList = "updatedTime")})
+@Table(indexes = {@Index(name = "idx_creator_username", columnList = "creatorUsername"), @Index(name = "idx_modified_time", columnList = "modifiedTime")})
 public class LoanDraft {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class LoanDraft {
     private Integer vehicleDealPrice;
 
     //@NotNull
-    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id，如果为空表示为该贷款为意向贷款'")
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id'")
     private Long productId;
 
     //@NotNull
@@ -45,12 +45,17 @@ public class LoanDraft {
     @Min(1)
     @Max(360)
     @Column(columnDefinition = "SMALLINT(3) UNSIGNED DEFAULT NULL COMMENT '贷款期数'")
-    private Integer loadTerms;
+    private Integer loanTerms;
 
     //@NotNull
     @Digits(integer = 2, fraction = 4)
     @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED DEFAULT NULL COMMENT '贷款月利率'")
     private Float loanMonthlyInterestRate;
+
+    //@NotNull
+    @Digits(integer = 2, fraction = 4)
+    @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED COMMENT '提前还款违约金比例'")
+    private Float prepaymentPenaltyRate;
 
     //@NotNull
     @Size(max = 1000)
@@ -401,7 +406,7 @@ public class LoanDraft {
     private Long createdTime;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '修改时间'")
-    private Long updatedTime;
+    private Long modifiedTime;
 
     @Size(min = 3, max = 20)
     @Column(columnDefinition = "VARCHAR(20) COMMENT '创建贷款草稿用户'")
@@ -457,12 +462,12 @@ public class LoanDraft {
         this.loanRate = loanRate;
     }
 
-    public Integer getLoadTerms() {
-        return loadTerms;
+    public Integer getLoanTerms() {
+        return loanTerms;
     }
 
-    public void setLoadTerms(Integer loadTerms) {
-        this.loadTerms = loadTerms;
+    public void setLoanTerms(Integer loanTerms) {
+        this.loanTerms = loanTerms;
     }
 
     public Float getLoanMonthlyInterestRate() {
@@ -471,6 +476,14 @@ public class LoanDraft {
 
     public void setLoanMonthlyInterestRate(Float loanMonthlyInterestRate) {
         this.loanMonthlyInterestRate = loanMonthlyInterestRate;
+    }
+
+    public Float getPrepaymentPenaltyRate() {
+        return prepaymentPenaltyRate;
+    }
+
+    public void setPrepaymentPenaltyRate(Float prepaymentPenaltyRate) {
+        this.prepaymentPenaltyRate = prepaymentPenaltyRate;
     }
 
     public String getApplicationPicUrl() {
@@ -1105,12 +1118,12 @@ public class LoanDraft {
         this.createdTime = createdTime;
     }
 
-    public Long getUpdatedTime() {
-        return updatedTime;
+    public Long getModifiedTime() {
+        return modifiedTime;
     }
 
-    public void setUpdatedTime(Long updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setModifiedTime(Long modifiedTime) {
+        this.modifiedTime = modifiedTime;
     }
 
     public String getCreatorUsername() {

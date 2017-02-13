@@ -1,28 +1,72 @@
 package cheanxin.service.impl;
 
-import cheanxin.domain.Loan;
-import cheanxin.domain.LoanDraft;
-import cheanxin.service.LoanDraftService;
+import cheanxin.data.LoanDraftRepository;
+import cheanxin.domain.*;
+import cheanxin.enums.LoanStatus;
+import cheanxin.enums.LoanStatusTransfer;
+import cheanxin.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by 273cn on 17/02/08.
  */
 @Service
 public class LoanDraftServiceImpl implements LoanDraftService {
+    @Autowired
+    private LoanDraftRepository loanDraftRepository;
+
+    @Autowired
+    private LoanService loanService;
+
+    @Autowired
+    private LoanLogService loanLogService;
+    
     @Override
     public LoanDraft save(LoanDraft unsavedLoanDraft) {
-        return null;
+        return loanDraftRepository.save(unsavedLoanDraft);
     }
 
     @Override
     public LoanDraft findOne(long id) {
-        return null;
+        return loanDraftRepository.getOne(id);
     }
 
     @Override
     public Page<LoanDraft> getLoanDrafts(String creatorUsername, int page, int size) {
-        return null;
+        Pageable pageRequest = new PageRequest(page, size);
+        if (creatorUsername == null) {
+            return loanDraftRepository.findAll(pageRequest);
+        }
+        return loanDraftRepository.findByCreatorUsername(creatorUsername, pageRequest);
+    }
+
+    @Override
+    public void delete(long id) {
+        loanDraftRepository.delete(id);
+    }
+
+    @Override
+    @Transactional
+    public void transferToLoan(User user, LoanDraft loanDraft) {
+        Loan unsavedLoan = new Loan(loanDraft);
+        unsavedLoan.setStatus(LoanStatus.FIRST_REVIEW_PENDING.value());
+        unsavedLoan.setCreatedTime(loanDraft.getModifiedTime());
+        unsavedLoan.setCreatorUsername(user.getUsername());
+        Loan savedLoan = loanService.save(unsavedLoan);
+
+        LoanLog loanLog = new LoanLog(
+                savedLoan.getId(),
+                user.getUsername(),
+                LoanStatusTransfer.FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_PENDING.getValue(),
+                savedLoan.getRemark(),
+                loanDraft.getModifiedTime());
+        loanLogService.save(loanLog);
+
+        delete(loanDraft.getId());
     }
 }
