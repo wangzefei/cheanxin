@@ -1,9 +1,6 @@
 package cheanxin.web;
 
 import cheanxin.domain.Dept;
-import cheanxin.exceptions.ErrorResponse;
-import cheanxin.exceptions.InvalidArgumentException;
-import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,27 +22,27 @@ public class DeptController extends BaseController {
     private DeptService deptService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Dept> getDepts(
+    public List<Dept> list(
             @RequestParam(value = "level", defaultValue = "1") int level,
             @RequestParam(value = "parentDeptId", defaultValue = "0") long parentDeptId,
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
         Assert.isTrue(level == 1 || parentDeptId == 0, "level and parentDeptId are exclusive.");
 
         if (level != 1)
-            return deptService.getDepts(level, enabled);
+            return deptService.list(level, enabled);
 
-        return deptService.getDepts(parentDeptId, enabled);
+        return deptService.list(parentDeptId, enabled);
     }
     @RequestMapping(value = "/all",method = RequestMethod.GET)
-    public List<Dept> getAllDepts(
+    public List<Dept> listAll(
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
 
-        return deptService.getDepts(enabled);
+        return deptService.list(enabled);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Dept> get(@PathVariable(value = "id") long id) {
-        Dept dept = deptService.findOne(id);
+        Dept dept = deptService.getOne(id);
 
         Assert.notNull(dept, "Dept not found");
 
@@ -53,7 +50,7 @@ public class DeptController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST ,consumes = "application/json")
-    public ResponseEntity<Dept> add(
+    public ResponseEntity<Dept> save(
             @Valid @RequestBody Dept dept,
             Errors errors) {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
@@ -62,7 +59,7 @@ public class DeptController extends BaseController {
         if (dept.getParentDeptId() == 0L)
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
 
-        Dept parentDept = deptService.findOne(dept.getParentDeptId());
+        Dept parentDept = deptService.getOne(dept.getParentDeptId());
         Assert.notNull(parentDept, "Parent dept not found");
 
         return new ResponseEntity<>(deptService.save(dept, parentDept), HttpStatus.CREATED);
@@ -82,7 +79,7 @@ public class DeptController extends BaseController {
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.OK);
         }
 
-        Dept parentDept = deptService.findOne(dept.getParentDeptId());
+        Dept parentDept = deptService.getOne(dept.getParentDeptId());
         Assert.notNull(parentDept, "Parent dept not found");
 
         dept.setId(id);
@@ -90,15 +87,15 @@ public class DeptController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") long id) {
-        deptService.delete(id);
+    public void remove(@PathVariable(value = "id") long id) {
+        deptService.remove(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Dept> enableOrDisableDept(
+    public ResponseEntity<Dept> patch(
             @PathVariable(value = "id") long id,
             @RequestBody Dept dept) {
-        Dept unsavedDept = deptService.findOne(id);
+        Dept unsavedDept = deptService.getOne(id);
 
         Assert.notNull(unsavedDept, "Dept not found");
         Assert.notNull(dept.getEnabled(), "Field enabled is empty.");

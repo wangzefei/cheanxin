@@ -17,7 +17,7 @@ public class UserPostServiceImpl implements UserPostService {
     UserPostRepository userPostRepository;
 
     @Override
-    public List<UserPost> getUserPostList(String username) {
+    public List<UserPost> list(String username) {
         return userPostRepository.findByUsername(username);
     }
 }

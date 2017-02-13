@@ -32,12 +32,12 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     }
 
     @Override
-    public LoanDraft findOne(long id) {
+    public LoanDraft getOne(long id) {
         return loanDraftRepository.getOne(id);
     }
 
     @Override
-    public Page<LoanDraft> getLoanDrafts(String creatorUsername, int page, int size) {
+    public Page<LoanDraft> list(String creatorUsername, int page, int size) {
         Pageable pageRequest = new PageRequest(page, size);
         if (creatorUsername == null) {
             return loanDraftRepository.findAll(pageRequest);
@@ -46,7 +46,7 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         loanDraftRepository.delete(id);
     }
 
@@ -67,6 +67,6 @@ public class LoanDraftServiceImpl implements LoanDraftService {
                 loanDraft.getModifiedTime());
         loanLogService.save(loanLog);
 
-        delete(loanDraft.getId());
+        remove(loanDraft.getId());
     }
 }

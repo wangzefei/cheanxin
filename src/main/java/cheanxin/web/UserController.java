@@ -1,10 +1,6 @@
 package cheanxin.web;
 
 import cheanxin.domain.User;
-import cheanxin.exceptions.ErrorResponse;
-import cheanxin.exceptions.InvalidArgumentException;
-import cheanxin.exceptions.ResourceConflictException;
-import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.global.Constants;
 import cheanxin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +27,7 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<User> add(
+    public ResponseEntity<User> save(
             @Valid @RequestBody User user,
             Errors errors,
             UriComponentsBuilder ucb) {
@@ -53,22 +49,22 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public Page<User> allUsers(
+    public Page<User> list(
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
-        return userService.getUsers(page, size);
+        return userService.list(page, size);
     }
 
 
 
     @RequestMapping(value="/me", method=RequestMethod.GET)
-    public ResponseEntity<User> me(@AuthenticationPrincipal User user) {
-        return profile(user.getUsername());
+    public ResponseEntity<User> get(@AuthenticationPrincipal User user) {
+        return get(user.getUsername());
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<User> profile(@PathVariable String username) {
-        User user = userService.findUserByUsername(username);
+    public ResponseEntity<User> get(@PathVariable String username) {
+        User user = userService.getByUsername(username);
         Assert.notNull(user, "User not found.");
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

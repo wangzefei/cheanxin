@@ -27,24 +27,24 @@ public class ProductController extends BaseController {
     private ProductService productService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Product> getProducts(
+    public Page<Product> list(
             @RequestParam(value = "productTemplateId", defaultValue = "-1") long productTemplateId,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
-        return productService.getProducts(productTemplateId, name, status, page, size);
+        return productService.list(productTemplateId, name, status, page, size);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Product> get(@PathVariable(value = "id") long id) {
-        Product product = productService.findOne(id);
+        Product product = productService.getOne(id);
         Assert.notNull(product, "Product not found.");
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Product> add(
+    public ResponseEntity<Product> save(
             @Valid @RequestBody Product unsavedProduct,
             Errors errors,
             @AuthenticationPrincipal User user) {
@@ -68,7 +68,7 @@ public class ProductController extends BaseController {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
 
-        Product savedProduct = productService.findOne(id);
+        Product savedProduct = productService.getOne(id);
         Assert.notNull(savedProduct, "Product not found.");
         Assert.isTrue(savedProduct.getStatus().intValue() == ProductStatus.PENDING_REVIEW.value(), "Only product of status pending review can be modified.");
         Assert.isTrue(savedProduct.getCreatorUsername().equals(user.getUsername()), "Current user is not owner of this product.");
@@ -85,16 +85,16 @@ public class ProductController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(
+    public void remove(
             @PathVariable(value = "id") long id,
             @AuthenticationPrincipal User user) {
-        Product savedProduct = productService.findOne(id);
+        Product savedProduct = productService.getOne(id);
 
         Assert.notNull(savedProduct);
         Assert.isTrue(user.getUsername().equals(savedProduct.getCreatorUsername()), "You are not the owner of this product");
         Assert.isTrue(!productService.hasChildProducts(savedProduct), "This product template already has child product.");
 
-        productService.delete(id);
+        productService.remove(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
@@ -104,7 +104,7 @@ public class ProductController extends BaseController {
             @AuthenticationPrincipal User user) {
         Assert.isTrue(unsavedProduct.getRemark() != null && !unsavedProduct.getRemark().trim().isEmpty(), "Remark should not be empty.");
 
-        Product savedProduct = productService.findOne(id);
+        Product savedProduct = productService.getOne(id);
 
         Assert.notNull(savedProduct, "Product not found");
         Assert.isTrue(savedProduct.getProductTemplateId() != 0L, "Product template shouldn't be reviewed.");
@@ -124,7 +124,7 @@ public class ProductController extends BaseController {
             product.setCityId(0L);
         } else {
             long productTemplateId = product.getProductTemplateId().longValue();
-            Product productTemplate = productService.findOne(productTemplateId);
+            Product productTemplate = productService.getOne(productTemplateId);
 
             Assert.notNull(productTemplate, "Product template not found.");
 

@@ -19,5 +19,5 @@ import java.util.List;
  * Created by 273cn on 16/12/21.
  */
 public interface PostAuthorityService extends UserDetailsService {
-    public List<PostAuthority> getPostAuthorityList(Collection<Long> postIds);
+    public List<PostAuthority> list(Collection<Long> postIds);
 }

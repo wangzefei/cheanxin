@@ -11,11 +11,11 @@ import java.util.Set;
 public interface DeptService {
     Dept save(Dept unsavedDept);
     Dept save(Dept unsavedDept, Dept parentDept);
-    void delete(long id);
-    Dept findOne(long id);
-    List<Dept> getDepts(Integer level, boolean enabled);
-    List<Dept> getDepts(Long parentDeptId, boolean enabled);
-    List<Dept> getDepts(boolean enabled);
-    List<Dept> getDepts(Set<Long> deptIds);
+    void remove(long id);
+    Dept getOne(long id);
+    List<Dept> list(Integer level, boolean enabled);
+    List<Dept> list(Long parentDeptId, boolean enabled);
+    List<Dept> list(boolean enabled);
+    List<Dept> list(Set<Long> deptIds);
     boolean isExists(long id);
 }

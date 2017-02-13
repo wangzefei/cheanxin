@@ -27,22 +27,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         postRepository.delete(id);
     }
 
     @Override
-    public Post findOne(long id) {
+    public Post getOne(long id) {
         return postRepository.findOne(id);
     }
 
     @Override
     public boolean isExists(long id) {
-        return findOne(id) != null;
+        return getOne(id) != null;
     }
 
     @Override
-    public Page<Post> getPosts(String name, boolean enabled, int page, int size) {
+    public Page<Post> list(String name, boolean enabled, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
         if (name == null || name.trim().isEmpty()) {
             return postRepository.findByEnabled(enabled, pageable);
@@ -51,7 +51,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Map<Long, Post> getPosts(boolean enabled) {
+    public Map<Long, Post> listPostMap(boolean enabled) {
         List<Post> postList = postRepository.findByEnabled(enabled);
         Map<Long, Post> postMap = new HashMap<>();
         for (Post post : postList) {
