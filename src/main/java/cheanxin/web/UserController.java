@@ -1,6 +1,6 @@
 package cheanxin.web;
 
-import cheanxin.constant.ConfigConstants;
+import cheanxin.constant.LogicConstants;
 import cheanxin.domain.User;
 import cheanxin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,8 @@ public class UserController extends BaseController {
 
     @RequestMapping(method=RequestMethod.GET)
     public Page<User> list(
-            @RequestParam(value = "page", defaultValue = ConfigConstants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = ConfigConstants.DEFAULT_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
+            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
         return userService.list(page, size);
     }
 

@@ -1,8 +1,8 @@
 package cheanxin.web;
 
+import cheanxin.constant.LogicConstants;
 import cheanxin.domain.Post;
 import cheanxin.domain.PostType;
-import cheanxin.constant.ConfigConstants;
 import cheanxin.service.PostService;
 import cheanxin.service.PostTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class PostController extends BaseController {
     public Page<Post> list(
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled,
-            @RequestParam(value = "page", defaultValue = ConfigConstants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = ConfigConstants.DEFAULT_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
+            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
         Page<Post> posts = postService.list(name, enabled, page, size);
         List<Post> postList = posts.getContent();
         List<PostType> postTypeList = postTypeService.list(true);

@@ -15,10 +15,6 @@ public class ConfigConstants {
     public static final String SIM = "sim";
     public static final String PROD = "prod";
 
-    // query constants
-    public static final String DEFAULT_PAGE = "0";
-    public static final String DEFAULT_SIZE = "10";
-
     // security constants
     public static final String REALM = "cheanxin";
     public static final String RESOURCE_ID = "cheanxin_rest_resource";
