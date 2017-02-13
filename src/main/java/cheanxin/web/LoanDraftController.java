@@ -1,9 +1,9 @@
 package cheanxin.web;
 
+import cheanxin.constant.ConfigConstants;
 import cheanxin.domain.LoanDraft;
 import cheanxin.domain.User;
 import cheanxin.enums.*;
-import cheanxin.global.Constants;
 import cheanxin.service.LoanDraftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +28,8 @@ public class LoanDraftController extends BaseController {
     @RequestMapping(method = RequestMethod.GET)
     public Page<LoanDraft> getLoanDrafts(
             @RequestParam(value = "creatorUsername", defaultValue = "") String creatorUsername,
-            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = ConfigConstants.DEFAULT_PAGE) int page,
+            @RequestParam(value = "size", defaultValue = ConfigConstants.DEFAULT_SIZE) int size) {
         if (creatorUsername == null || creatorUsername.isEmpty())
             creatorUsername = null;
         return loanDraftService.list(creatorUsername, page, size);

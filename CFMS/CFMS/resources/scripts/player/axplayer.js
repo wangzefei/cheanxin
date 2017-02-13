@@ -23,14 +23,14 @@ function setUpController() {
 
     //-----------------------------------------
     //Global Var array, getLinkUrl function and setGlobalVar listener are
-    //for use in setting global vars in page url string when clicking a 
+    //for use in setting constant vars in page url string when clicking a 
     //page in the sitemap
     //-----------------------------------------
     var _globalVars = {};
 
     //-----------------------------------------
     //Used by getLinkUrl below to check if local server is running 
-    //in order to send back the global variables as a query string
+    //in order to send back the constant variables as a query string
     //in the page url
     //-----------------------------------------
     var _shouldSendVarsToServer = function () {

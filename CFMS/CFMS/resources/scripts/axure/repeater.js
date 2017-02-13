@@ -16,7 +16,7 @@ $axure.internal(function($ax) {
     //Hopefully this can be simplified, but for now I think 3 are needed.
     //This is the data set that is owned by this repeater. The repeater may or may not reference this data set, and others can reference it.
     var repeaterToLocalDataSet = {};
-    //This is the data set referenced by the repeater. It is not a copy of the local data set, but a reference to a local data set (or eventually a global data set could be referenced).
+    //This is the data set referenced by the repeater. It is not a copy of the local data set, but a reference to a local data set (or eventually a constant data set could be referenced).
     var repeaterToCurrentDataSet = {};
     //This is a copy of the current data set, that is replaced whenever a set or refresh is done.
     var repeaterToActiveDataSet = {};
@@ -59,7 +59,7 @@ $axure.internal(function($ax) {
 
     var repeatersHaveNewDataSet = [];
     var _setRepeaterDataSet = function(repeaterId, dataSetId) {
-        //TODO: No idea about how global data sets will be handled...
+        //TODO: No idea about how constant data sets will be handled...
         repeaterToCurrentDataSet[repeaterId] = repeaterToLocalDataSet[dataSetId];
         repeaterToActiveDataSet[repeaterId] = getActiveDataSet(repeaterId);
         repeaterToFilters[repeaterId] = [];

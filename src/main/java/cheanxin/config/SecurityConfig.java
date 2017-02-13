@@ -1,7 +1,7 @@
 package cheanxin.config;
 
 import cheanxin.exceptions.ErrorResponse;
-import cheanxin.global.Constants;
+import cheanxin.constant.ConfigConstants;
 import cheanxin.service.PostAuthorityService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(postAuthorityService)
-        .passwordEncoder(new StandardPasswordEncoder(Constants.PASSWORD_SECRET));
+        .passwordEncoder(new StandardPasswordEncoder(ConfigConstants.PASSWORD_SECRET));
     }
 
     @Override
@@ -125,7 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         public void afterPropertiesSet() throws Exception {
-            setRealmName(Constants.REALM);
+            setRealmName(ConfigConstants.REALM);
             super.afterPropertiesSet();
         }
     }

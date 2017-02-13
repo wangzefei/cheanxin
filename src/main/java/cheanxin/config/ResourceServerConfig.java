@@ -1,14 +1,12 @@
 package cheanxin.config;
 
-import cheanxin.global.Constants;
+import cheanxin.constant.ConfigConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
-
-import static org.springframework.http.HttpMethod.GET;
 
 /**
  * Created by 273cn on 16/12/24.
@@ -18,7 +16,7 @@ import static org.springframework.http.HttpMethod.GET;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
-        resources.resourceId(Constants.RESOURCE_ID).stateless(false);
+        resources.resourceId(ConfigConstants.RESOURCE_ID).stateless(false);
     }
 
     @Override

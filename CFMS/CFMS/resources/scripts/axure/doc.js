@@ -708,7 +708,7 @@
 
     /**
     Sets a variable.
-    # name: The name of the global variable to set
+    # name: The name of the constant variable to set
     # value: The value that should be set
     */
     $ax.public.setGlobalVariable = $ax.setGlobalVariable = function(name, value) {
@@ -720,8 +720,8 @@
     };
 
     /**
-    Gets the value of a global variable
-    # name: The name of the global variable value to get
+    Gets the value of a constant variable
+    # name: The name of the constant variable value to get
     */
     $ax.public.getGlobalVariable = $ax.getGlobalVariable = function(name) {
         $ax.globalVariableProvider.getVariableValue(name);

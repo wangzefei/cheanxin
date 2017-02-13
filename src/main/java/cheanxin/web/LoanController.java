@@ -3,7 +3,7 @@ package cheanxin.web;
 import cheanxin.domain.Loan;
 import cheanxin.domain.User;
 import cheanxin.enums.LoanStatusTransfer;
-import cheanxin.global.Constants;
+import cheanxin.constant.ConfigConstants;
 import cheanxin.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,8 +30,8 @@ public class LoanController extends BaseController {
             @RequestParam(value = "createdTimeFrom", defaultValue = "0L") long createdTimeFrom,
             @RequestParam(value = "createdTimeTo", defaultValue = "0L") long createdTimeTo,
             @RequestParam(value = "status", defaultValue = "-1") int status,
-            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = ConfigConstants.DEFAULT_PAGE) int page,
+            @RequestParam(value = "size", defaultValue = ConfigConstants.DEFAULT_SIZE) int size) {
         return loanService.list(financialCommissioner, applicantName, applicantMobileNumber, createdTimeFrom, createdTimeTo, status, page, size);
     }
 
