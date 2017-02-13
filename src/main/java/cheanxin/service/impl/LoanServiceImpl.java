@@ -42,6 +42,59 @@ public class LoanServiceImpl implements LoanService {
         return loanRepository.getOne(id);
     }
 
+    @Override
+    public Page<Loan> list(String financialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
+        Pageable pageable = new PageRequest(page, size);
+        LoanServiceImpl.SearchLoan searchLoan = new LoanServiceImpl.SearchLoan();
+        searchLoan.setFinancialCommissioner(financialCommissioner);
+        searchLoan.setApplicantName(applicantName);
+        searchLoan.setApplicantMobileNumber(applicantMobileNumber);
+        searchLoan.setCreatedTimeFrom(createdTimeFrom);
+        searchLoan.setCreatedTimeTo(createdTimeTo);
+        Specification<Loan> specification = this.getWhereClause(searchLoan);
+        return loanRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    @Transactional
+    public Loan updateStatus(User user, Loan fromLoan, Loan toLoan) {
+        // save from status before save loan.
+        int fromStatus = fromLoan.getStatus().intValue();
+        int toStatus = toLoan.getStatus().intValue();
+
+        LoanStatusTransfer loanStatusTransfer = LoanStatusTransfer.valueOf(fromStatus, toStatus);
+
+        if (loanStatusTransfer == LoanStatusTransfer.FIRST_REVIEW_REJECTED_TO_FIRST_REVIEW_PENDING) {
+            fromLoan = new Loan(toLoan);
+        }
+
+        if (loanStatusTransfer == LoanStatusTransfer.SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING) {
+            fromLoan = new Loan(toLoan);
+        }
+
+        if (loanStatusTransfer == LoanStatusTransfer.CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING) {
+            fromLoan.setProductId(toLoan.getProductId());
+            fromLoan.setLoanRate(toLoan.getLoanRate());
+            fromLoan.setLoanTerms(toLoan.getLoanTerms());
+            fromLoan.setLoanMonthlyInterestRate(toLoan.getLoanMonthlyInterestRate());
+            fromLoan.setPrepaymentPenaltyRate(toLoan.getPrepaymentPenaltyRate());
+        }
+
+        fromLoan.setStatus(toStatus);
+        Loan savedLoan = save(fromLoan);
+
+        // save loan operation log.
+        LoanLog loanLog = new LoanLog(
+                savedLoan.getId(),
+                user.getUsername(),
+                loanStatusTransfer.getValue(),
+                toLoan.getRemark(),
+                System.currentTimeMillis() / 1000);
+        loanLogService.save(loanLog);
+
+        return savedLoan;
+    }
+
     private class SearchLoan {
         private String financialCommissioner;
         private String applicantName;
@@ -133,58 +186,5 @@ public class LoanServiceImpl implements LoanService {
                 return query.where(predicate.toArray(pre)).getRestriction();
             }
         };
-    }
-
-    @Override
-    public Page<Loan> list(String financialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
-        Pageable pageable = new PageRequest(page, size);
-        LoanServiceImpl.SearchLoan searchLoan = new LoanServiceImpl.SearchLoan();
-        searchLoan.setFinancialCommissioner(financialCommissioner);
-        searchLoan.setApplicantName(applicantName);
-        searchLoan.setApplicantMobileNumber(applicantMobileNumber);
-        searchLoan.setCreatedTimeFrom(createdTimeFrom);
-        searchLoan.setCreatedTimeTo(createdTimeTo);
-        Specification<Loan> specification = this.getWhereClause(searchLoan);
-        return loanRepository.findAll(specification, pageable);
-    }
-
-    @Override
-    @Transactional
-    public Loan updateStatus(User user, Loan fromLoan, Loan toLoan) {
-        // save from status before save loan.
-        int fromStatus = fromLoan.getStatus().intValue();
-        int toStatus = toLoan.getStatus().intValue();
-
-        LoanStatusTransfer loanStatusTransfer = LoanStatusTransfer.valueOf(fromStatus, toStatus);
-
-        if (loanStatusTransfer == LoanStatusTransfer.FIRST_REVIEW_REJECTED_TO_FIRST_REVIEW_PENDING) {
-            fromLoan = new Loan(toLoan);
-        }
-
-        if (loanStatusTransfer == LoanStatusTransfer.SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING) {
-            fromLoan = new Loan(toLoan);
-        }
-
-        if (loanStatusTransfer == LoanStatusTransfer.CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING) {
-            fromLoan.setProductId(toLoan.getProductId());
-            fromLoan.setLoanRate(toLoan.getLoanRate());
-            fromLoan.setLoanTerms(toLoan.getLoanTerms());
-            fromLoan.setLoanMonthlyInterestRate(toLoan.getLoanMonthlyInterestRate());
-            fromLoan.setPrepaymentPenaltyRate(toLoan.getPrepaymentPenaltyRate());
-        }
-
-        fromLoan.setStatus(toStatus);
-        Loan savedLoan = save(fromLoan);
-
-        // save loan operation log.
-        LoanLog loanLog = new LoanLog(
-                savedLoan.getId(),
-                user.getUsername(),
-                loanStatusTransfer.getValue(),
-                toLoan.getRemark(),
-                System.currentTimeMillis() / 1000);
-        loanLogService.save(loanLog);
-
-        return savedLoan;
     }
 }

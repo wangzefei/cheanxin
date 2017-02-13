@@ -48,6 +48,16 @@ public class Dept {
 
     public Dept() {}
 
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentDeptId=" + parentDeptId +
+                ", level=" + level +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -94,15 +104,5 @@ public class Dept {
 
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Dept{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", parentDeptId=" + parentDeptId +
-                ", level=" + level +
-                '}';
     }
 }

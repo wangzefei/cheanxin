@@ -34,6 +34,15 @@ public class PostAuthority implements GrantedAuthority {
 
     public PostAuthority() {}
 
+    @Override
+    public String toString() {
+        return "PostAuthority{" +
+                "id=" + id +
+                ", postId=" + postId +
+                ", authority='" + authority + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -57,14 +66,5 @@ public class PostAuthority implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return authority;
-    }
-
-    @Override
-    public String toString() {
-        return "PostAuthority{" +
-                "id=" + id +
-                ", postId=" + postId +
-                ", authority='" + authority + '\'' +
-                '}';
     }
 }

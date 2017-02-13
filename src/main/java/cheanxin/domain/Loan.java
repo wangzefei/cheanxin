@@ -585,6 +585,18 @@ public class Loan {
         this.creatorUsername = that.getCreatorUsername();
     }
 
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", applicantName='" + applicantName + '\'' +
+                ", loanRate=" + loanRate +
+                ", loanTerms=" + loanTerms +
+                ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -1287,17 +1299,5 @@ public class Loan {
 
     public void setCreatorUsername(String creatorUsername) {
         this.creatorUsername = creatorUsername;
-    }
-
-    @Override
-    public String toString() {
-        return "Loan{" +
-                "id=" + id +
-                ", productId=" + productId +
-                ", applicantName='" + applicantName + '\'' +
-                ", loanRate=" + loanRate +
-                ", loanTerms=" + loanTerms +
-                ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
-                '}';
     }
 }
