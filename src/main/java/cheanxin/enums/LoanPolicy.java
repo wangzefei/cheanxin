@@ -4,8 +4,8 @@ package cheanxin.enums;
  * Created by 273cn on 17/1/3.
  */
 public enum LoanPolicy {
-    AFTER_TRANSFER(1, "过户后放款"),
-    AFTER_MORTGAGE(2, "抵押后放款");
+    AFTER_TRANSFER(0, "过户后放款"),
+    AFTER_MORTGAGE(1, "抵押后放款");
 
     private final int value;
     private final String desc;
