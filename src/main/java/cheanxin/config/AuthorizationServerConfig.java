@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import cheanxin.domain.OAuth2Client;
-import cheanxin.global.Constants;
+import cheanxin.constant.ConfigConstants;
 
 /**
  * Created by 273cn on 16/12/24.
@@ -34,7 +34,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         ClientDetailsServiceBuilder csb = clients.inMemory();
-        for (OAuth2Client client : Constants.O_AUTH2_CLIENTS) {
+        for (OAuth2Client client : ConfigConstants.O_AUTH2_CLIENTS) {
             csb.withClient(client.getId())
                     .secret(client.getSecret())
                     .authorizedGrantTypes(client.getGrantTypes())
@@ -55,7 +55,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.realm(Constants.REALM);
-//        oauthServer.realm(Constants.REALM).sslOnly();
+        oauthServer.realm(ConfigConstants.REALM);
+//        oauthServer.realm(ConfigConstants.REALM).sslOnly();
     }
 }

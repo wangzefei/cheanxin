@@ -1,7 +1,7 @@
 package cheanxin.domain;
 
 
-import cheanxin.global.Constants;
+import cheanxin.constant.LogicConstants;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -33,7 +33,7 @@ public class Dept {
     private Long parentDeptId;
 
     @Min(1)
-    @Max(Constants.DEPT_MAX_LEVEL)
+    @Max(LogicConstants.DEPT_MAX_LEVEL)
     @Column(columnDefinition = "TINYINT(1) UNSIGNED NOT NULL COMMENT '部门层级'")
     private Integer level;
 

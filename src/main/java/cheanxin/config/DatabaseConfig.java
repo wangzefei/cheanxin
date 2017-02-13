@@ -1,5 +1,6 @@
 package cheanxin.config;
 
+import cheanxin.constant.ConfigConstants;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,6 @@ import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import cheanxin.global.Constants;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -26,7 +26,7 @@ import java.util.Properties;
 @EnableJpaRepositories(basePackages= "cheanxin.data")
 public class DatabaseConfig {
     @Bean
-    @Profile(Constants.DEV)
+    @Profile(ConfigConstants.DEV)
     public DataSource devDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
@@ -39,7 +39,7 @@ public class DatabaseConfig {
     }
 
     @Bean
-    @Profile(Constants.QA)
+    @Profile(ConfigConstants.QA)
     public DataSource qaDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");

@@ -1,8 +1,8 @@
 package cheanxin.config;
 
+import cheanxin.constant.ConfigConstants;
 import cheanxin.filter.SimpleCORSFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import cheanxin.global.Constants;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
@@ -30,8 +30,8 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("spring.profiles.default", Constants.DEV);
-        servletContext.setInitParameter("spring.profiles.active", Constants.DEV);
+        servletContext.setInitParameter("spring.profiles.default", ConfigConstants.DEV);
+        servletContext.setInitParameter("spring.profiles.active", ConfigConstants.DEV);
         FilterRegistration.Dynamic simpleCORSFilter = servletContext.addFilter("simpleCORSFilter", SimpleCORSFilter.class);
         simpleCORSFilter.setInitParameter("encoding", String.valueOf(StandardCharsets.UTF_8));
         simpleCORSFilter.addMappingForUrlPatterns(null, false, "/*");

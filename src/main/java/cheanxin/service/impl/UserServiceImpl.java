@@ -1,11 +1,11 @@
 package cheanxin.service.impl;
 
+import cheanxin.constant.ConfigConstants;
 import cheanxin.data.UserRepository;
 import cheanxin.domain.Dept;
 import cheanxin.domain.Post;
 import cheanxin.domain.User;
 import cheanxin.domain.UserPost;
-import cheanxin.global.Constants;
 import cheanxin.service.DeptService;
 import cheanxin.service.PostService;
 import cheanxin.service.UserPostService;
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         // encode password.
-        user.setPassword(new StandardPasswordEncoder(Constants.PASSWORD_SECRET).encode(user.getPassword()));
+        user.setPassword(new StandardPasswordEncoder(ConfigConstants.PASSWORD_SECRET).encode(user.getPassword()));
         return userRepository.save(user);
     }
 

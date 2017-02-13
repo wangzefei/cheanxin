@@ -1,9 +1,8 @@
 package cheanxin.util;
 
-import cheanxin.global.Constants;
+import cheanxin.constant.UtilConstants;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -62,12 +61,12 @@ public class StringUtil {
      * @return
      */
     public static boolean containsAll(String string1, String string2) {
-        String[] strings = string1.trim().split(Constants.STRING_ARRAY_SEPARATOR);
+        String[] strings = string1.trim().split(UtilConstants.STRING_ARRAY_SEPARATOR);
         Set<String> stringSet = new HashSet<>(strings.length);
         for (String string : strings) {
             stringSet.add(string);
         }
-        for (String string : string2.trim().split(Constants.STRING_ARRAY_SEPARATOR)) {
+        for (String string : string2.trim().split(UtilConstants.STRING_ARRAY_SEPARATOR)) {
             if (!stringSet.contains(string))
                 return false;
         }

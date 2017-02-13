@@ -1,9 +1,9 @@
 package cheanxin.web;
 
+import cheanxin.constant.LogicConstants;
 import cheanxin.domain.Product;
 import cheanxin.domain.User;
 import cheanxin.enums.*;
-import cheanxin.global.Constants;
 import cheanxin.service.ProductService;
 import cheanxin.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class ProductController extends BaseController {
             @RequestParam(value = "productTemplateId", defaultValue = "-1") long productTemplateId,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "status", defaultValue = "-1") int status,
-            @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
+            @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
+            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
         return productService.list(productTemplateId, name, status, page, size);
     }
 
