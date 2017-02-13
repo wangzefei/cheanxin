@@ -1,13 +1,10 @@
 package cheanxin.web;
 
 import cheanxin.domain.LoanDraft;
-import cheanxin.domain.Product;
 import cheanxin.domain.User;
 import cheanxin.enums.*;
 import cheanxin.global.Constants;
 import cheanxin.service.LoanDraftService;
-import cheanxin.service.ProductService;
-import cheanxin.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -35,7 +32,7 @@ public class LoanDraftController extends BaseController {
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
         if (creatorUsername == null || creatorUsername.isEmpty())
             creatorUsername = null;
-        return loanDraftService.getLoanDrafts(creatorUsername, page, size);
+        return loanDraftService.list(creatorUsername, page, size);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -65,7 +62,7 @@ public class LoanDraftController extends BaseController {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
 
-        LoanDraft savedLoanDraft = loanDraftService.findOne(id);
+        LoanDraft savedLoanDraft = loanDraftService.getOne(id);
         Assert.notNull(savedLoanDraft, "Loan draft not found.");
 
         LoanDraftStatusTransfer.checkAuthority(user, savedLoanDraft.getStatus(), unsavedLoanDraft.getStatus());
@@ -123,11 +120,11 @@ public class LoanDraftController extends BaseController {
     public void delete(
             @PathVariable(value = "id") long id,
             @AuthenticationPrincipal User user) {
-        LoanDraft savedLoanDraft = loanDraftService.findOne(id);
+        LoanDraft savedLoanDraft = loanDraftService.getOne(id);
 
         Assert.notNull(savedLoanDraft);
         Assert.isTrue(user.getUsername().equals(savedLoanDraft.getCreatorUsername()), "You are not the owner of this loan draft");
 
-        loanDraftService.delete(id);
+        loanDraftService.remove(id);
     }
 }

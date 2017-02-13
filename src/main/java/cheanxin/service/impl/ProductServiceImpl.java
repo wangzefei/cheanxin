@@ -39,12 +39,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         productRepository.delete(id);
     }
 
     @Override
-    public Product findOne(long id) {
+    public Product getOne(long id) {
         return productRepository.findOne(id);
     }
 
@@ -121,7 +121,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(String username, long productTemplateId, String name, int status, int page, int size) {
+    public Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
         SearchProduct searchProduct = new SearchProduct();
         searchProduct.setName(name);
@@ -133,8 +133,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(long productTemplateId, String name, int status, int page, int size) {
-        return getProducts(null, productTemplateId, name, status, page, size);
+    public Page<Product> list(long productTemplateId, String name, int status, int page, int size) {
+        return list(null, productTemplateId, name, status, page, size);
     }
 
     @Override

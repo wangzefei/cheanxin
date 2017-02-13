@@ -9,10 +9,10 @@ import org.springframework.data.domain.Page;
  */
 public interface ProductService {
     Product save(Product unsavedProduct);
-    void delete(long id);
-    Product findOne(long id);
-    Page<Product> getProducts(long productTemplateId, String name, int status, int page, int size);
-    Page<Product> getProducts(String username, long productTemplateId, String name, int status, int page, int size);
+    void remove(long id);
+    Product getOne(long id);
+    Page<Product> list(long productTemplateId, String name, int status, int page, int size);
+    Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size);
     Product review(User user, Product fromProduct, Product toProduct);
     boolean hasChildProducts(Product product);
 }

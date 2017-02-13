@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public interface PostService {
     Post save(Post unsavedPost);
-    void delete(long id);
-    Post findOne(long id);
-    Page<Post> getPosts(String name, boolean enabled, int page, int size);
+    void remove(long id);
+    Post getOne(long id);
+    Page<Post> list(String name, boolean enabled, int page, int size);
     boolean isExists(long id);
-    Map<Long, Post> getPosts(boolean enabled);
+    Map<Long, Post> listPostMap(boolean enabled);
 }

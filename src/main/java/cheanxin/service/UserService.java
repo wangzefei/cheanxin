@@ -13,16 +13,17 @@ import cheanxin.global.Constants;
  * Created by 273cn on 16/12/21.
  */
 public interface UserService {
-    User findUserByUsername(String username);
+    User getByUsername(String username);
 
-    User findUserByMobileNumber(String mobileNumber);
+    User getByMobileNumber(String mobileNumber);
 
     User save(User user);
 
-    Page<User> getUsers(int page, int size);
+    Page<User> list(int page, int size);
 
     boolean isUsernameExists(String username);
 
     boolean isMobileNoExists(String mobileNo);
+
     Long countAll();
 }

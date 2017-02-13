@@ -1,7 +1,6 @@
 package cheanxin.web;
 
 import cheanxin.domain.PostType;
-import cheanxin.global.Constants;
 import cheanxin.service.PostTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +20,8 @@ public class PostTypeController extends BaseController {
     private PostTypeService postTypeService;
 
     @RequestMapping(method=RequestMethod.GET)
-    public List<PostType> allPostTypes(@RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
-        return postTypeService.getPostTypes(enabled);
+    public List<PostType> listAll(@RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
+        return postTypeService.list(enabled);
     }
 
 }

@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     PostService postService;
 
     @Override
-    public User findUserByUsername(String username) {
+    public User getByUsername(String username) {
         return userRepository.findByUsernameIgnoringCase(username);
     }
 
     @Override
-    public User findUserByMobileNumber(String mobileNumber) {
+    public User getByMobileNumber(String mobileNumber) {
         return userRepository.findByMobileNumber(mobileNumber);
     }
 
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> getUsers(int page, int size) {
+    public Page<User> list(int page, int size) {
         Page<User> userPage = userRepository.findAll(new PageRequest(page, size));
 
         // set user dept info.
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
         for (User user : userPage) {
             deptMap.put(user.getDeptId(), null);
         }
-        List<Dept> deptList = deptService.getDepts(deptMap.keySet());
+        List<Dept> deptList = deptService.list(deptMap.keySet());
         for (Dept dept : deptList) {
             deptMap.put(dept.getId(), dept);
         }
@@ -69,8 +69,8 @@ public class UserServiceImpl implements UserService {
             user.setDept(deptMap.get(user.getDeptId()));
 
             // get user posts
-            List<UserPost> userPostList = userPostService.getUserPostList(user.getUsername());
-            Map<Long, Post> postMap = postService.getPosts(true);
+            List<UserPost> userPostList = userPostService.list(user.getUsername());
+            Map<Long, Post> postMap = postService.listPostMap(true);
             Collection<Post> posts = new ArrayList<>();
             for (UserPost userPost : userPostList) {
                 posts.add(postMap.get(userPost.getPostId()));
@@ -83,12 +83,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUsernameExists(String username) {
-        return findUserByUsername(username) != null;
+        return getByUsername(username) != null;
     }
 
     @Override
     public boolean isMobileNoExists(String mobileNo) {
-        return findUserByMobileNumber(mobileNo) != null;
+        return getByMobileNumber(mobileNo) != null;
     }
 
     @Override

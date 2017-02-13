@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
  */
 public interface LoanDraftService {
     LoanDraft save(LoanDraft unsavedLoanDraft);
-    LoanDraft findOne(long id);
-    Page<LoanDraft> getLoanDrafts(String creatorUsername, int page, int size);
-    void delete(long id);
+    LoanDraft getOne(long id);
+    Page<LoanDraft> list(String creatorUsername, int page, int size);
+    void remove(long id);
     void transferToLoan(User User, LoanDraft loanDraft);
 }

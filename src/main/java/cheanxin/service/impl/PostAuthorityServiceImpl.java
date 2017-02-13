@@ -33,24 +33,24 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
     UserService userService;
 
     @Override
-    public List<PostAuthority> getPostAuthorityList(Collection<Long> postIds) {
+    public List<PostAuthority> list(Collection<Long> postIds) {
         return postAuthorityRepository.findByPostIdIn(postIds);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findUserByUsername(username);
+        User user = userService.getByUsername(username);
         if (user == null)
             throw new UsernameNotFoundException("User " + username + " not found.");
 
-        List<UserPost> userPostList = userPostService.getUserPostList(username);
+        List<UserPost> userPostList = userPostService.list(username);
         if (userPostList.isEmpty()) return user;
 
         Collection<Long> postIds = new ArrayList<>();
         for (UserPost userPost : userPostList)
             postIds.add(userPost.getPostId());
 
-        List<PostAuthority> postAuthorityList = getPostAuthorityList(postIds);
+        List<PostAuthority> postAuthorityList = list(postIds);
         List<GrantedAuthority> authorityList = new ArrayList<>();
         for (PostAuthority postAuthority : postAuthorityList) {
             authorityList.add(new SimpleGrantedAuthority(postAuthority.getAuthority()));

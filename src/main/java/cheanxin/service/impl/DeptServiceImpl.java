@@ -35,22 +35,22 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Dept> getDepts(Integer level, boolean enabled) {
+    public List<Dept> list(Integer level, boolean enabled) {
         return deptRepository.findAllByLevelAndEnabled(level, enabled);
     }
 
     @Override
-    public List<Dept> getDepts(Long parentDeptId, boolean enabled) {
+    public List<Dept> list(Long parentDeptId, boolean enabled) {
         return deptRepository.findAllByParentDeptIdAndEnabled(parentDeptId, enabled);
     }
 
     @Override
-    public List<Dept> getDepts(boolean enabled) {
+    public List<Dept> list(boolean enabled) {
         return deptRepository.findAllByEnabled(enabled);
     }
 
     @Override
-    public List<Dept> getDepts(Set<Long> deptIds) {
+    public List<Dept> list(Set<Long> deptIds) {
         return deptRepository.findAllByIdIn(deptIds);
     }
 
@@ -60,17 +60,17 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void delete(long id) {
+    public void remove(long id) {
         deptRepository.delete(id);
     }
 
     @Override
-    public Dept findOne(long id) {
+    public Dept getOne(long id) {
         return deptRepository.findOne(id);
     }
 
     @Override
     public boolean isExists(long id) {
-        return findOne(id) != null;
+        return getOne(id) != null;
     }
 }

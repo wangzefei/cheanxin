@@ -2,9 +2,6 @@ package cheanxin.web;
 
 import cheanxin.domain.Post;
 import cheanxin.domain.PostType;
-import cheanxin.exceptions.ErrorResponse;
-import cheanxin.exceptions.InvalidArgumentException;
-import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.global.Constants;
 import cheanxin.service.PostService;
 import cheanxin.service.PostTypeService;
@@ -32,14 +29,14 @@ public class PostController extends BaseController {
     private PostTypeService postTypeService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Post> getPosts(
+    public Page<Post> list(
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled,
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
-        Page<Post> posts = postService.getPosts(name, enabled, page, size);
+        Page<Post> posts = postService.list(name, enabled, page, size);
         List<Post> postList = posts.getContent();
-        List<PostType> postTypeList = postTypeService.getPostTypes(true);
+        List<PostType> postTypeList = postTypeService.list(true);
         for (Post post:postList){
             for (PostType postType:postTypeList){
                 if (post.getPostTypeId() == postType.getId()){
@@ -52,7 +49,7 @@ public class PostController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Post> get(@PathVariable(value = "id") long id) {
-        Post post = postService.findOne(id);
+        Post post = postService.getOne(id);
 
         Assert.notNull(post, "Post not found");
 
@@ -60,7 +57,7 @@ public class PostController extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Post> add(@Valid @RequestBody Post post, Errors errors) {
+    public ResponseEntity<Post> save(@Valid @RequestBody Post post, Errors errors) {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
         Assert.isTrue(postTypeService.isExists(post.getPostTypeId()), "Post type not found.");
@@ -83,15 +80,15 @@ public class PostController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void delete(@PathVariable(value = "id") long id) {
-        postService.delete(id);
+    public void remove(@PathVariable(value = "id") long id) {
+        postService.remove(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Post> enableOrDisablePost(
+    public ResponseEntity<Post> patch(
             @PathVariable(value = "id") long id,
             @RequestBody Post post) {
-        Post unsavedPost = postService.findOne(id);
+        Post unsavedPost = postService.getOne(id);
 
         Assert.notNull(unsavedPost, "Post not found.");
         Assert.notNull(post.getEnabled(), "Field enabled is empty.");

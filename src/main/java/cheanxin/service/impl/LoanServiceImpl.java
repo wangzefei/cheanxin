@@ -38,7 +38,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Loan findOne(long id) {
+    public Loan getOne(long id) {
         return loanRepository.getOne(id);
     }
 
@@ -136,7 +136,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public Page<Loan> getLoans(String financialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
+    public Page<Loan> list(String financialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
         LoanServiceImpl.SearchLoan searchLoan = new LoanServiceImpl.SearchLoan();
         searchLoan.setFinancialCommissioner(financialCommissioner);
