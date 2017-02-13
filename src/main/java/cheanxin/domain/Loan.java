@@ -1288,4 +1288,16 @@ public class Loan {
     public void setCreatorUsername(String creatorUsername) {
         this.creatorUsername = creatorUsername;
     }
+
+    @Override
+    public String toString() {
+        return "Loan{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", applicantName='" + applicantName + '\'' +
+                ", loanRate=" + loanRate +
+                ", loanTerms=" + loanTerms +
+                ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
+                '}';
+    }
 }

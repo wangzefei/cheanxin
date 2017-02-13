@@ -95,4 +95,14 @@ public class Dept {
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "Dept{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentDeptId=" + parentDeptId +
+                ", level=" + level +
+                '}';
+    }
 }

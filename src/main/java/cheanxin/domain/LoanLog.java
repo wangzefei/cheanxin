@@ -101,4 +101,14 @@ public class LoanLog {
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "LoanLog{" +
+                "loanId=" + loanId +
+                ", id=" + id +
+                ", operatorUsername='" + operatorUsername + '\'' +
+                ", operatorType=" + operatorType +
+                '}';
+    }
 }

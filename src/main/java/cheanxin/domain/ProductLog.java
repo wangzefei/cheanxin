@@ -101,4 +101,14 @@ public class ProductLog {
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "ProductLog{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", operatorUsername='" + operatorUsername + '\'' +
+                ", operatorType=" + operatorType +
+                '}';
+    }
 }

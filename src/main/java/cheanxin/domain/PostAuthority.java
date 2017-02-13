@@ -58,4 +58,13 @@ public class PostAuthority implements GrantedAuthority {
     public String getAuthority() {
         return authority;
     }
+
+    @Override
+    public String toString() {
+        return "PostAuthority{" +
+                "id=" + id +
+                ", postId=" + postId +
+                ", authority='" + authority + '\'' +
+                '}';
+    }
 }
