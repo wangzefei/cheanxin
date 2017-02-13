@@ -113,6 +113,24 @@ public class Product {
 
     public Product() {}
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productTemplateId=" + productTemplateId +
+                ", name='" + name + '\'' +
+                ", productType=" + productType +
+                ", repaymentMethod=" + repaymentMethod +
+                ", minAvailableRate=" + minAvailableRate +
+                ", maxAvailableRate=" + maxAvailableRate +
+                ", availableTerms='" + availableTerms + '\'' +
+                ", loanPolicy=" + loanPolicy +
+                ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
+                ", provinceId=" + provinceId +
+                ", cityId=" + cityId +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -247,23 +265,5 @@ public class Product {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", productTemplateId=" + productTemplateId +
-                ", name='" + name + '\'' +
-                ", productType=" + productType +
-                ", repaymentMethod=" + repaymentMethod +
-                ", minAvailableRate=" + minAvailableRate +
-                ", maxAvailableRate=" + maxAvailableRate +
-                ", availableTerms='" + availableTerms + '\'' +
-                ", loanPolicy=" + loanPolicy +
-                ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
-                ", provinceId=" + provinceId +
-                ", cityId=" + cityId +
-                '}';
     }
 }

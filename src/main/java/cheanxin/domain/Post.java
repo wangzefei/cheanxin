@@ -42,6 +42,16 @@ public class Post {
 
     public Post() {}
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", postTypeId=" + postTypeId +
+                ", postType='" + postType + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -88,15 +98,5 @@ public class Post {
 
     public void setPostType(String postType) {
         this.postType = postType;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", postTypeId=" + postTypeId +
-                ", postType='" + postType + '\'' +
-                '}';
     }
 }

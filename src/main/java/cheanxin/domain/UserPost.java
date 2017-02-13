@@ -34,6 +34,13 @@ public class UserPost {
 
     public UserPost() {}
 
+    @Override
+    public String toString() {
+        return "UserPost{" +
+                "username='" + username + '\'' +
+                '}';
+    }
+
     public UserPost(String username, Long postId, Long createdTime) {
         this.username = username;
         this.postId = postId;
@@ -70,12 +77,5 @@ public class UserPost {
 
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
-    }
-
-    @Override
-    public String toString() {
-        return "UserPost{" +
-                "username='" + username + '\'' +
-                '}';
     }
 }

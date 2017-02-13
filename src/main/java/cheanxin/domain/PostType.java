@@ -44,6 +44,14 @@ public class PostType {
         this.enabled = enabled;
     }
 
+    @Override
+    public String toString() {
+        return "PostType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -74,13 +82,5 @@ public class PostType {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    @Override
-    public String toString() {
-        return "PostType{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

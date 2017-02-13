@@ -48,6 +48,51 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findOne(id);
     }
 
+    @Override
+    public Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size) {
+        Pageable pageable = new PageRequest(page, size);
+        SearchProduct searchProduct = new SearchProduct();
+        searchProduct.setName(name);
+        searchProduct.setProductTemplateId(productTemplateId);
+        searchProduct.setUsername(username);
+        searchProduct.setStatus(status);
+        Specification<Product> specification = this.getWhereClause(searchProduct);
+        return productRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public Page<Product> list(long productTemplateId, String name, int status, int page, int size) {
+        return list(null, productTemplateId, name, status, page, size);
+    }
+
+    @Override
+    @Transactional
+    public Product review(User user, Product fromProduct, Product toProduct) {
+        // save from status before save product.
+        int fromStatus = fromProduct.getStatus().intValue();
+        int toStatus = toProduct.getStatus().intValue();
+        fromProduct.setStatus(toStatus);
+        Product savedProduct = save(fromProduct);
+
+        // save product operation log.
+        ProductLog productLog = new ProductLog(
+                savedProduct.getId(),
+                user.getUsername(),
+                ProductStatusTransfer.valueOf(fromStatus, toStatus).getValue(),
+                toProduct.getRemark(),
+                System.currentTimeMillis() / 1000);
+        productLogService.save(productLog);
+
+        return savedProduct;
+    }
+
+    @Override
+    public boolean hasChildProducts(Product product) {
+        if (product.getProductTemplateId() != 0L)
+            return false;
+        return productRepository.findByProductTemplateId(product.getId(), new PageRequest(0, 1)).hasContent();
+    }
+
     private class SearchProduct {
         private String username;
         private long productTemplateId;
@@ -118,50 +163,5 @@ public class ProductServiceImpl implements ProductService {
                 return query.where(predicate.toArray(pre)).getRestriction();
             }
         };
-    }
-
-    @Override
-    public Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size) {
-        Pageable pageable = new PageRequest(page, size);
-        SearchProduct searchProduct = new SearchProduct();
-        searchProduct.setName(name);
-        searchProduct.setProductTemplateId(productTemplateId);
-        searchProduct.setUsername(username);
-        searchProduct.setStatus(status);
-        Specification<Product> specification = this.getWhereClause(searchProduct);
-        return productRepository.findAll(specification, pageable);
-    }
-
-    @Override
-    public Page<Product> list(long productTemplateId, String name, int status, int page, int size) {
-        return list(null, productTemplateId, name, status, page, size);
-    }
-
-    @Override
-    @Transactional
-    public Product review(User user, Product fromProduct, Product toProduct) {
-        // save from status before save product.
-        int fromStatus = fromProduct.getStatus().intValue();
-        int toStatus = toProduct.getStatus().intValue();
-        fromProduct.setStatus(toStatus);
-        Product savedProduct = save(fromProduct);
-
-        // save product operation log.
-        ProductLog productLog = new ProductLog(
-                savedProduct.getId(),
-                user.getUsername(),
-                ProductStatusTransfer.valueOf(fromStatus, toStatus).getValue(),
-                toProduct.getRemark(),
-                System.currentTimeMillis() / 1000);
-        productLogService.save(productLog);
-
-        return savedProduct;
-    }
-
-    @Override
-    public boolean hasChildProducts(Product product) {
-        if (product.getProductTemplateId() != 0L)
-            return false;
-        return productRepository.findByProductTemplateId(product.getId(), new PageRequest(0, 1)).hasContent();
     }
 }
