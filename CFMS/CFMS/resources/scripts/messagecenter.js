@@ -66,7 +66,7 @@ var BROWSER_VERSION = 5000;
     IE = IE_10_AND_BELOW || IE_11_AND_ABOVE;
 
     //Used by sitemap and variables.js getLinkUrl functions so that they know
-    //whether to embed constant variables in URL as query string or hash string
+    //whether to embed global variables in URL as query string or hash string
     //_shouldSendVars persists the value for sitemap instead of re-checking every time
     var _shouldSendVars;
     var _shouldSendVarsToServer = function(url) {

@@ -20,7 +20,7 @@ $axure.internal(function($ax) {
             $axure.messageCenter.postMessage('setGlobalVar', varData);
         }
 
-        //Post constant var values only if pageData is loaded (suppresses exception which occurs when page loads)
+        //Post global var values only if pageData is loaded (suppresses exception which occurs when page loads)
         if($ax.pageData) {
             _postGlobalVarVals();
         }
@@ -31,7 +31,7 @@ $axure.internal(function($ax) {
         variable = variable.toLowerCase();
         if(_globalVariableValues[variable] !== undefined) {
             //If this is for the GetLinkUrl function and 
-            //the current value of the constant variable is the same as the default defined in the document, don't return it
+            //the current value of the global variable is the same as the default defined in the document, don't return it
             if(ignoreDefaultsForLinkUrl == true && $ax.document.globalVariables[variable] == _globalVariableValues[variable]) {
                 return null;
             }
