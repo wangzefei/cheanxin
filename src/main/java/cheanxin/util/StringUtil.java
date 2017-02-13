@@ -11,13 +11,15 @@ import java.util.Set;
 public class StringUtil {
     public static final char UNDERLINE='_';
 
+    private StringUtil() {}
+
     /**
      * Parse camel to under line.
      * If first character is Upper Case, do not insert under line.
      * @param param
      * @return
      */
-    public static String camelToUnderline(String param) {
+    public static final String camelToUnderline(String param) {
         if (param == null || "".equals(param.trim())) {
             return "";
         }
@@ -35,7 +37,7 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static String underlineToCamel(String param) {
+    public static final String underlineToCamel(String param) {
         if (param == null || "".equals(param.trim())) {
             return "";
         }
@@ -60,7 +62,7 @@ public class StringUtil {
      * @param String stringArray2
      * @return
      */
-    public static boolean containsAll(String string1, String string2) {
+    public static final boolean containsAll(String string1, String string2) {
         String[] strings = string1.trim().split(UtilConstants.STRING_ARRAY_SEPARATOR);
         Set<String> stringSet = new HashSet<>(strings.length);
         for (String string : strings) {
