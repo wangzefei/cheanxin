@@ -52,6 +52,7 @@ public class ProductServiceImpl implements ProductService {
         private String username;
         private long productTemplateId;
         private String name;
+        private int status;
 
         public SearchProduct() {}
 
@@ -79,6 +80,14 @@ public class ProductServiceImpl implements ProductService {
         public void setName(String name) {
             this.name = name;
         }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
     }
 
     /**
@@ -91,14 +100,19 @@ public class ProductServiceImpl implements ProductService {
             @Override
             public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicate = new ArrayList<>();
-                if (searchProduct.getProductTemplateId() >= 0) {
+                if (searchProduct.getProductTemplateId() >= 0L) {
                     predicate.add(cb.equal(root.get("productTemplateId").as(Long.class), searchProduct.getProductTemplateId()));
+                } else if (searchProduct.getProductTemplateId() == -1L) {
+                    predicate.add(cb.gt(root.get("productTemplateId").as(Long.class), 0L));
                 }
                 if (searchProduct.getUsername() != null && !searchProduct.getUsername().trim().isEmpty()) {
                     predicate.add(cb.equal(root.get("creatorUsername").as(String.class), searchProduct.getUsername()));
                 }
                 if (searchProduct.getName() != null && !searchProduct.getName().trim().isEmpty()) {
                     predicate.add(cb.like(root.get("name").as(String.class), "%" + searchProduct.getName() + "%"));
+                }
+                if (searchProduct.getStatus() >= 0) {
+                    predicate.add(cb.equal(root.get("status").as(Integer.class), searchProduct.getStatus()));
                 }
                 Predicate[] pre = new Predicate[predicate.size()];
                 return query.where(predicate.toArray(pre)).getRestriction();
@@ -113,6 +127,7 @@ public class ProductServiceImpl implements ProductService {
         searchProduct.setName(name);
         searchProduct.setProductTemplateId(productTemplateId);
         searchProduct.setUsername(username);
+        searchProduct.setStatus(status);
         Specification<Product> specification = this.getWhereClause(searchProduct);
         return productRepository.findAll(specification, pageable);
     }

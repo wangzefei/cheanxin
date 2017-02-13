@@ -30,7 +30,7 @@ public class ProductController extends BaseController {
     public Page<Product> getProducts(
             @RequestParam(value = "productTemplateId", defaultValue = "-1") long productTemplateId,
             @RequestParam(value = "name", defaultValue = "") String name,
-            @RequestParam(value = "status", defaultValue = "0") int status,
+            @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = Constants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = Constants.DEFAULT_SIZE) int size) {
         return productService.getProducts(productTemplateId, name, status, page, size);
@@ -98,7 +98,7 @@ public class ProductController extends BaseController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Product> updateStatus(
+    public ResponseEntity<Product> patch(
             @PathVariable(value = "id") long id,
             @RequestBody Product unsavedProduct,
             @AuthenticationPrincipal User user) {

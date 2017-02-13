@@ -21,7 +21,7 @@ public class LoanDraft {
     private Integer vehicleDealPrice;
 
     //@NotNull
-    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id，如果为空表示为该贷款为意向贷款'")
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id'")
     private Long productId;
 
     //@NotNull

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * Created by Jawinton on 17/02/08.
  */
 @Repository
-public interface LoanRepository extends JpaRepository<Loan, Long> {
+public interface LoanRepository extends JpaRepository<Loan, Long>, JpaSpecificationExecutor<Loan> {
 }

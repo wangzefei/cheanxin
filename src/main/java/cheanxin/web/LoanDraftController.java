@@ -70,14 +70,39 @@ public class LoanDraftController extends BaseController {
 
         LoanDraftStatusTransfer.checkAuthority(user, savedLoanDraft.getStatus(), unsavedLoanDraft.getStatus());
 
-        // if it is transfered to loan, some fields cannot be null
-        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.LOAN.value()) {
-
+        // if it is transfer to loan or in second draft status, some fields cannot be null
+        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.LOAN.value() || unsavedLoanDraft.getStatus() == LoanDraftStatus.SECOND_DRAFT.value()) {
+            Assert.notNull(unsavedLoanDraft.getVehicleDealPrice(), "VehicleDealPrice can not be null");
+            Assert.notNull(unsavedLoanDraft.getProductType(), "ProductType can not be null");
+            Assert.notNull(unsavedLoanDraft.getLoanRate(), "LoanRate can not be null");
+            Assert.notNull(unsavedLoanDraft.getLoanTerms(), "LoanTerms can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceApplicationSource(), "SourceApplicationSource can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantMarriage(), "ApplicantMarriage can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantCertificateType(), "ApplicantCertificateType can not be null");
+            Assert.notNull(unsavedLoanDraft.getStatus(), "Status can not be null");
+            Assert.notNull(unsavedLoanDraft.getProductId(), "ProductId can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceCityId(), "SourceCityId can not be null");
+            Assert.notNull(unsavedLoanDraft.getProductName(), "ProductName can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicationPicUrl(), "ApplicationPicUrl can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceFinancialCommissioner(), "SourceFinancialCommissioner can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceReceiver(), "SourceReceiver can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceSourcePersonName(), "SourceSourcePersonName can not be null");
+            Assert.notNull(unsavedLoanDraft.getSourceSourcePersonTel(), "SourceSourcePersonTel can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantName(), "ApplicantName can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantCertificateNumber(), "ApplicantCertificateNumber can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantMobileNumber(), "ApplicantMobileNumber can not be null");
+            Assert.notNull(unsavedLoanDraft.getApplicantCertificateFileIds(), "ApplicantCertificateFileIds can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleVin(), "VehicleVin can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleManufacturers(), "VehicleManufacturers can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleBrand(), "VehicleBrand can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleSeries(), "VehicleSeries can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleRegistrationCertificateFileIds(), "VehicleRegistrationCertificateFileIds can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleLicenseFileIds(), "VehicleLicenseFileIds can not be null");
+            Assert.notNull(unsavedLoanDraft.getVehicleVehicleFileIds(), "VehicleVehicleFileIds can not be null");
         }
 
-        // if it is second draft, some fields should not be null
+        // TODO:check fields not null if transfer to loan
         if (unsavedLoanDraft.getStatus() == LoanDraftStatus.SECOND_DRAFT.value()) {
-
         }
 
         // attributes below can not be modified.
@@ -85,6 +110,11 @@ public class LoanDraftController extends BaseController {
         unsavedLoanDraft.setModifiedTime(System.currentTimeMillis() / 1000);
         unsavedLoanDraft.setCreatorUsername(savedLoanDraft.getCreatorUsername());
         unsavedLoanDraft.setCreatedTime(savedLoanDraft.getCreatedTime());
+
+        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.LOAN.value()) {
+            loanDraftService.transferToLoan(user, unsavedLoanDraft);
+            return new ResponseEntity<>(unsavedLoanDraft, HttpStatus.OK);
+        }
 
         return new ResponseEntity<>(loanDraftService.save(unsavedLoanDraft), HttpStatus.OK);
     }

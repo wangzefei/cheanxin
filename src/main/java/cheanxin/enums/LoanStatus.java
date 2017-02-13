@@ -5,8 +5,16 @@ package cheanxin.enums;
  */
 public enum LoanStatus {
     FIRST_REVIEW_PENDING(0, "初审待审核"),
-    FIRST_REVIEW_ACCEPTED(0, "初审通过"),
-    FIRST_REVIEW_REJECTED(0, "初审退回");
+    FIRST_REVIEW_ACCEPTED(1, "初审通过/复审待定价"),
+    FIRST_REVIEW_REJECTED(2, "初审拒绝"),
+    FIRST_REVIEW_RETURNED(3, "初审退回修改"),
+    SECOND_REVIEW_PENDING(4, "复审已定价/复审待审核"),
+    SECOND_REVIEW_ACCEPTED(5, "复审通过/待签约"),
+    SECOND_REVIEW_REJECTED(6, "复审拒绝"),
+    SECOND_REVIEW_ABORTED(7, "复审拒绝后放弃"),
+    CONTRACT_ACCEPTED(8, "已签约/待放款"),
+    CONTRACT_REJECTED(9, "拒绝合同"),
+    CONTRACT_ABORTED(10, "拒绝合同后放弃");
 
     private final int value;
     private final String desc;

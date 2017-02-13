@@ -19,27 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoanDraftServiceImpl implements LoanDraftService {
     @Autowired
     private LoanDraftRepository loanDraftRepository;
-    
-    @Autowired
-    private LoanSourceService loanSourceService;
-
-    @Autowired
-    private LoanApplicantService loanApplicantService;
-
-    @Autowired
-    private LoanCoApplicantService loanCoApplicantService;
 
     @Autowired
     private LoanService loanService;
 
     @Autowired
-    private LoanGuarantorService loanGuarantorService;
-
-    @Autowired
     private LoanLogService loanLogService;
-    
-    @Autowired
-    private LoanVehicleService loanVehicleService;
     
     @Override
     public LoanDraft save(LoanDraft unsavedLoanDraft) {
@@ -68,21 +53,10 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     @Override
     @Transactional
     public void transferToLoan(User user, LoanDraft loanDraft) {
-        LoanSource savedLoanSource = loanSourceService.save(new LoanSource(loanDraft));
-        LoanApplicant savedLoanApplicant = loanApplicantService.save(new LoanApplicant(loanDraft));
-        LoanCoApplicant savedLoanCoApplicant = loanCoApplicantService.save(new LoanCoApplicant(loanDraft));
-        LoanVehicle savedLoanVehicle = loanVehicleService.save(new LoanVehicle(loanDraft));
-        LoanGuarantor savedLoanGuarantor = loanGuarantorService.save(new LoanGuarantor(loanDraft));
-
-        long now = System.currentTimeMillis() / 1000;
         Loan unsavedLoan = new Loan(loanDraft);
-        unsavedLoan.setExtApplicantId(savedLoanApplicant.getId());
-        unsavedLoan.setExtCoApplicantId(savedLoanCoApplicant.getId());
-        unsavedLoan.setExtSourceId(savedLoanSource.getId());
-        unsavedLoan.setExtGuarantorId(savedLoanGuarantor.getId());
-        unsavedLoan.setExtVehicleId(savedLoanVehicle.getId());
         unsavedLoan.setStatus(LoanStatus.FIRST_REVIEW_PENDING.value());
-        unsavedLoan.setCreatedTime(now);
+        unsavedLoan.setCreatedTime(loanDraft.getModifiedTime());
+        unsavedLoan.setCreatorUsername(user.getUsername());
         Loan savedLoan = loanService.save(unsavedLoan);
 
         LoanLog loanLog = new LoanLog(
@@ -90,7 +64,7 @@ public class LoanDraftServiceImpl implements LoanDraftService {
                 user.getUsername(),
                 LoanStatusTransfer.FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_PENDING.getValue(),
                 savedLoan.getRemark(),
-                now);
+                loanDraft.getModifiedTime());
         loanLogService.save(loanLog);
 
         delete(loanDraft.getId());
