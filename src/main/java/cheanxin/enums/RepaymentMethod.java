@@ -4,7 +4,7 @@ package cheanxin.enums;
  * Created by 273cn on 17/1/3.
  */
 public enum RepaymentMethod {
-    EQUALITY_CORPUS_AND_INTEREST(1, "等额本息");
+    EQUALITY_CORPUS_AND_INTEREST(0, "等额本息");
 
     private final int value;
     private final String desc;
