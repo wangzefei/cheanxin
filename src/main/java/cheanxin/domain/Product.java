@@ -31,14 +31,14 @@ public class Product {
     private String name;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     @Max(16)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '产品类型'")
     // 产品类型
     private Integer productType;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     @Max(16)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '还款类型'")
     // 还款类型
@@ -66,7 +66,7 @@ public class Product {
     private String availableTerms;
 
     @NotNull
-    @Min(1)
+    @Min(0)
     @Max(16)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款政策'")
     // 贷款政策
