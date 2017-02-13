@@ -49,4 +49,12 @@ public class OAuth2Client {
     public int getRefreshTokenValidSeconds() {
         return refreshTokenValidSeconds;
     }
+
+    @Override
+    public String toString() {
+        return "OAuth2Client{" +
+                "id='" + id + '\'' +
+                ", secret='" + secret + '\'' +
+                '}';
+    }
 }

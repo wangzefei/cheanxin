@@ -301,4 +301,13 @@ public class User implements UserDetails {
     public void setDept(Dept dept) {
         this.dept = dept;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", id=" + id +
+                ", realName='" + realName + '\'' +
+                '}';
+    }
 }

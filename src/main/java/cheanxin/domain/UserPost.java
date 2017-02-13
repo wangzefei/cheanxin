@@ -71,4 +71,11 @@ public class UserPost {
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "UserPost{" +
+                "username='" + username + '\'' +
+                '}';
+    }
 }

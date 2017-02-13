@@ -89,4 +89,14 @@ public class Post {
     public void setPostType(String postType) {
         this.postType = postType;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", postTypeId=" + postTypeId +
+                ", postType='" + postType + '\'' +
+                '}';
+    }
 }
