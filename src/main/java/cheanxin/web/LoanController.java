@@ -8,6 +8,7 @@ import cheanxin.enums.LoanDraftStatus;
 import cheanxin.enums.LoanStatus;
 import cheanxin.enums.LoanStatusTransfer;
 import cheanxin.service.LoanDraftService;
+import cheanxin.service.LoanListService;
 import cheanxin.service.LoanService;
 import cheanxin.util.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class LoanController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<Loan> list(
+            @RequestParam(value = "isFilterSelf", defaultValue = "0") boolean isFilterSelf,
             @RequestParam(value = "sourceFinancialCommissioner", defaultValue = "") String sourceFinancialCommissioner,
             @RequestParam(value = "applicantName", defaultValue = "") String applicantName,
             @RequestParam(value = "applicantMobileNumber", defaultValue = "") String applicantMobileNumber,
@@ -68,8 +70,10 @@ public class LoanController extends BaseController {
             @RequestParam(value = "createdTimeTo", defaultValue = "0") long createdTimeTo,
             @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
-        return loanService.list(sourceFinancialCommissioner, applicantName, applicantMobileNumber, createdTimeFrom, createdTimeTo, status, page, size);
+            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size,
+            @AuthenticationPrincipal User user) {
+        String creatorUsername = isFilterSelf ? user.getUsername() : null;
+        return loanService.list(creatorUsername, sourceFinancialCommissioner, applicantName, applicantMobileNumber, createdTimeFrom, createdTimeTo, status, page, size);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")

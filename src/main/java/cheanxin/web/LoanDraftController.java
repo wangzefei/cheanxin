@@ -6,6 +6,7 @@ import cheanxin.domain.User;
 import cheanxin.enums.LoanDraftStatus;
 import cheanxin.enums.LoanDraftStatusTransfer;
 import cheanxin.service.LoanDraftService;
+import cheanxin.service.LoanListService;
 import cheanxin.util.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,13 +29,19 @@ public class LoanDraftController extends BaseController {
     LoanDraftService loanDraftService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<LoanDraft> getLoanDrafts(
-            @RequestParam(value = "creatorUsername", defaultValue = "") String creatorUsername,
+    public Page<LoanDraft> list(
+            @RequestParam(value = "isFilterSelf", defaultValue = "0") boolean isFilterSelf,
+            @RequestParam(value = "sourceFinancialCommissioner", defaultValue = "") String sourceFinancialCommissioner,
+            @RequestParam(value = "applicantName", defaultValue = "") String applicantName,
+            @RequestParam(value = "applicantMobileNumber", defaultValue = "") String applicantMobileNumber,
+            @RequestParam(value = "createdTimeFrom", defaultValue = "0") long createdTimeFrom,
+            @RequestParam(value = "createdTimeTo", defaultValue = "0") long createdTimeTo,
+            @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
-            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
-        if (creatorUsername == null || creatorUsername.isEmpty())
-            creatorUsername = null;
-        return loanDraftService.list(creatorUsername, page, size);
+            @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size,
+            @AuthenticationPrincipal User user) {
+        String username = isFilterSelf ? user.getUsername() : null;
+        return loanDraftService.list(username, sourceFinancialCommissioner, applicantName, applicantMobileNumber, createdTimeFrom, createdTimeTo, status, page, size);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
