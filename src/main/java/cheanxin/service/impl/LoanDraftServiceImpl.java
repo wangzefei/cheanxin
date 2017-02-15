@@ -11,19 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 273cn on 17/02/08.
  */
 @Service
-public class LoanDraftServiceImpl implements LoanDraftService {
+public class LoanDraftServiceImpl extends LoanDraftService {
     @Autowired
     private LoanDraftRepository loanDraftRepository;
-
-    @Autowired
-    private LoanService loanService;
 
     @Autowired
     private LoanLogService loanLogService;
@@ -52,21 +57,20 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     }
 
     @Override
-    public Page<LoanDraft> list(String creatorUsername, int page, int size) {
-        Pageable pageRequest = new PageRequest(page, size);
-        if (creatorUsername == null) {
-            return loanDraftRepository.findAll(pageRequest);
-        }
-        return loanDraftRepository.findByCreatorUsername(creatorUsername, pageRequest);
+    public Page<LoanDraft> list(String creatorUsername, String sourceFinancialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
+        Pageable pageable = new PageRequest(page, size);
+        SearchLoan searchLoan = new SearchLoan();
+        searchLoan.setSourceFinancialCommissioner(sourceFinancialCommissioner);
+        searchLoan.setApplicantName(applicantName);
+        searchLoan.setApplicantMobileNumber(applicantMobileNumber);
+        searchLoan.setCreatedTimeFrom(createdTimeFrom);
+        searchLoan.setCreatedTimeTo(createdTimeTo);
+        Specification<LoanDraft> specification = this.getWhereClause(searchLoan);
+        return loanDraftRepository.findAll(specification, pageable);
     }
 
     @Override
     public void remove(long id) {
         loanDraftRepository.delete(id);
-    }
-
-    @Override
-    public boolean isExists(long id) {
-        return this.getOne(id) != null;
     }
 }

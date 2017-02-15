@@ -8,9 +8,8 @@ import org.springframework.data.domain.Page;
 /**
  * Created by 273cn on 17/02/08.
  */
-public interface LoanService {
-    Loan save(Loan unsavedLoan, LoanDraft loanDraft);
-    Loan getOne(long id);
-    Page<Loan> list(String sourceFinancialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size);
-    Loan updateStatus(User user, int fromStatus, Loan unsavedLoan);
+public abstract class LoanService extends LoanListService<Loan> {
+    public abstract Loan save(Loan unsavedLoan, LoanDraft loanDraft);
+    public abstract Loan getOne(long id);
+    public abstract Loan updateStatus(User user, int fromStatus, Loan unsavedLoan);
 }
