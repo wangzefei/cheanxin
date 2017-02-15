@@ -8,15 +8,15 @@ public enum ProductStatus {
     ACCEPTED(1, "审核通过"),
     REJECTED(2, "审核拒绝");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    ProductStatus(int value, String desc) {
+    ProductStatus(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 

@@ -46,4 +46,10 @@ public class BaseController {
     public ErrorResponse illegalArgument(IllegalArgumentException e) {
         return new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), e.getMessage());
     }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse illegalAccessException(IllegalAccessException e) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.getReasonPhrase(), e.getMessage());
+    }
 }

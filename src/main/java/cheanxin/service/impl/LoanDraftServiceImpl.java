@@ -2,6 +2,8 @@ package cheanxin.service.impl;
 
 import cheanxin.data.LoanDraftRepository;
 import cheanxin.domain.*;
+import cheanxin.enums.LoanDraftStatus;
+import cheanxin.enums.LoanDraftStatusTransfer;
 import cheanxin.enums.LoanStatus;
 import cheanxin.enums.LoanStatusTransfer;
 import cheanxin.service.*;
@@ -27,13 +29,26 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     private LoanLogService loanLogService;
     
     @Override
-    public LoanDraft save(LoanDraft unsavedLoanDraft) {
-        return loanDraftRepository.save(unsavedLoanDraft);
+    @Transactional
+    public LoanDraft save(int fromStatus, LoanDraft toLoanDraft) {
+        LoanDraft savedLoanDraft = loanDraftRepository.save(toLoanDraft);
+
+        if (!toLoanDraft.getStatus().equals(fromStatus)) {
+            LoanDraftStatusTransfer loanDraftStatusTransfer = LoanDraftStatusTransfer.valueOf(fromStatus, toLoanDraft.getStatus());
+            LoanLog loanLog = new LoanLog(savedLoanDraft.getId(),
+                    savedLoanDraft.getCreatorUsername(),
+                    loanDraftStatusTransfer.getValue(),
+                    savedLoanDraft.getRemark(),
+                    savedLoanDraft.getModifiedTime());
+            loanLogService.save(loanLog);
+        }
+
+        return savedLoanDraft;
     }
 
     @Override
     public LoanDraft getOne(long id) {
-        return loanDraftRepository.getOne(id);
+        return loanDraftRepository.findOne(id);
     }
 
     @Override
@@ -51,22 +66,7 @@ public class LoanDraftServiceImpl implements LoanDraftService {
     }
 
     @Override
-    @Transactional
-    public void transferToLoan(User user, LoanDraft loanDraft) {
-        Loan unsavedLoan = new Loan(loanDraft);
-        unsavedLoan.setStatus(LoanStatus.FIRST_REVIEW_PENDING.value());
-        unsavedLoan.setCreatedTime(loanDraft.getModifiedTime());
-        unsavedLoan.setCreatorUsername(user.getUsername());
-        Loan savedLoan = loanService.save(unsavedLoan);
-
-        LoanLog loanLog = new LoanLog(
-                savedLoan.getId(),
-                user.getUsername(),
-                LoanStatusTransfer.FIRST_REVIEW_PENDING_TO_FIRST_REVIEW_PENDING.getValue(),
-                savedLoan.getRemark(),
-                loanDraft.getModifiedTime());
-        loanLogService.save(loanLog);
-
-        remove(loanDraft.getId());
+    public boolean isExists(long id) {
+        return this.getOne(id) != null;
     }
 }

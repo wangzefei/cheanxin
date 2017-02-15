@@ -7,15 +7,15 @@ public enum ProductType {
     NEW_CAR_LOAN(0, "新车贷款"),
     USED_CAR_LOAN(1, "二手车贷款");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    private ProductType(int value, String desc) {
+    private ProductType(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 

@@ -6,6 +6,7 @@ import cheanxin.domain.User;
 import cheanxin.enums.LoanDraftStatus;
 import cheanxin.enums.LoanDraftStatusTransfer;
 import cheanxin.service.LoanDraftService;
+import cheanxin.util.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -36,8 +37,22 @@ public class LoanDraftController extends BaseController {
         return loanDraftService.list(creatorUsername, page, size);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<LoanDraft> get(@PathVariable(value = "id") long id) {
+        LoanDraft loanDraft = loanDraftService.getOne(id);
+        Assert.notNull(loanDraft, "Loan draft not found.");
+        return new ResponseEntity<>(loanDraft, HttpStatus.OK);
+    }
+
+    /**
+     * 添加贷款草稿箱
+     * @param unsavedLoanDraft
+     * @param errors
+     * @param user
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<LoanDraft> add(
+    public ResponseEntity<LoanDraft> save(
             @Valid @RequestBody LoanDraft unsavedLoanDraft,
             Errors errors,
             @AuthenticationPrincipal User user) {
@@ -51,70 +66,71 @@ public class LoanDraftController extends BaseController {
         unsavedLoanDraft.setCreatedTime(now);
         unsavedLoanDraft.setModifiedTime(now);
         unsavedLoanDraft.setStatus(LoanDraftStatus.FIRST_DRAFT.value());
-        return new ResponseEntity<>(loanDraftService.save(unsavedLoanDraft), HttpStatus.CREATED);
+        return new ResponseEntity<>(loanDraftService.save(LoanDraftStatus.FIRST_DRAFT.value(), unsavedLoanDraft), HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<LoanDraft> update(
+    /**
+     * 编辑草稿箱操作
+     * @param id
+     * @param unsavedLoanDraft
+     * @param user
+     * @return
+     * @throws IllegalAccessException
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<LoanDraft> patch(
             @PathVariable(value = "id") long id,
             @Valid @RequestBody LoanDraft unsavedLoanDraft,
             Errors errors,
-            @AuthenticationPrincipal User user) {
-        String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
-        Assert.isNull(errorMessage, errorMessage);
-
+            @AuthenticationPrincipal User user) throws IllegalAccessException {
         LoanDraft savedLoanDraft = loanDraftService.getOne(id);
         Assert.notNull(savedLoanDraft, "Loan draft not found.");
 
-        LoanDraftStatusTransfer.checkAuthority(user, savedLoanDraft.getStatus(), unsavedLoanDraft.getStatus());
-
-        // if it is transfer to loan or in second draft status, some fields cannot be null
-        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.LOAN.value() || unsavedLoanDraft.getStatus() == LoanDraftStatus.SECOND_DRAFT.value()) {
-            Assert.notNull(unsavedLoanDraft.getVehicleDealPrice(), "VehicleDealPrice can not be null");
-            Assert.notNull(unsavedLoanDraft.getProductType(), "ProductType can not be null");
-            Assert.notNull(unsavedLoanDraft.getLoanRate(), "LoanRate can not be null");
-            Assert.notNull(unsavedLoanDraft.getLoanTerms(), "LoanTerms can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceApplicationSource(), "SourceApplicationSource can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantMarriage(), "ApplicantMarriage can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantCertificateType(), "ApplicantCertificateType can not be null");
-            Assert.notNull(unsavedLoanDraft.getStatus(), "Status can not be null");
-            Assert.notNull(unsavedLoanDraft.getProductId(), "ProductId can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceCityId(), "SourceCityId can not be null");
-            Assert.notNull(unsavedLoanDraft.getProductName(), "ProductName can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicationPicUrl(), "ApplicationPicUrl can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceFinancialCommissioner(), "SourceFinancialCommissioner can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceReceiver(), "SourceReceiver can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceSourcePersonName(), "SourceSourcePersonName can not be null");
-            Assert.notNull(unsavedLoanDraft.getSourceSourcePersonTel(), "SourceSourcePersonTel can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantName(), "ApplicantName can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantCertificateNumber(), "ApplicantCertificateNumber can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantMobileNumber(), "ApplicantMobileNumber can not be null");
-            Assert.notNull(unsavedLoanDraft.getApplicantCertificateFileIds(), "ApplicantCertificateFileIds can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleVin(), "VehicleVin can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleManufacturers(), "VehicleManufacturers can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleBrand(), "VehicleBrand can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleSeries(), "VehicleSeries can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleRegistrationCertificateFileIds(), "VehicleRegistrationCertificateFileIds can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleLicenseFileIds(), "VehicleLicenseFileIds can not be null");
-            Assert.notNull(unsavedLoanDraft.getVehicleVehicleFileIds(), "VehicleVehicleFileIds can not be null");
-        }
-
-        // TODO:check fields not null if transfer to loan
-        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.SECOND_DRAFT.value()) {
-        }
+        if (unsavedLoanDraft.getStatus() == null)
+            unsavedLoanDraft.setStatus(savedLoanDraft.getStatus());
+        int fromStatus = savedLoanDraft.getStatus();
+        int toStatus = unsavedLoanDraft.getStatus();
+        LoanDraftStatusTransfer.checkAuthority(user, fromStatus, unsavedLoanDraft.getStatus());
 
         // attributes below can not be modified.
-        unsavedLoanDraft.setId(id);
+        unsavedLoanDraft.setId(null);
         unsavedLoanDraft.setModifiedTime(System.currentTimeMillis() / 1000);
-        unsavedLoanDraft.setCreatorUsername(savedLoanDraft.getCreatorUsername());
-        unsavedLoanDraft.setCreatedTime(savedLoanDraft.getCreatedTime());
+        unsavedLoanDraft.setCreatorUsername(null);
+        unsavedLoanDraft.setCreatedTime(null);
+        ReflectUtil.mergeObject(unsavedLoanDraft, savedLoanDraft);
 
-        if (unsavedLoanDraft.getStatus() == LoanDraftStatus.LOAN.value()) {
-            loanDraftService.transferToLoan(user, unsavedLoanDraft);
-            return new ResponseEntity<>(unsavedLoanDraft, HttpStatus.OK);
+        // if it is transfer from first draft status to second draft status, some fields cannot be null
+        if (LoanDraftStatus.FIRST_DRAFT.value().equals(fromStatus) && LoanDraftStatus.SECOND_DRAFT.value().equals(toStatus)) {
+            String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
+            Assert.isNull(errorMessage, errorMessage);
+            Assert.notNull(savedLoanDraft.getVehicleDealPrice(), "VehicleDealPrice can not be null");
+            Assert.notNull(savedLoanDraft.getLoanRate(), "LoanRate can not be null");
+            Assert.notNull(savedLoanDraft.getLoanTerms(), "LoanTerms can not be null");
+            Assert.notNull(savedLoanDraft.getSourceChannel(), "SourceChannel can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantMarriage(), "ApplicantMarriage can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantCertificateType(), "ApplicantCertificateType can not be null");
+            Assert.notNull(savedLoanDraft.getStatus(), "Status can not be null");
+            Assert.notNull(savedLoanDraft.getProductId(), "ProductId can not be null");
+            Assert.notNull(savedLoanDraft.getSourceCityId(), "SourceCityId can not be null");
+            Assert.notNull(savedLoanDraft.getApplicationPicUrl(), "ApplicationPicUrl can not be null");
+            Assert.notNull(savedLoanDraft.getSourceFinancialCommissioner(), "SourceFinancialCommissioner can not be null");
+            Assert.notNull(savedLoanDraft.getSourceReceiver(), "SourceReceiver can not be null");
+            Assert.notNull(savedLoanDraft.getSourcePersonName(), "SourcePersonName can not be null");
+            Assert.notNull(savedLoanDraft.getSourcePersonTel(), "SourcePersonTel can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantName(), "ApplicantName can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantCertificateNumber(), "ApplicantCertificateNumber can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantMobileNumber(), "ApplicantMobileNumber can not be null");
+            Assert.notNull(savedLoanDraft.getApplicantCertificateFileIds(), "ApplicantCertificateFileIds can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleVin(), "VehicleVin can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleManufacturers(), "VehicleManufacturers can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleBrand(), "VehicleBrand can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleSeries(), "VehicleSeries can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleRegistrationCertificateFileIds(), "VehicleRegistrationCertificateFileIds can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleLicenseFileIds(), "VehicleLicenseFileIds can not be null");
+            Assert.notNull(savedLoanDraft.getVehicleFileIds(), "VehicleFileIds can not be null");
         }
 
-        return new ResponseEntity<>(loanDraftService.save(unsavedLoanDraft), HttpStatus.OK);
+        return new ResponseEntity<>(loanDraftService.save(fromStatus, savedLoanDraft), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

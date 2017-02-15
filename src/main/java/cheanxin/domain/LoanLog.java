@@ -19,10 +19,14 @@ public class LoanLog {
     // 自增id
     private Long id;
 
-    @NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款id'")
     // 贷款id
     private Long loanId;
+
+    @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款草稿箱id'")
+    // 贷款草稿箱id
+    private Long loanDraftId;
 
     @NotNull
     @Column(columnDefinition = "VARCHAR(20) COMMENT '操作人username'")
@@ -46,8 +50,17 @@ public class LoanLog {
 
     public LoanLog() {}
 
-    public LoanLog(Long loanId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
+    public LoanLog(Long loanId, Long loanDraftId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
         this.loanId = loanId;
+        this.loanDraftId = loanDraftId;
+        this.operatorUsername = operatorUsername;
+        this.operatorType = operatorType;
+        this.remark = remark;
+        this.createdTime = createdTime;
+    }
+
+    public LoanLog(Long loanDraftId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
+        this.loanDraftId = loanDraftId;
         this.operatorUsername = operatorUsername;
         this.operatorType = operatorType;
         this.remark = remark;
@@ -57,7 +70,7 @@ public class LoanLog {
     @Override
     public String toString() {
         return "LoanLog{" +
-                "loanId=" + loanId +
+                "loanDraftId=" + loanDraftId +
                 ", id=" + id +
                 ", operatorUsername='" + operatorUsername + '\'' +
                 ", operatorType=" + operatorType +
@@ -78,6 +91,14 @@ public class LoanLog {
 
     public void setLoanId(Long loanId) {
         this.loanId = loanId;
+    }
+
+    public Long getLoanDraftId() {
+        return loanDraftId;
+    }
+
+    public void setLoanDraftId(Long loanDraftId) {
+        this.loanDraftId = loanDraftId;
     }
 
     public String getOperatorUsername() {
