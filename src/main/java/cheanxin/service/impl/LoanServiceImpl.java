@@ -75,6 +75,7 @@ public class LoanServiceImpl extends LoanService {
         searchLoan.setApplicantMobileNumber(applicantMobileNumber);
         searchLoan.setCreatedTimeFrom(createdTimeFrom);
         searchLoan.setCreatedTimeTo(createdTimeTo);
+        searchLoan.setStatus(status);
         Specification<Loan> specification = this.getWhereClause(searchLoan);
         return loanRepository.findAll(specification, pageable);
     }
