@@ -60,11 +60,13 @@ public class LoanDraftServiceImpl extends LoanDraftService {
     public Page<LoanDraft> list(String creatorUsername, String sourceFinancialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
         SearchLoan searchLoan = new SearchLoan();
+        searchLoan.setCreatorUsername(creatorUsername);
         searchLoan.setSourceFinancialCommissioner(sourceFinancialCommissioner);
         searchLoan.setApplicantName(applicantName);
         searchLoan.setApplicantMobileNumber(applicantMobileNumber);
         searchLoan.setCreatedTimeFrom(createdTimeFrom);
         searchLoan.setCreatedTimeTo(createdTimeTo);
+        searchLoan.setStatus(status);
         Specification<LoanDraft> specification = this.getWhereClause(searchLoan);
         return loanDraftRepository.findAll(specification, pageable);
     }
