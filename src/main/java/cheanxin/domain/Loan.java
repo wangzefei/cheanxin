@@ -18,6 +18,10 @@ public class Loan {
     private Long id;
 
     @NotNull
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款草稿id'")
+    private Long loanDraftId;
+
+    @NotNull
     @Min(0)
     @Max(Integer.MAX_VALUE)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '车辆成交价格'")
@@ -86,17 +90,17 @@ public class Loan {
     @Min(0)
     @Max(8)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '来源渠道'")
-    private Integer sourceApplicationSource;
+    private Integer sourceChannel;
 
     @NotNull
     @Size(max = 30)
     @Column(columnDefinition = "VARCHAR(30) COMMENT '来源联系人姓名'")
-    private String sourceSourcePersonName;
+    private String sourcePersonName;
 
     @NotNull
     @Size(max = 20)
     @Column(columnDefinition = "VARCHAR(20) COMMENT '来源联系人电话'")
-    private String sourceSourcePersonTel;
+    private String sourcePersonTel;
 
     @NotNull
     @Min(0)
@@ -146,7 +150,7 @@ public class Loan {
     private String applicantTelephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "INT(10) COMMENT '工作单位名称'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '工作单位名称'")
     private String applicantEmployerName;
 
     @Size(max = 20)
@@ -385,12 +389,12 @@ public class Loan {
     @NotNull
     @Size(min = 5, max = 2000)
     @Column(columnDefinition = "VARCHAR(2000) COMMENT '车辆图片'")
-    private String vehicleVehicleFileIds;
+    private String vehicleFileIds;
     
     @NotNull
     @Min(0)
-    @Max(32)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款状态'")
+    @Max(512)
+    @Column(columnDefinition = "TINYINT(3) UNSIGNED COMMENT '贷款状态'")
     private Integer status;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款创建时间'")
@@ -419,9 +423,9 @@ public class Loan {
         this.sourceFinancialCommissioner = loanDraft.getSourceFinancialCommissioner();
         this.sourceReceiver = loanDraft.getSourceReceiver();
         this.sourceCityId = loanDraft.getSourceCityId();
-        this.sourceApplicationSource = loanDraft.getSourceApplicationSource();
-        this.sourceSourcePersonName = loanDraft.getSourceSourcePersonName();
-        this.sourceSourcePersonTel = loanDraft.getSourceSourcePersonTel();
+        this.sourceChannel = loanDraft.getSourceChannel();
+        this.sourcePersonName = loanDraft.getSourcePersonName();
+        this.sourcePersonTel = loanDraft.getSourcePersonTel();
         this.applicantMarriage = loanDraft.getApplicantMarriage();
         this.applicantCertificateType = loanDraft.getApplicantCertificateType();
         this.applicantCertificateNumber = loanDraft.getApplicantCertificateNumber();
@@ -488,7 +492,7 @@ public class Loan {
         this.vehicleEmission = loanDraft.getVehicleEmission();
         this.vehicleRegistrationCertificateFileIds = loanDraft.getVehicleRegistrationCertificateFileIds();
         this.vehicleLicenseFileIds = loanDraft.getVehicleLicenseFileIds();
-        this.vehicleVehicleFileIds = loanDraft.getVehicleVehicleFileIds();
+        this.vehicleFileIds = loanDraft.getVehicleFileIds();
         this.status = loanDraft.getStatus();
         this.createdTime = loanDraft.getCreatedTime();
         this.modifiedTime = loanDraft.getModifiedTime();
@@ -509,9 +513,9 @@ public class Loan {
         this.sourceFinancialCommissioner = that.getSourceFinancialCommissioner();
         this.sourceReceiver = that.getSourceReceiver();
         this.sourceCityId = that.getSourceCityId();
-        this.sourceApplicationSource = that.getSourceApplicationSource();
-        this.sourceSourcePersonName = that.getSourceSourcePersonName();
-        this.sourceSourcePersonTel = that.getSourceSourcePersonTel();
+        this.sourceChannel = that.getSourceChannel();
+        this.sourcePersonName = that.getSourcePersonName();
+        this.sourcePersonTel = that.getSourcePersonTel();
         this.applicantMarriage = that.getApplicantMarriage();
         this.applicantCertificateType = that.getApplicantCertificateType();
         this.applicantCertificateNumber = that.getApplicantCertificateNumber();
@@ -578,7 +582,7 @@ public class Loan {
         this.vehicleEmission = that.getVehicleEmission();
         this.vehicleRegistrationCertificateFileIds = that.getVehicleRegistrationCertificateFileIds();
         this.vehicleLicenseFileIds = that.getVehicleLicenseFileIds();
-        this.vehicleVehicleFileIds = that.getVehicleVehicleFileIds();
+        this.vehicleFileIds = that.getVehicleFileIds();
         this.status = that.getStatus();
         this.createdTime = that.getCreatedTime();
         this.modifiedTime = that.getModifiedTime();
@@ -603,6 +607,14 @@ public class Loan {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getLoanDraftId() {
+        return loanDraftId;
+    }
+
+    public void setLoanDraftId(Long loanDraftId) {
+        this.loanDraftId = loanDraftId;
     }
 
     public Integer getVehicleDealPrice() {
@@ -709,28 +721,28 @@ public class Loan {
         this.sourceCityId = sourceCityId;
     }
 
-    public Integer getSourceApplicationSource() {
-        return sourceApplicationSource;
+    public Integer getSourceChannel() {
+        return sourceChannel;
     }
 
-    public void setSourceApplicationSource(Integer sourceApplicationSource) {
-        this.sourceApplicationSource = sourceApplicationSource;
+    public void setSourceChannel(Integer sourceChannel) {
+        this.sourceChannel = sourceChannel;
     }
 
-    public String getSourceSourcePersonName() {
-        return sourceSourcePersonName;
+    public String getSourcePersonName() {
+        return sourcePersonName;
     }
 
-    public void setSourceSourcePersonName(String sourceSourcePersonName) {
-        this.sourceSourcePersonName = sourceSourcePersonName;
+    public void setSourcePersonName(String sourcePersonName) {
+        this.sourcePersonName = sourcePersonName;
     }
 
-    public String getSourceSourcePersonTel() {
-        return sourceSourcePersonTel;
+    public String getSourcePersonTel() {
+        return sourcePersonTel;
     }
 
-    public void setSourceSourcePersonTel(String sourceSourcePersonTel) {
-        this.sourceSourcePersonTel = sourceSourcePersonTel;
+    public void setSourcePersonTel(String sourcePersonTel) {
+        this.sourcePersonTel = sourcePersonTel;
     }
 
     public Integer getApplicantMarriage() {
@@ -1261,12 +1273,12 @@ public class Loan {
         this.vehicleLicenseFileIds = vehicleLicenseFileIds;
     }
 
-    public String getVehicleVehicleFileIds() {
-        return vehicleVehicleFileIds;
+    public String getVehicleFileIds() {
+        return vehicleFileIds;
     }
 
-    public void setVehicleVehicleFileIds(String vehicleVehicleFileIds) {
-        this.vehicleVehicleFileIds = vehicleVehicleFileIds;
+    public void setVehicleFileIds(String vehicleFileIds) {
+        this.vehicleFileIds = vehicleFileIds;
     }
 
     public Integer getStatus() {

@@ -27,8 +27,8 @@ public class PostAuthority implements GrantedAuthority {
 
     @NotNull
     @NotEmpty
-    @Size(max = 32)
-    @Column(columnDefinition = "VARCHAR(32) COMMENT '权限(等同于角色)'")
+    @Size(max = 64)
+    @Column(columnDefinition = "VARCHAR(64) COMMENT '权限(等同于角色)'")
     // 权限(等同于角色)
     private String authority;
 

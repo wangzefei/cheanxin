@@ -25,17 +25,6 @@ public class LoanDraft {
     private Long productId;
 
     //@NotNull
-    @Size(max = 50)
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT NULL COMMENT '产品名称'")
-    private String productName;
-
-    //@NotNull
-    @Min(1)
-    @Max(16)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED DEFAULT NULL COMMENT '产品类型'")
-    private Integer productType;
-
-    //@NotNull
     @Min(1)
     @Max(10)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED DEFAULT NULL COMMENT '贷款比率'")
@@ -84,21 +73,21 @@ public class LoanDraft {
     @Min(0)
     @Max(8)
     @Column(columnDefinition = "TINYINT(2) UNSIGNED DEFAULT NULL COMMENT '来源渠道'")
-    private Integer sourceApplicationSource;
+    private Integer sourceChannel;
 
     //@NotNull
     @Size(max = 30)
     @Column(columnDefinition = "VARCHAR(30) DEFAULT NULL COMMENT '来源联系人姓名'")
-    private String sourceSourcePersonName;
+    private String sourcePersonName;
 
     //@NotNull
     @Size(max = 20)
     @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '来源联系人电话'")
-    private String sourceSourcePersonTel;
+    private String sourcePersonTel;
 
     //@NotNull
-    @Size(max = 20)
-    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '贷款申请人姓名'")
+    @Size(max = 30)
+    @Column(columnDefinition = "VARCHAR(30) DEFAULT NULL COMMENT '贷款申请人姓名'")
     private String applicantName;
 
     //@NotNull
@@ -155,7 +144,7 @@ public class LoanDraft {
     private String applicantTelephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "INT(10) DEFAULT NULL COMMENT '工作单位名称'")
+    @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '工作单位名称'")
     private String applicantEmployerName;
 
     @Size(max = 20)
@@ -394,12 +383,12 @@ public class LoanDraft {
     //@NotNull
     @Size(min = 5, max = 2000)
     @Column(columnDefinition = "VARCHAR(2000) DEFAULT NULL COMMENT '车辆图片'")
-    private String vehicleVehicleFileIds;
+    private String vehicleFileIds;
 
     //@NotNull
     @Min(0)
-    @Max(8)
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED COMMENT '贷款草稿状态'")
+    @Max(64)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款草稿状态'")
     private Integer status;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
@@ -448,22 +437,6 @@ public class LoanDraft {
 
     public void setProductId(Long productId) {
         this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getProductType() {
-        return productType;
-    }
-
-    public void setProductType(Integer productType) {
-        this.productType = productType;
     }
 
     public Integer getLoanRate() {
@@ -538,28 +511,28 @@ public class LoanDraft {
         this.sourceCityId = sourceCityId;
     }
 
-    public Integer getSourceApplicationSource() {
-        return sourceApplicationSource;
+    public Integer getSourceChannel() {
+        return sourceChannel;
     }
 
-    public void setSourceApplicationSource(Integer sourceApplicationSource) {
-        this.sourceApplicationSource = sourceApplicationSource;
+    public void setSourceChannel(Integer sourceChannel) {
+        this.sourceChannel = sourceChannel;
     }
 
-    public String getSourceSourcePersonName() {
-        return sourceSourcePersonName;
+    public String getSourcePersonName() {
+        return sourcePersonName;
     }
 
-    public void setSourceSourcePersonName(String sourceSourcePersonName) {
-        this.sourceSourcePersonName = sourceSourcePersonName;
+    public void setSourcePersonName(String sourcePersonName) {
+        this.sourcePersonName = sourcePersonName;
     }
 
-    public String getSourceSourcePersonTel() {
-        return sourceSourcePersonTel;
+    public String getSourcePersonTel() {
+        return sourcePersonTel;
     }
 
-    public void setSourceSourcePersonTel(String sourceSourcePersonTel) {
-        this.sourceSourcePersonTel = sourceSourcePersonTel;
+    public void setSourcePersonTel(String sourcePersonTel) {
+        this.sourcePersonTel = sourcePersonTel;
     }
 
     public String getApplicantName() {
@@ -1106,12 +1079,12 @@ public class LoanDraft {
         this.vehicleLicenseFileIds = vehicleLicenseFileIds;
     }
 
-    public String getVehicleVehicleFileIds() {
-        return vehicleVehicleFileIds;
+    public String getVehicleFileIds() {
+        return vehicleFileIds;
     }
 
-    public void setVehicleVehicleFileIds(String vehicleVehicleFileIds) {
-        this.vehicleVehicleFileIds = vehicleVehicleFileIds;
+    public void setVehicleFileIds(String vehicleFileIds) {
+        this.vehicleFileIds = vehicleFileIds;
     }
 
     public Integer getStatus() {

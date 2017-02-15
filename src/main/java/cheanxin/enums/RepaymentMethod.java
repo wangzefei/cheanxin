@@ -6,15 +6,15 @@ package cheanxin.enums;
 public enum RepaymentMethod {
     EQUALITY_CORPUS_AND_INTEREST(0, "等额本息");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    private RepaymentMethod(int value, String desc) {
+    RepaymentMethod(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 

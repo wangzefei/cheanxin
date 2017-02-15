@@ -6,17 +6,18 @@ package cheanxin.enums;
 public enum LoanDraftStatus {
     FIRST_DRAFT(1, "初稿"),
     SECOND_DRAFT(2, "复稿"),
-    LOAN(0, "正式贷款申请");
+    DRAFT_REJECTED(4, "复稿退回待修改"),
+    DRAFT_ACCEPTED(8, "复稿通过"),;
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    LoanDraftStatus(int value, String desc) {
+    LoanDraftStatus(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 

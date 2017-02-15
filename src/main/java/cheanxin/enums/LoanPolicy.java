@@ -7,15 +7,15 @@ public enum LoanPolicy {
     AFTER_TRANSFER(0, "过户后放款"),
     AFTER_MORTGAGE(1, "抵押后放款");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    private LoanPolicy(int value, String desc) {
+    LoanPolicy(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 

@@ -4,27 +4,23 @@ package cheanxin.enums;
  * Created by Jawinton on 17/02/09.
  */
 public enum LoanStatus {
-    FIRST_REVIEW_PENDING(0, "初审待审核"),
+    LOAN_ABORTED(0, "贷款放弃"),
     FIRST_REVIEW_ACCEPTED(1, "初审通过/复审待定价"),
-    FIRST_REVIEW_REJECTED(2, "初审拒绝"),
-    FIRST_REVIEW_RETURNED(3, "初审退回修改"),
-    SECOND_REVIEW_PENDING(4, "复审已定价/复审待审核"),
-    SECOND_REVIEW_ACCEPTED(5, "复审通过/待签约"),
-    SECOND_REVIEW_REJECTED(6, "复审拒绝"),
-    SECOND_REVIEW_ABORTED(7, "复审拒绝后放弃"),
-    CONTRACT_ACCEPTED(8, "已签约/待放款"),
-    CONTRACT_REJECTED(9, "拒绝合同"),
-    CONTRACT_ABORTED(10, "拒绝合同后放弃");
+    SECOND_REVIEW_PENDING(2, "复审已定价/复审待审核"),
+    SECOND_REVIEW_ACCEPTED(4, "复审通过/待签约"),
+    SECOND_REVIEW_REJECTED(8, "复审拒绝"),
+    CONTRACT_ACCEPTED(16, "已签约/待放款"),
+    CONTRACT_REJECTED(32, "拒绝合同");
 
-    private final int value;
+    private final Integer value;
     private final String desc;
 
-    LoanStatus(int value, String desc) {
+    LoanStatus(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
 
-    public int value() {
+    public Integer value() {
         return this.value;
     }
 
