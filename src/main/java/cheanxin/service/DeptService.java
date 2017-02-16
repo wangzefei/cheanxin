@@ -12,7 +12,7 @@ public interface DeptService {
     Dept save(Dept unsavedDept);
     Dept save(Dept unsavedDept, Dept parentDept);
     void remove(long id);
-    Dept getOne(long id);
+    Dept get(long id);
     List<Dept> list(Integer level, boolean enabled);
     List<Dept> list(Long parentDeptId, boolean enabled);
     List<Dept> list(boolean enabled);

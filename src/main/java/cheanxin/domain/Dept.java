@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * Created by 273cn on 16/12/30.
@@ -45,6 +46,9 @@ public class Dept {
     // 创建时间
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
     private Long createdTime;
+
+    @Transient
+    private Set<Long> cityIds;
 
     public Dept() {}
 
@@ -104,5 +108,13 @@ public class Dept {
 
     public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Set<Long> getCityIds() {
+        return cityIds;
+    }
+
+    public void setCityIds(Set<Long> cityIds) {
+        this.cityIds = cityIds;
     }
 }

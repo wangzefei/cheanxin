@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-15 17:18:36
+Date: 2017-02-16 11:05:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -238,11 +238,12 @@ CREATE TABLE `loan_draft` (
   PRIMARY KEY (`id`),
   KEY `idx_creator_username` (`creator_username`),
   KEY `idx_modified_time` (`modified_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan_draft
 -- ----------------------------
+INSERT INTO `loan_draft` VALUES ('1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1487151283', '273', null, null, null, null, null, null, null, '1487151283', null, '2', null, null, null, null, null, null, null, '1', null, '10000', null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `loan_log`
@@ -258,7 +259,8 @@ CREATE TABLE `loan_log` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`),
   KEY `idx_loan_id` (`loan_id`),
-  KEY `idx_operator_username` (`operator_username`)
+  KEY `idx_operator_username` (`operator_username`),
+  KEY `idx_loan_draft_id` (`loan_draft_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -309,6 +311,7 @@ INSERT INTO `post_authority` VALUES ('12', 'ROLE_FIRST_REVIEW_ACCEPTED_TO_FIRST_
 INSERT INTO `post_authority` VALUES ('15', 'ROLE_FIRST_REVIEW_ACCEPTED_TO_SECOND_REVIEW_PENDING', '4');
 INSERT INTO `post_authority` VALUES ('1', 'ROLE_PENDING_REVIEW_TO_ACCEPTED', '4');
 INSERT INTO `post_authority` VALUES ('2', 'ROLE_PENDING_REVIEW_TO_REJECTED', '4');
+INSERT INTO `post_authority` VALUES ('8', 'ROLE_SECOND_DRAFT_TO_DRAFT_ABORTED', '4');
 INSERT INTO `post_authority` VALUES ('6', 'ROLE_SECOND_DRAFT_TO_DRAFT_ACCEPTED', '4');
 INSERT INTO `post_authority` VALUES ('7', 'ROLE_SECOND_DRAFT_TO_DRAFT_REJECTED', '4');
 INSERT INTO `post_authority` VALUES ('5', 'ROLE_SECOND_DRAFT_TO_SECOND_DRAFT', '4');
@@ -360,7 +363,8 @@ CREATE TABLE `product` (
   `repayment_method` tinyint(2) unsigned NOT NULL COMMENT '还款类型',
   `status` tinyint(1) unsigned NOT NULL COMMENT '产品状态',
   PRIMARY KEY (`id`),
-  KEY `idx_product_template_id` (`product_template_id`)
+  KEY `idx_product_template_id` (`product_template_id`),
+  KEY `idx_city_id` (`city_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

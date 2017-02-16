@@ -42,7 +42,7 @@ public class DeptController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Dept> get(@PathVariable(value = "id") long id) {
-        Dept dept = deptService.getOne(id);
+        Dept dept = deptService.get(id);
 
         Assert.notNull(dept, "Dept not found");
 
@@ -59,7 +59,7 @@ public class DeptController extends BaseController {
         if (dept.getParentDeptId() == 0L)
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
 
-        Dept parentDept = deptService.getOne(dept.getParentDeptId());
+        Dept parentDept = deptService.get(dept.getParentDeptId());
         Assert.notNull(parentDept, "Parent dept not found");
 
         return new ResponseEntity<>(deptService.save(dept, parentDept), HttpStatus.CREATED);
@@ -79,7 +79,7 @@ public class DeptController extends BaseController {
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.OK);
         }
 
-        Dept parentDept = deptService.getOne(dept.getParentDeptId());
+        Dept parentDept = deptService.get(dept.getParentDeptId());
         Assert.notNull(parentDept, "Parent dept not found");
 
         dept.setId(id);
@@ -95,7 +95,7 @@ public class DeptController extends BaseController {
     public ResponseEntity<Dept> patch(
             @PathVariable(value = "id") long id,
             @RequestBody Dept dept) {
-        Dept unsavedDept = deptService.getOne(id);
+        Dept unsavedDept = deptService.get(id);
 
         Assert.notNull(unsavedDept, "Dept not found");
         Assert.notNull(dept.getEnabled(), "Field enabled is empty.");

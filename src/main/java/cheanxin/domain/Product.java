@@ -11,7 +11,7 @@ import java.util.Collection;
  * 产品
  */
 @Entity
-@Table(indexes = { @Index(name = "idx_product_template_id", columnList = "productTemplateId") })
+@Table(indexes = { @Index(name = "idx_product_template_id", columnList = "productTemplateId"), @Index(name = "idx_city_id", columnList = "cityId") })
 public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -81,11 +81,6 @@ public class Product {
 
     @NotNull
     @Min(0)
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '省份id'")
-    private Long provinceId;
-
-    @NotNull
-    @Min(0)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '城市id'")
     // 城市id
     private Long cityId;
@@ -126,7 +121,6 @@ public class Product {
                 ", availableTerms='" + availableTerms + '\'' +
                 ", loanPolicy=" + loanPolicy +
                 ", loanMonthlyInterestRate=" + loanMonthlyInterestRate +
-                ", provinceId=" + provinceId +
                 ", cityId=" + cityId +
                 '}';
     }
@@ -209,14 +203,6 @@ public class Product {
 
     public void setLoanMonthlyInterestRate(Float loanMonthlyInterestRate) {
         this.loanMonthlyInterestRate = loanMonthlyInterestRate;
-    }
-
-    public Long getProvinceId() {
-        return provinceId;
-    }
-
-    public void setProvinceId(Long provinceId) {
-        this.provinceId = provinceId;
     }
 
     public Long getCityId() {
