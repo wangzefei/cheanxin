@@ -21,6 +21,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 273cn on 17/01/07.
@@ -63,6 +64,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> list(long productTemplateId, String name, int status, int page, int size) {
         return list(null, productTemplateId, name, status, page, size);
+    }
+
+    @Override
+    public List<Product> list(Set<Long> productIdSet) {
+        return productRepository.findAllByIdIn(productIdSet);
     }
 
     @Override

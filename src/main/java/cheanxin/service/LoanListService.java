@@ -89,7 +89,16 @@ public abstract class LoanListService<T> {
      * @param searchLoan
      * @return
      */
-    public Specification<T> getWhereClause(final SearchLoan searchLoan) {
+    public Specification<T> getWhereClause(String creatorUsername, String sourceFinancialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status) {
+        SearchLoan searchLoan = new SearchLoan();
+        searchLoan.setCreatorUsername(creatorUsername);
+        searchLoan.setSourceFinancialCommissioner(sourceFinancialCommissioner);
+        searchLoan.setApplicantName(applicantName);
+        searchLoan.setApplicantMobileNumber(applicantMobileNumber);
+        searchLoan.setCreatedTimeFrom(createdTimeFrom);
+        searchLoan.setCreatedTimeTo(createdTimeTo);
+        searchLoan.setStatus(status);
+
         return new Specification<T>() {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {

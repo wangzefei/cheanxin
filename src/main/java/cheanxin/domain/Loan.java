@@ -31,6 +31,12 @@ public class Loan {
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '产品id'")
     private Long productId;
 
+    @Transient
+    private String productName;
+
+    @Transient
+    private String productType;
+
     @NotNull
     @Min(1)
     @Max(10)
@@ -631,6 +637,22 @@ public class Loan {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     public Integer getLoanRate() {
