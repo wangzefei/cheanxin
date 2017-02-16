@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-16 11:05:52
+Date: 2017-02-16 16:27:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,6 +36,28 @@ CREATE TABLE `dept` (
 INSERT INTO `dept` VALUES ('1', '1234567890', '1', '1', '车安心', '0');
 INSERT INTO `dept` VALUES ('2', '1234567890', '1', '2', '金融中心', '1');
 INSERT INTO `dept` VALUES ('3', '1234567890', '1', '3', '华南', '2');
+
+-- ----------------------------
+-- Table structure for `dept_city`
+-- ----------------------------
+DROP TABLE IF EXISTS `dept_city`;
+CREATE TABLE `dept_city` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
+  `city_id` int(10) unsigned NOT NULL COMMENT '城市id',
+  `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
+  `creator_username` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
+  `dept_id` int(10) unsigned NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_dept_id_city_id` (`dept_id`,`city_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of dept_city
+-- ----------------------------
+INSERT INTO `dept_city` VALUES ('1', '1', '1487230032', '273', '1');
+INSERT INTO `dept_city` VALUES ('2', '3', '1487230032', '273', '1');
+INSERT INTO `dept_city` VALUES ('3', '7', '1487230032', '273', '1');
+INSERT INTO `dept_city` VALUES ('4', '90', '1487230032', '273', '1');
 
 -- ----------------------------
 -- Table structure for `loan`
@@ -359,7 +381,6 @@ CREATE TABLE `product` (
   `name` varchar(50) NOT NULL COMMENT '产品名称',
   `product_template_id` int(10) unsigned NOT NULL COMMENT '产品模板id，如果productTemplateId为0表示自身为产品模板',
   `product_type` tinyint(2) unsigned NOT NULL COMMENT '产品类型',
-  `province_id` int(10) unsigned NOT NULL COMMENT '省份id',
   `repayment_method` tinyint(2) unsigned NOT NULL COMMENT '还款类型',
   `status` tinyint(1) unsigned NOT NULL COMMENT '产品状态',
   PRIMARY KEY (`id`),
@@ -370,9 +391,9 @@ CREATE TABLE `product` (
 -- ----------------------------
 -- Records of product
 -- ----------------------------
-INSERT INTO `product` VALUES ('1', '6,12,24,36,48,60', '0', '1483778458', '273', '0.8000', '1', '9', '1', '1483778458', '车安心1号', '0', '1', '0', '1', '0');
-INSERT INTO `product` VALUES ('2', '6,12,24,36', '1', '1483778588', '273', '0.8200', '1', '9', '1', '1483778659', '车安心1号', '1', '1', '1', '1', '1');
-INSERT INTO `product` VALUES ('3', '6,12', '1', '1485329343', '273', '0.8100', '1', '8', '3', '1485329343', '车安心2号', '1', '1', '1', '1', '2');
+INSERT INTO `product` VALUES ('1', '6,12,24,36,48,60', '0', '1483778458', '273', '0.8000', '1', '9', '1', '1483778458', '车安心1号', '0', '1', '1', '0');
+INSERT INTO `product` VALUES ('2', '6,12,24,36', '1', '1483778588', '273', '0.8200', '1', '9', '1', '1483778659', '车安心1号', '1', '1', '1', '1');
+INSERT INTO `product` VALUES ('3', '6,12', '1', '1485329343', '273', '0.8100', '1', '8', '3', '1485329343', '车安心2号', '1', '1', '1', '2');
 
 -- ----------------------------
 -- Table structure for `product_log`
