@@ -40,4 +40,13 @@ public enum ProductType {
         }
         return false;
     }
+
+    public static ProductType valueOf(int value) {
+        ProductType productTypes[] = ProductType.values();
+        for (ProductType productType : productTypes) {
+            if (productType.value() == value)
+                return productType;
+        }
+        return null;
+    }
 }

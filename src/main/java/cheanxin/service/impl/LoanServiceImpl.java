@@ -4,6 +4,7 @@ import cheanxin.data.LoanRepository;
 import cheanxin.domain.*;
 import cheanxin.enums.LoanDraftStatus;
 import cheanxin.enums.LoanStatusTransfer;
+import cheanxin.enums.ProductType;
 import cheanxin.service.LoanDraftService;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
@@ -59,7 +60,17 @@ public class LoanServiceImpl extends LoanService {
 
     @Override
     public Loan getOne(long id) {
-        return loanRepository.findOne(id);
+        Loan loan = loanRepository.findOne(id);
+        if (loan == null || loan.getProductId() == null) return loan;
+
+        // product name and product type
+        Product product = productService.getOne(loan.getProductId());
+        if (product != null) {
+            loan.setProductName(product.getName());
+            loan.setProductType(ProductType.valueOf(product.getProductType().intValue()).getDesc());
+        }
+
+        return loan;
     }
 
     @Override
@@ -78,7 +89,8 @@ public class LoanServiceImpl extends LoanService {
             productMap.put(product.getId(), product);
         }
         for (Loan loan : loanPage) {
-            loan.setProductName(productMap.get(loan.getProductId()).getName());
+            Product product = productMap.get(loan.getProductId());
+            if (product != null) loan.setProductName(product.getName());
         }
         
         return loanPage;
