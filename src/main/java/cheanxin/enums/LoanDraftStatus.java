@@ -7,7 +7,8 @@ public enum LoanDraftStatus {
     FIRST_DRAFT(1, "初稿"),
     SECOND_DRAFT(2, "复稿"),
     DRAFT_REJECTED(4, "复稿退回待修改"),
-    DRAFT_ACCEPTED(8, "复稿通过"),;
+    DRAFT_ACCEPTED(8, "复稿通过"),
+    DRAFT_ABORTED(16, "复稿直接拒绝");
 
     private final Integer value;
     private final String desc;

@@ -15,9 +15,10 @@ public enum LoanDraftStatusTransfer {
     FIRST_DRAFT_TO_FIRST_DRAFT(1, LoanDraftStatus.FIRST_DRAFT, LoanDraftStatus.FIRST_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_FIRST_DRAFT.name())),
     FIRST_DRAFT_TO_SECOND_DRAFT(2, LoanDraftStatus.FIRST_DRAFT, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_SECOND_DRAFT.name())),
     SECOND_DRAFT_TO_SECOND_DRAFT(3, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_SECOND_DRAFT.name())),
-    SECOND_DRAFT_TO_DRAFT_REJECTED(4, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.DRAFT_REJECTED, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_DRAFT_REJECTED.name())),
-    DRAFT_REJECTED_TO_DRAFT_REJECTED(5, LoanDraftStatus.DRAFT_REJECTED, LoanDraftStatus.DRAFT_REJECTED, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_FIRST_DRAFT.name())),
-    DRAFT_REJECTED_TO_SECOND_DRAFT(6, LoanDraftStatus.DRAFT_REJECTED, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_SECOND_DRAFT.name()));
+    SECOND_DRAFT_TO_DRAFT_ABORTED(4, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.DRAFT_ABORTED, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_DRAFT_ABORTED.name())),
+    SECOND_DRAFT_TO_DRAFT_REJECTED(5, LoanDraftStatus.SECOND_DRAFT, LoanDraftStatus.DRAFT_REJECTED, new SimpleGrantedAuthority(Authority.ROLE_SECOND_DRAFT_TO_DRAFT_REJECTED.name())),
+    DRAFT_REJECTED_TO_DRAFT_REJECTED(6, LoanDraftStatus.DRAFT_REJECTED, LoanDraftStatus.DRAFT_REJECTED, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_FIRST_DRAFT.name())),
+    DRAFT_REJECTED_TO_SECOND_DRAFT(7, LoanDraftStatus.DRAFT_REJECTED, LoanDraftStatus.SECOND_DRAFT, new SimpleGrantedAuthority(Authority.ROLE_FIRST_DRAFT_TO_SECOND_DRAFT.name()));
 
     private final Integer value;
     private final LoanDraftStatus fromStatus;

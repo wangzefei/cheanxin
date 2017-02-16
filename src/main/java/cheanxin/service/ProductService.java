@@ -4,6 +4,9 @@ import cheanxin.domain.Product;
 import cheanxin.domain.User;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by 273cn on 17/01/07.
  */
@@ -13,6 +16,7 @@ public interface ProductService {
     Product getOne(long id);
     Page<Product> list(long productTemplateId, String name, int status, int page, int size);
     Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size);
+    List<Product> list(Set<Long> productIdSet);
     Product review(User user, Product fromProduct, Product toProduct);
     boolean hasChildProducts(Product product);
 }

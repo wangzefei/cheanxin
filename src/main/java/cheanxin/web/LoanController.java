@@ -9,6 +9,7 @@ import cheanxin.enums.LoanStatus;
 import cheanxin.enums.LoanStatusTransfer;
 import cheanxin.service.LoanDraftService;
 import cheanxin.service.LoanListService;
+import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
 import cheanxin.util.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ import javax.validation.Valid;
 public class LoanController extends BaseController {
     @Autowired
     LoanService loanService;
+
+    @Autowired
+    LoanLogService loanLogService;
 
     @Autowired
     LoanDraftService loanDraftService;
@@ -98,18 +102,17 @@ public class LoanController extends BaseController {
 
         LoanStatusTransfer.checkAuthority(user, savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());
 
-        LoanStatusTransfer loanDraftTransfer = LoanStatusTransfer.valueOf(savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());
+        LoanStatusTransfer loanStatusTransfer = LoanStatusTransfer.valueOf(savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());
 
-
-        if (LoanStatusTransfer.SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanDraftTransfer)) {
-            // TODO check loan log
-
+        if (LoanStatusTransfer.SECOND_REVIEW_PENDING_TO_SECOND_REVIEW_REJECTED.equals(loanStatusTransfer) && loanLogService.isExists(id, loanStatusTransfer)) {
+            // directly abort loan if loan review rejected for second time.
+            loanStatusTransfer = LoanStatusTransfer.SECOND_REVIEW_PENDING_TO_LOAN_ABORTED;
+        } else if (LoanStatusTransfer.SECOND_REVIEW_ACCEPTED_TO_CONTRACT_REJECTED.equals(loanStatusTransfer) && loanLogService.isExists(id, loanStatusTransfer)) {
+            // directly abort loan if loan contract rejected for second time.
+            loanStatusTransfer = LoanStatusTransfer.SECOND_REVIEW_ACCEPTED_TO_LOAN_ABORTED;
+        } else if (LoanStatusTransfer.SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanStatusTransfer)) {
             ReflectUtil.mergeObject(unsavedLoan, savedLoan);
-        }
-
-        if (LoanStatusTransfer.CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanDraftTransfer)) {
-            // TODO check loan log
-
+        } else if (LoanStatusTransfer.CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanStatusTransfer)) {
             savedLoan.setProductId(unsavedLoan.getProductId());
             savedLoan.setLoanRate(unsavedLoan.getLoanRate());
             savedLoan.setLoanTerms(unsavedLoan.getLoanTerms());
@@ -117,7 +120,8 @@ public class LoanController extends BaseController {
             savedLoan.setPrepaymentPenaltyRate(unsavedLoan.getPrepaymentPenaltyRate());
         }
 
-        unsavedLoan.setModifiedTime(System.currentTimeMillis() / 1000);
+        savedLoan.setModifiedTime(System.currentTimeMillis() / 1000);
+        savedLoan.setStatus(loanStatusTransfer.getToStatus().value());
         return new ResponseEntity<>(loanService.updateStatus(user, fromStatus, savedLoan), HttpStatus.OK);
     }
 }

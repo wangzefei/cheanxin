@@ -3,13 +3,11 @@ package cheanxin.service.impl;
 import cheanxin.data.LoanRepository;
 import cheanxin.domain.*;
 import cheanxin.enums.LoanDraftStatus;
-import cheanxin.enums.LoanStatus;
 import cheanxin.enums.LoanStatusTransfer;
-import cheanxin.enums.ProductStatusTransfer;
 import cheanxin.service.LoanDraftService;
-import cheanxin.service.LoanListService;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
+import cheanxin.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,13 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.validation.Valid;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 273cn on 17/02/08.
@@ -39,6 +33,9 @@ public class LoanServiceImpl extends LoanService {
 
     @Autowired
     LoanDraftService loanDraftService;
+
+    @Autowired
+    private ProductService productService;
 
     @Override
     @Transactional
@@ -68,16 +65,23 @@ public class LoanServiceImpl extends LoanService {
     @Override
     public Page<Loan> list(String creatorUsername, String sourceFinancialCommissioner, String applicantName, String applicantMobileNumber, long createdTimeFrom, long createdTimeTo, int status, int page, int size) {
         Pageable pageable = new PageRequest(page, size);
-        SearchLoan searchLoan = new SearchLoan();
-        searchLoan.setCreatorUsername(creatorUsername);
-        searchLoan.setSourceFinancialCommissioner(sourceFinancialCommissioner);
-        searchLoan.setApplicantName(applicantName);
-        searchLoan.setApplicantMobileNumber(applicantMobileNumber);
-        searchLoan.setCreatedTimeFrom(createdTimeFrom);
-        searchLoan.setCreatedTimeTo(createdTimeTo);
-        searchLoan.setStatus(status);
-        Specification<Loan> specification = this.getWhereClause(searchLoan);
-        return loanRepository.findAll(specification, pageable);
+        Specification<Loan> specification = this.getWhereClause(creatorUsername, sourceFinancialCommissioner, applicantName, applicantMobileNumber, createdTimeFrom, createdTimeTo, status);
+        Page<Loan> loanPage = loanRepository.findAll(specification, pageable);
+
+        // product name
+        Map<Long, Product> productMap = new HashMap<>();
+        for (Loan loan : loanPage) {
+            productMap.put(loan.getProductId(), null);
+        }
+        List<Product> productList = productService.list(productMap.keySet());
+        for (Product product : productList) {
+            productMap.put(product.getId(), product);
+        }
+        for (Loan loan : loanPage) {
+            loan.setProductName(productMap.get(loan.getProductId()).getName());
+        }
+        
+        return loanPage;
     }
 
     @Override
