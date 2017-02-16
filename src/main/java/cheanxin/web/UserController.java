@@ -59,7 +59,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(value="/me", method=RequestMethod.GET)
     public ResponseEntity<User> get(@AuthenticationPrincipal User user) {
-        return get(user.getUsername());
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET, produces = "application/json")

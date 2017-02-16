@@ -1,9 +1,11 @@
 package cheanxin.service.impl;
 
 import cheanxin.data.PostAuthorityRepository;
+import cheanxin.domain.DeptCity;
 import cheanxin.domain.PostAuthority;
 import cheanxin.domain.User;
 import cheanxin.domain.UserPost;
+import cheanxin.service.DeptCityService;
 import cheanxin.service.PostAuthorityService;
 import cheanxin.service.UserPostService;
 import cheanxin.service.UserService;
@@ -14,9 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -28,6 +28,9 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
 
     @Autowired
     PostAuthorityRepository postAuthorityRepository;
+
+    @Autowired
+    DeptCityService deptCityService;
 
     @Autowired
     UserService userService;
@@ -45,6 +48,13 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
 
         List<UserPost> userPostList = userPostService.list(username);
         if (userPostList.isEmpty()) return user;
+
+        List<DeptCity> deptCityList = deptCityService.list(user.getDeptId());
+        Set<Long> cityIds = new HashSet<>();
+        for (DeptCity deptCity : deptCityList) {
+            cityIds.add(deptCity.getCityId());
+        }
+        user.setCityIds(cityIds);
 
         Collection<Long> postIds = new ArrayList<>();
         for (UserPost userPost : userPostList)

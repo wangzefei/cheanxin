@@ -2,10 +2,13 @@ package cheanxin.service.impl;
 
 import cheanxin.data.DeptRepository;
 import cheanxin.domain.Dept;
+import cheanxin.domain.DeptCity;
+import cheanxin.service.DeptCityService;
 import cheanxin.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +19,9 @@ import java.util.Set;
 public class DeptServiceImpl implements DeptService {
     @Autowired
     DeptRepository deptRepository;
+
+    @Autowired
+    DeptCityService deptCityService;
 
     @Override
     public Dept save(Dept unsavedDept, Dept parentDept) {
@@ -65,12 +71,22 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Dept getOne(long id) {
-        return deptRepository.findOne(id);
+    public Dept get(long id) {
+        Dept dept = deptRepository.findOne(id);
+
+        // dept city list.
+        List<DeptCity> deptCityList = deptCityService.list(dept.getId());
+        Set<Long> cityIds = new HashSet<>();
+        for (DeptCity deptCity : deptCityList) {
+            cityIds.add(deptCity.getCityId());
+        }
+        dept.setCityIds(cityIds);
+
+        return dept;
     }
 
     @Override
     public boolean isExists(long id) {
-        return getOne(id) != null;
+        return get(id) != null;
     }
 }

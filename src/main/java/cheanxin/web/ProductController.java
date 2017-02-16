@@ -120,7 +120,6 @@ public class ProductController extends BaseController {
         Assert.isTrue(product.getMinAvailableRate() <= product.getMaxAvailableRate(), "Product's min available rate should be less than max available rate.");
 
         if (product.getProductTemplateId() == 0L) {
-            product.setProvinceId(0L);
             product.setCityId(0L);
         } else {
             long productTemplateId = product.getProductTemplateId().longValue();
@@ -131,7 +130,6 @@ public class ProductController extends BaseController {
             Assert.isTrue(product.getMinAvailableRate() >= productTemplate.getMinAvailableRate(), "Product's min available rate should be greater than product template's min available rate.");
             Assert.isTrue(product.getMaxAvailableRate() <= productTemplate.getMaxAvailableRate(), "Product's max available rate should be less than product template's max available rate.");
             Assert.isTrue(StringUtil.containsAll(productTemplate.getAvailableTerms(), product.getAvailableTerms()), "Product's terms are unavailable.");
-            Assert.isTrue(product.getProvinceId() > 0L, "Product's province id should be assigned.");
             Assert.isTrue(product.getCityId() > 0L, "Product's city id should be assigned.");
         }
 
