@@ -11,7 +11,7 @@ import java.util.Collection;
  * 产品
  */
 @Entity
-@Table(indexes = { @Index(name = "idx_product_template_id", columnList = "productTemplateId") })
+@Table(indexes = { @Index(name = "idx_product_template_id", columnList = "productTemplateId"), @Index(name = "idx_city_id", columnList = "cityId") })
 public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
