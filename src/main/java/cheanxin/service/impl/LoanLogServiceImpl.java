@@ -23,7 +23,9 @@ public class LoanLogServiceImpl implements LoanLogService {
 
     @Override
     public boolean isExists(long loanId, LoanStatusTransfer loanStatusTransfer) {
-        if (loanStatusTransfer == null) return false;
+        if (loanStatusTransfer == null) {
+            return false;
+        }
         return loanLogRepository.findByLoanIdAndOperatorType(loanId, loanStatusTransfer.getValue().intValue(), new PageRequest(0, 1)).hasNext();
     }
 }

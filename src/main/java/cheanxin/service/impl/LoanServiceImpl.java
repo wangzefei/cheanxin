@@ -43,8 +43,9 @@ public class LoanServiceImpl extends LoanService {
     public Loan save(Loan unsavedLoan, LoanDraft loanDraft) {
         Loan savedLoan = loanRepository.save(unsavedLoan);
 
-        if (loanDraft != null)
+        if (loanDraft != null) {
             loanDraftService.save(LoanDraftStatus.SECOND_DRAFT.value(), loanDraft);
+        }
 
         LoanLog loanLog = new LoanLog(
                 savedLoan.getId(),
@@ -61,7 +62,9 @@ public class LoanServiceImpl extends LoanService {
     @Override
     public Loan getOne(long id) {
         Loan loan = loanRepository.findOne(id);
-        if (loan == null || loan.getProductId() == null) return loan;
+        if (loan == null || loan.getProductId() == null) {
+            return loan;
+        }
 
         // product name and product type
         Product product = productService.getOne(loan.getProductId());
@@ -90,7 +93,9 @@ public class LoanServiceImpl extends LoanService {
         }
         for (Loan loan : loanPage) {
             Product product = productMap.get(loan.getProductId());
-            if (product != null) loan.setProductName(product.getName());
+            if (product != null) {
+                loan.setProductName(product.getName());
+            }
         }
         
         return loanPage;

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -24,30 +26,21 @@ import java.util.Properties;
  */
 @Configuration
 @EnableJpaRepositories(basePackages= "cheanxin.data")
+@PropertySource("classpath:/${spring.profiles.active}/database.properties")
 public class DatabaseConfig {
+    @Autowired
+    Environment env;
+
     @Bean
-    @Profile(ConfigConstants.DEV)
     public DataSource devDataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/cheanxin?useUnicode=true&characterEncoding=UTF-8");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
-        dataSource.setInitialSize(5);
-        dataSource.setMaxActive(10);
-        return dataSource;
-    }
-
-    @Bean
-    @Profile(ConfigConstants.QA)
-    public DataSource qaDataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://192.168.5.31:3306/273test?useUnicode=true&characterEncoding=UTF-8");
-        dataSource.setUsername("w273cn");
-        dataSource.setPassword("w273cn_gototop_0591");
-        dataSource.setInitialSize(50);
-        dataSource.setMaxActive(100);
+        dataSource.setDriverClassName(env.getRequiredProperty("database.driverClassName"));
+        dataSource.setUrl(env.getRequiredProperty("database.url"));
+        dataSource.setUsername(env.getRequiredProperty("database.username"));
+        dataSource.setPassword(env.getRequiredProperty("database.password"));
+        dataSource.setInitialSize(env.getProperty("database.initialSize", Integer.class, 5));
+        dataSource.setMaxActive(env.getProperty("database.maxActive", Integer.class, 10));
         return dataSource;
     }
 

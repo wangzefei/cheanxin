@@ -28,8 +28,9 @@ public class DeptController extends BaseController {
             @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
         Assert.isTrue(level == 1 || parentDeptId == 0, "level and parentDeptId are exclusive.");
 
-        if (level != 1)
+        if (level != 1) {
             return deptService.list(level, enabled);
+        }
 
         return deptService.list(parentDeptId, enabled);
     }
@@ -56,8 +57,9 @@ public class DeptController extends BaseController {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
 
-        if (dept.getParentDeptId() == 0L)
+        if (dept.getParentDeptId() == 0L) {
             return new ResponseEntity<>(deptService.save(dept), HttpStatus.CREATED);
+        }
 
         Dept parentDept = deptService.get(dept.getParentDeptId());
         Assert.notNull(parentDept, "Parent dept not found");

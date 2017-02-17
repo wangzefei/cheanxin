@@ -33,8 +33,9 @@ public class UserPostServiceImpl implements UserPostService {
         Map<String, Collection<Post>> userPostMap = new HashMap<>();
         for (UserPost userPost : userPostList) {
             Collection<Post> postList = userPostMap.get(userPost.getUsername());
-            if (postList == null)
+            if (postList == null) {
                 postList = new ArrayList<>();
+            }
             postList.add(postMap.get(userPost.getPostId()));
             userPostMap.put(userPost.getUsername(), postList);
         }

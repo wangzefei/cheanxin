@@ -56,7 +56,9 @@ public class LoanDraftServiceImpl extends LoanDraftService {
     @Override
     public LoanDraft getOne(long id) {
         LoanDraft loanDraft = loanDraftRepository.findOne(id);
-        if (loanDraft == null || loanDraft.getProductId() == null) return loanDraft;
+        if (loanDraft == null || loanDraft.getProductId() == null) {
+            return loanDraft;
+        }
 
         // product name and product type
         Product product = productService.getOne(loanDraft.getProductId());
@@ -85,7 +87,9 @@ public class LoanDraftServiceImpl extends LoanDraftService {
         }
         for (LoanDraft loanDraft : loanDraftPage) {
             Product product = productMap.get(loanDraft.getProductId());
-            if (product != null) loanDraft.setProductName(product.getName());
+            if (product != null) {
+                loanDraft.setProductName(product.getName());
+            }
         }
         
         return loanDraftPage;

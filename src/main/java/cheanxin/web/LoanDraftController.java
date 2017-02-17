@@ -93,8 +93,9 @@ public class LoanDraftController extends BaseController {
         LoanDraft savedLoanDraft = loanDraftService.getOne(id);
         Assert.notNull(savedLoanDraft, "Loan draft not found.");
 
-        if (unsavedLoanDraft.getStatus() == null)
+        if (unsavedLoanDraft.getStatus() == null) {
             unsavedLoanDraft.setStatus(savedLoanDraft.getStatus());
+        }
         int fromStatus = savedLoanDraft.getStatus();
         int toStatus = unsavedLoanDraft.getStatus();
         LoanDraftStatusTransfer.checkAuthority(user, fromStatus, unsavedLoanDraft.getStatus());

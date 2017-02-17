@@ -69,8 +69,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> list(Collection<Long> productIds) {
-        if (productIds == null || productIds.isEmpty())
+        if (productIds == null || productIds.isEmpty()) {
             return new ArrayList<>();
+        }
         return productRepository.findAllByIdIn(productIds);
     }
 
@@ -97,8 +98,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean hasChildProducts(Product product) {
-        if (product.getProductTemplateId() != 0L)
+        if (product.getProductTemplateId() != 0L) {
             return false;
+        }
         return productRepository.findByProductTemplateId(product.getId(), new PageRequest(0, 1)).hasContent();
     }
 
