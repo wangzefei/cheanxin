@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-16 16:27:05
+Date: 2017-02-17 10:18:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -458,10 +458,13 @@ CREATE TABLE `user_post` (
   `post_id` int(10) unsigned NOT NULL COMMENT '岗位id',
   `username` varchar(20) NOT NULL COMMENT '用户名',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_username_post_id` (`username`,`post_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `idx_username_post_id` (`username`,`post_id`),
+  KEY `idx_post_id` (`post_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_post
 -- ----------------------------
 INSERT INTO `user_post` VALUES ('1', '1234567890', '4', '273');
+INSERT INTO `user_post` VALUES ('2', '1234567878', '1', '273');
+INSERT INTO `user_post` VALUES ('3', '1324567890', '2', '2731');

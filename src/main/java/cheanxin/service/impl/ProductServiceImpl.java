@@ -20,6 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -67,8 +68,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> list(Set<Long> productIdSet) {
-        return productRepository.findAllByIdIn(productIdSet);
+    public List<Product> list(Collection<Long> productIds) {
+        if (productIds == null || productIds.isEmpty())
+            return new ArrayList<>();
+        return productRepository.findAllByIdIn(productIds);
     }
 
     @Override

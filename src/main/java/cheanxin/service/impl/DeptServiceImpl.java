@@ -8,9 +8,7 @@ import cheanxin.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -56,7 +54,9 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Dept> list(Set<Long> deptIds) {
+    public List<Dept> list(Collection<Long> deptIds) {
+        if (deptIds == null || deptIds.isEmpty())
+            return new ArrayList<>();
         return deptRepository.findAllByIdIn(deptIds);
     }
 

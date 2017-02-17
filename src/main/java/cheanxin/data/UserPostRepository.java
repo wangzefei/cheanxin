@@ -5,6 +5,7 @@ import cheanxin.domain.UserPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,4 +14,6 @@ import java.util.List;
 @Repository
 public interface UserPostRepository extends JpaRepository<UserPost, Long> {
     List<UserPost> findByUsername(String username);
+    List<UserPost> findByUsernameIn(Collection<String> usernames);
+    List<UserPost> findByUsernameInAndPostId(Collection<String> usernames, long postId);
 }
