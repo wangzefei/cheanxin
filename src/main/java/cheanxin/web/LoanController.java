@@ -96,8 +96,9 @@ public class LoanController extends BaseController {
 
         Loan savedLoan = loanService.getOne(id);
         Assert.notNull(savedLoan, "Loan not found");
-        if (unsavedLoan.getStatus() == null)
+        if (unsavedLoan.getStatus() == null) {
             unsavedLoan.setStatus(savedLoan.getStatus());
+        }
         int fromStatus = savedLoan.getStatus();
 
         LoanStatusTransfer.checkAuthority(user, savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());

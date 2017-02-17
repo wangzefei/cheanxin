@@ -92,9 +92,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> list(long deptId, long postId, boolean enabled) {
-        if (deptId <= 0L) return userRepository.findAllByEnabled(enabled);
+        if (deptId <= 0L) {
+            return userRepository.findAllByEnabled(enabled);
+        }
         List<User> userList = userRepository.findAllByDeptIdAndEnabled(deptId, enabled);
-        if (postId <= 0L) return userList;
+        if (postId <= 0L) {
+            return userList;
+        }
         Set<String> usernames = new HashSet<>();
         for (User user : userList) {
             usernames.add(user.getUsername());

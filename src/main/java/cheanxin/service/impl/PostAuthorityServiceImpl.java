@@ -37,19 +37,23 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
 
     @Override
     public List<PostAuthority> list(Collection<Long> postIds) {
-        if (postIds == null || postIds.isEmpty())
+        if (postIds == null || postIds.isEmpty()) {
             return new ArrayList<>();
+        }
         return postAuthorityRepository.findByPostIdIn(postIds);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.getByUsername(username);
-        if (user == null)
+        if (user == null) {
             throw new UsernameNotFoundException("User " + username + " not found.");
+        }
 
         List<UserPost> userPostList = userPostService.list(username);
-        if (userPostList.isEmpty()) return user;
+        if (userPostList.isEmpty()) {
+            return user;
+        }
 
         List<DeptCity> deptCityList = deptCityService.list(user.getDeptId());
         Set<Long> cityIds = new HashSet<>();

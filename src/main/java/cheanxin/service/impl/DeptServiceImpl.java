@@ -25,15 +25,18 @@ public class DeptServiceImpl implements DeptService {
     public Dept save(Dept unsavedDept, Dept parentDept) {
         Long parentDeptId = 0L;
         if (parentDept != null) {
-            if (parentDept.getId() != null)
+            if (parentDept.getId() != null) {
                 parentDeptId = parentDept.getId();
-            if (parentDept.getLevel() != null)
+            }
+            if (parentDept.getLevel() != null) {
                 unsavedDept.setLevel(parentDept.getLevel() + 1);
+            }
         }
 
         unsavedDept.setParentDeptId(parentDeptId);
-        if (parentDeptId == 0L)
+        if (parentDeptId == 0L) {
             unsavedDept.setLevel(1);
+        }
 
         return deptRepository.save(unsavedDept);
     }
@@ -55,8 +58,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public List<Dept> list(Collection<Long> deptIds) {
-        if (deptIds == null || deptIds.isEmpty())
+        if (deptIds == null || deptIds.isEmpty()) {
             return new ArrayList<>();
+        }
         return deptRepository.findAllByIdIn(deptIds);
     }
 
