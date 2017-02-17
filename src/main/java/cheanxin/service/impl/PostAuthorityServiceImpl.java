@@ -37,6 +37,8 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
 
     @Override
     public List<PostAuthority> list(Collection<Long> postIds) {
+        if (postIds == null || postIds.isEmpty())
+            return new ArrayList<>();
         return postAuthorityRepository.findByPostIdIn(postIds);
     }
 

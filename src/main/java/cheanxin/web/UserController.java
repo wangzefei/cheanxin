@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 /**
  * Created by 273cn on 16/12/14.
@@ -50,12 +51,23 @@ public class UserController extends BaseController {
 
     @RequestMapping(method=RequestMethod.GET)
     public Page<User> list(
+            @RequestParam(value = "deptId", defaultValue = "-1") long deptId,
+            @RequestParam(value = "realName", defaultValue = "") String realName,
+            @RequestParam(value = "mobileNumber", defaultValue = "") String mobileNumber,
+            @RequestParam(value = "email", defaultValue = "") String email,
+            @RequestParam(value = "status", defaultValue = "-1") int status,
             @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
-        return userService.list(page, size);
+        return userService.list(deptId, realName, mobileNumber, email, status, page, size);
     }
 
-
+    @RequestMapping(value="/all", method=RequestMethod.GET)
+    public List<User> list(
+            @RequestParam(value = "deptId", defaultValue = "-1") long deptId,
+            @RequestParam(value = "postId", defaultValue = "-1") long postId,
+            @RequestParam(value = "enabled", defaultValue = "1") boolean enabled) {
+        return userService.list(deptId, postId, enabled);
+    }
 
     @RequestMapping(value="/me", method=RequestMethod.GET)
     public ResponseEntity<User> get(@AuthenticationPrincipal User user) {

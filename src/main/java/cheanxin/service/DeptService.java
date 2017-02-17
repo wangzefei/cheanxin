@@ -2,8 +2,8 @@ package cheanxin.service;
 
 import cheanxin.domain.Dept;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by 273cn on 16/12/21.
@@ -16,6 +16,6 @@ public interface DeptService {
     List<Dept> list(Integer level, boolean enabled);
     List<Dept> list(Long parentDeptId, boolean enabled);
     List<Dept> list(boolean enabled);
-    List<Dept> list(Set<Long> deptIds);
+    List<Dept> list(Collection<Long> deptIds);
     boolean isExists(long id);
 }

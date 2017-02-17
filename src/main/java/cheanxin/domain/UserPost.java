@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
  * 用户岗位表
  */
 @Entity
-@Table(indexes = { @Index(name = "idx_username_post_id", columnList = "username, postId", unique = true) })
+@Table(indexes = { @Index(name = "idx_username_post_id", columnList = "username, postId", unique = true)})
 public class UserPost {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
