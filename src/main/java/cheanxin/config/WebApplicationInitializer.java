@@ -30,7 +30,6 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.setInitParameter("spring.profiles.default", ConfigConstants.DEV);
         servletContext.setInitParameter("spring.profiles.active", ConfigConstants.DEV);
         FilterRegistration.Dynamic simpleCORSFilter = servletContext.addFilter("simpleCORSFilter", SimpleCORSFilter.class);
         simpleCORSFilter.setInitParameter("encoding", String.valueOf(StandardCharsets.UTF_8));
