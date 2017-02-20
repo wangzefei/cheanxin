@@ -17,3 +17,6 @@ hs_err_pid*
 
 #compile target file
 target/
+
+#dev config
+src/main/resources/dev/
