@@ -16,6 +16,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by 273cn on 17/01/07.
@@ -34,6 +35,12 @@ public class ProductController extends BaseController {
             @RequestParam(value = "page", defaultValue = LogicConstants.DEFAULT_PAGE) int page,
             @RequestParam(value = "size", defaultValue = LogicConstants.DEFAULT_SIZE) int size) {
         return productService.list(productTemplateId, name, status, page, size);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<Product> list(
+            @RequestParam(value = "cityId", defaultValue = "-1") long cityId) {
+        return productService.list(cityId, ProductStatus.ACCEPTED.value().intValue());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json")
