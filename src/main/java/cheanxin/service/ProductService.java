@@ -17,6 +17,7 @@ public interface ProductService {
     Page<Product> list(long productTemplateId, String name, int status, int page, int size);
     Page<Product> list(String username, long productTemplateId, String name, int status, int page, int size);
     List<Product> list(Collection<Long> productIds);
+    List<Product> list(long cityId, int status);
     Product review(User user, Product fromProduct, Product toProduct);
     boolean hasChildProducts(Product product);
 }

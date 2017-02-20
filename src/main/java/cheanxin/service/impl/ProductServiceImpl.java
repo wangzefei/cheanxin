@@ -76,6 +76,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> list(long cityId, int status) {
+        if (cityId > 0L) {
+            return productRepository.findAllByCityIdAndStatus(cityId, status);
+        }
+        return productRepository.findAllByStatus(status);
+    }
+
+    @Override
     @Transactional
     public Product review(User user, Product fromProduct, Product toProduct) {
         // save from status before save product.
