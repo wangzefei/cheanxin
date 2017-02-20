@@ -32,7 +32,7 @@ public class DatabaseConfig {
     Environment env;
 
     @Bean
-    public DataSource devDataSource() {
+    public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setDriverClassName(env.getRequiredProperty("database.driverClassName"));
