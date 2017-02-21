@@ -138,7 +138,7 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(30) COMMENT '学历'")
     private String applicantQualification;
 
-    @Column(columnDefinition = "INT(10) COMMENT '户籍所在城市'")
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '户籍所在城市'")
     private Long applicantCensusCityId;
 
     @Size(max = 200)
@@ -276,18 +276,18 @@ public class Loan {
     private String coApplicantMobileNumber;
 
     @Size(max = 30)
-    @Column(columnDefinition = "VARCHAR(30) COMMENT '学历'")
+    @Column(columnDefinition = "VARCHAR(30) COMMENT '共同申请人学历'")
     private String coApplicantQualification;
 
-    @Column(columnDefinition = "INT(10) COMMENT '户籍所在城市'")
+    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '共同申请人户籍所在城市'")
     private Long coApplicantCensusCityId;
 
     @Size(max = 200)
-    @Column(columnDefinition = "VARCHAR(200) COMMENT '现居住地'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '共同申请人现居住地'")
     private String coApplicantAddress;
 
     @Min(0)
-    @Column(columnDefinition = "INT(10) COMMENT '月收入'")
+    @Column(columnDefinition = "INT(10) COMMENT '共同申请人月收入'")
     private Long coApplicantIncomePerMonth;
 
     @Size(max = 20)
@@ -295,31 +295,31 @@ public class Loan {
     private String coApplicantTelephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "VARCHAR(200) COMMENT '工作单位名称'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '共同申请人工作单位名称'")
     private String coApplicantEmployerName;
 
     @Size(max = 20)
-    @Column(columnDefinition = "VARCHAR(20) COMMENT '单位电话'")
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '共同申请人单位电话'")
     private String coApplicantEmployerTelephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "VARCHAR(200) COMMENT '单位居住地'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '共同申请人单位所在地'")
     private String coApplicantEmployerAddress;
 
     @Size(min = 5, max = 100)
-    @Column(columnDefinition = "VARCHAR(100) COMMENT '证件图片'")
+    @Column(columnDefinition = "VARCHAR(100) COMMENT '共同申请人证件图片'")
     private String coApplicantCertificateFileIds;
 
     @Size(max = 500)
-    @Column(columnDefinition = "VARCHAR(500) COMMENT '收入证明图片'")
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '共同申请人收入证明图片'")
     private String coApplicantIncomeFileIds;
 
     @Size(max = 200)
-    @Column(columnDefinition = "VARCHAR(200) COMMENT '房产图片'")
+    @Column(columnDefinition = "VARCHAR(200) COMMENT '共同申请人房产图片'")
     private String coApplicantEstateFileIds;
 
     @Size(max = 500)
-    @Column(columnDefinition = "VARCHAR(500) COMMENT '其他图片'")
+    @Column(columnDefinition = "VARCHAR(500) COMMENT '共同申请人其他图片'")
     private String coApplicantOtherFileIds;
 
     @Size(max = 20)
