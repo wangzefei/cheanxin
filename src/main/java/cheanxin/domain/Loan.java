@@ -142,6 +142,10 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(20) COMMENT '户籍'")
     private String applicantCensus;
 
+    @NotNull
+    @Column(columnDefinition = "TINYINT(1) UNSIGNED DEFAULT TRUE COMMENT '是否本地户籍'")
+    private Boolean applicantIsLocalCensus;
+
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) COMMENT '现居住地'")
     private String applicantAddress;
@@ -821,6 +825,14 @@ public class Loan {
 
     public void setApplicantCensus(String applicantCensus) {
         this.applicantCensus = applicantCensus;
+    }
+
+    public Boolean getApplicantIsLocalCensus() {
+        return applicantIsLocalCensus;
+    }
+
+    public void setApplicantIsLocalCensus(Boolean applicantIsLocalCensus) {
+        this.applicantIsLocalCensus = applicantIsLocalCensus;
     }
 
     public String getApplicantAddress() {

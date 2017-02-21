@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-17 10:18:43
+Date: 2017-02-21 13:50:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,6 +84,7 @@ CREATE TABLE `loan` (
   `applicant_gender` tinyint(1) unsigned DEFAULT NULL COMMENT '性别',
   `applicant_income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
   `applicant_income_per_month` int(10) NOT NULL COMMENT '月收入',
+  `applicant_is_local_census` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否本地户籍',
   `applicant_job_title` varchar(50) DEFAULT NULL COMMENT '申请人职称',
   `applicant_marriage` tinyint(1) unsigned NOT NULL COMMENT '婚姻状态',
   `applicant_mobile_number` char(11) NOT NULL COMMENT '申请人手机号',
@@ -189,6 +190,7 @@ CREATE TABLE `loan_draft` (
   `applicant_gender` tinyint(1) unsigned DEFAULT NULL COMMENT '性别',
   `applicant_income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
   `applicant_income_per_month` int(10) DEFAULT NULL COMMENT '月收入',
+  `applicant_is_local_census` tinyint(1) unsigned DEFAULT '1' COMMENT '是否本地户籍',
   `applicant_job_title` varchar(50) DEFAULT NULL COMMENT '申请人职称',
   `applicant_marriage` tinyint(1) unsigned DEFAULT NULL COMMENT '婚姻状态',
   `applicant_mobile_number` char(11) DEFAULT NULL COMMENT '申请人手机号',
@@ -260,12 +262,11 @@ CREATE TABLE `loan_draft` (
   PRIMARY KEY (`id`),
   KEY `idx_creator_username` (`creator_username`),
   KEY `idx_modified_time` (`modified_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan_draft
 -- ----------------------------
-INSERT INTO `loan_draft` VALUES ('1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1487151283', '273', null, null, null, null, null, null, null, '1487151283', null, '2', null, null, null, null, null, null, null, '1', null, '10000', null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `loan_log`
