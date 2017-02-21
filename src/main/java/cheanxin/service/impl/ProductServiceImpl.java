@@ -5,6 +5,7 @@ import cheanxin.domain.Product;
 import cheanxin.domain.ProductLog;
 import cheanxin.domain.User;
 import cheanxin.enums.ProductStatusTransfer;
+import cheanxin.exceptions.UnauthorizedException;
 import cheanxin.service.ProductLogService;
 import cheanxin.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,17 +87,24 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public Product review(User user, Product fromProduct, Product toProduct) {
+        if (user == null || fromProduct == null || fromProduct.getStatus() == null || toProduct == null || toProduct.getStatus() == null) {
+            return null;
+        }
+
+        ProductStatusTransfer productStatusTransfer = ProductStatusTransfer.valueOf(fromProduct.getStatus(), toProduct.getStatus());
+        if (productStatusTransfer == null) {
+            throw new UnauthorizedException("Product status transfer undefined.");
+        }
+
         // save from status before save product.
-        int fromStatus = fromProduct.getStatus().intValue();
-        int toStatus = toProduct.getStatus().intValue();
-        fromProduct.setStatus(toStatus);
+        fromProduct.setStatus(productStatusTransfer.getToStatus().value());
         Product savedProduct = save(fromProduct);
 
         // save product operation log.
         ProductLog productLog = new ProductLog(
                 savedProduct.getId(),
                 user.getUsername(),
-                ProductStatusTransfer.valueOf(fromStatus, toStatus).getValue(),
+                productStatusTransfer.getValue(),
                 toProduct.getRemark(),
                 System.currentTimeMillis() / 1000);
         productLogService.save(productLog);

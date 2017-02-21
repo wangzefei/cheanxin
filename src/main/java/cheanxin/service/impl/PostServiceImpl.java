@@ -55,6 +55,9 @@ public class PostServiceImpl implements PostService {
         List<Post> postList = postRepository.findByEnabled(enabled);
         Map<Long, Post> postMap = new HashMap<>();
         for (Post post : postList) {
+            if (post == null) {
+                continue;
+            }
             postMap.put(post.getId(), post);
         }
         return postMap;

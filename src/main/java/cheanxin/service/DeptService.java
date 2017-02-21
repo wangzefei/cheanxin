@@ -13,8 +13,8 @@ public interface DeptService {
     Dept save(Dept unsavedDept, Dept parentDept);
     void remove(long id);
     Dept get(long id);
-    List<Dept> list(Integer level, boolean enabled);
-    List<Dept> list(Long parentDeptId, boolean enabled);
+    List<Dept> list(int level, boolean enabled);
+    List<Dept> list(long parentDeptId, boolean enabled);
     List<Dept> list(boolean enabled);
     List<Dept> list(Collection<Long> deptIds);
     boolean isExists(long id);

@@ -23,6 +23,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public Dept save(Dept unsavedDept, Dept parentDept) {
+        if (unsavedDept == null) {
+            return null;
+        }
         Long parentDeptId = 0L;
         if (parentDept != null) {
             if (parentDept.getId() != null) {
@@ -42,12 +45,12 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Dept> list(Integer level, boolean enabled) {
+    public List<Dept> list(int level, boolean enabled) {
         return deptRepository.findAllByLevelAndEnabled(level, enabled);
     }
 
     @Override
-    public List<Dept> list(Long parentDeptId, boolean enabled) {
+    public List<Dept> list(long parentDeptId, boolean enabled) {
         return deptRepository.findAllByParentDeptIdAndEnabled(parentDeptId, enabled);
     }
 
@@ -77,14 +80,21 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public Dept get(long id) {
         Dept dept = deptRepository.findOne(id);
-
+        if (dept == null) {
+            return null;
+        }
         // dept city list.
         List<DeptCity> deptCityList = deptCityService.list(dept.getId());
-        Set<Long> cityIds = new HashSet<>();
-        for (DeptCity deptCity : deptCityList) {
-            cityIds.add(deptCity.getCityId());
+        if (deptCityList != null) {
+            Set<Long> cityIds = new HashSet<>();
+            for (DeptCity deptCity : deptCityList) {
+                if (deptCity == null) {
+                    continue;
+                }
+                cityIds.add(deptCity.getCityId());
+            }
+            dept.setCityIds(cityIds);
         }
-        dept.setCityIds(cityIds);
 
         return dept;
     }

@@ -28,10 +28,19 @@ public class UserPostServiceImpl implements UserPostService {
 
     @Override
     public Map<String, Collection<Post>> listUserPostListMap(Collection<String> usernames) {
-        List<UserPost> userPostList = userPostRepository.findByUsernameIn(usernames);
-        Map<Long, Post> postMap = postService.listPostMap(true);
         Map<String, Collection<Post>> userPostMap = new HashMap<>();
+        List<UserPost> userPostList = userPostRepository.findByUsernameIn(usernames);
+        if (userPostList == null) {
+            return userPostMap;
+        }
+        Map<Long, Post> postMap = postService.listPostMap(true);
+        if (postMap == null) {
+            return userPostMap;
+        }
         for (UserPost userPost : userPostList) {
+            if (userPost == null) {
+                continue;
+            }
             Collection<Post> postList = userPostMap.get(userPost.getUsername());
             if (postList == null) {
                 postList = new ArrayList<>();

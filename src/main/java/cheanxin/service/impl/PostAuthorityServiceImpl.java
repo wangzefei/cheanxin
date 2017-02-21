@@ -50,28 +50,41 @@ public class PostAuthorityServiceImpl implements PostAuthorityService {
             throw new UsernameNotFoundException("User " + username + " not found.");
         }
 
-        List<UserPost> userPostList = userPostService.list(username);
-        if (userPostList.isEmpty()) {
-            return user;
-        }
-
+        // set user cities.
         List<DeptCity> deptCityList = deptCityService.list(user.getDeptId());
-        Set<Long> cityIds = new HashSet<>();
-        for (DeptCity deptCity : deptCityList) {
-            cityIds.add(deptCity.getCityId());
+        if (deptCityList != null) {
+            Set<Long> cityIds = new HashSet<>();
+            for (DeptCity deptCity : deptCityList) {
+                cityIds.add(deptCity.getCityId());
+            }
+            user.setCityIds(cityIds);
         }
-        user.setCityIds(cityIds);
 
+        // set user posts.
+        List<UserPost> userPostList = userPostService.list(username);
         Collection<Long> postIds = new ArrayList<>();
-        for (UserPost userPost : userPostList)
-            postIds.add(userPost.getPostId());
+        if (userPostList != null) {
+            for (UserPost userPost : userPostList) {
+                if (userPost == null || userPost.getPostId() == null) {
+                    continue;
+                }
+                postIds.add(userPost.getPostId());
+            }
+        }
 
+        // set user authority list.
         List<PostAuthority> postAuthorityList = list(postIds);
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        for (PostAuthority postAuthority : postAuthorityList) {
-            authorityList.add(new SimpleGrantedAuthority(postAuthority.getAuthority()));
+        if (postAuthorityList != null) {
+            for (PostAuthority postAuthority : postAuthorityList) {
+                if (postAuthority == null || postAuthority.getAuthority() == null) {
+                    continue;
+                }
+                authorityList.add(new SimpleGrantedAuthority(postAuthority.getAuthority()));
+            }
+            user.setAuthorities(authorityList);
         }
-        user.setAuthorities(authorityList);
+
         return user;
     }
 }
