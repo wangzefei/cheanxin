@@ -20,6 +20,14 @@ public enum ProductStatusTransfer {
     private final ProductStatus toStatus;
     private final GrantedAuthority authority;
 
+    public ProductStatus getFromStatus() {
+        return fromStatus;
+    }
+
+    public ProductStatus getToStatus() {
+        return toStatus;
+    }
+
     ProductStatusTransfer(Integer value, ProductStatus fromStatus, ProductStatus toStatus, GrantedAuthority authority) {
         this.value = value;
         this.fromStatus = fromStatus;

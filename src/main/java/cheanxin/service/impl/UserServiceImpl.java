@@ -69,22 +69,40 @@ public class UserServiceImpl implements UserService {
         searchUser.setStatus(status);
         Specification<User> specification = this.getWhereClause(searchUser);
         Page<User> userPage =  userRepository.findAll(specification, pageable);
+        if (userPage == null) {
+            return null;
+        }
 
         // set user dept info and post info.
         Map<Long, Dept> deptMap = new HashMap<>();
         Set<String> usernames = new HashSet<>();
         for (User user : userPage) {
-            deptMap.put(user.getDeptId(), null);
+            if (user == null) {
+                continue;
+            }
+            if (user.getDeptId() != null) {
+                deptMap.put(user.getDeptId(), null);
+            }
             usernames.add(user.getUsername());
         }
         List<Dept> deptList = deptService.list(deptMap.keySet());
-        for (Dept dept : deptList) {
-            deptMap.put(dept.getId(), dept);
+        if (deptList != null) {
+            for (Dept dept : deptList) {
+                if (dept == null) {
+                    continue;
+                }
+                deptMap.put(dept.getId(), dept);
+            }
         }
 
         Map<String, Collection<Post>> userPostListMap = userPostService.listUserPostListMap(usernames);
-        for (User user : userPage) {
-            user.setPosts(userPostListMap.get(user.getUsername()));
+        if (userPostListMap != null) {
+            for (User user : userPage) {
+                if (user == null) {
+                    continue;
+                }
+                user.setPosts(userPostListMap.get(user.getUsername()));
+            }
         }
 
         return userPage;
@@ -92,28 +110,51 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> list(long deptId, long postId, boolean enabled) {
+        List<User> userList;
         if (deptId <= 0L) {
-            return userRepository.findAllByEnabled(enabled);
+            userList = userRepository.findAllByEnabled(enabled);
+        } else {
+            userList = userRepository.findAllByDeptIdAndEnabled(deptId, enabled);
         }
-        List<User> userList = userRepository.findAllByDeptIdAndEnabled(deptId, enabled);
-        if (postId <= 0L) {
-            return userList;
-        }
-        Set<String> usernames = new HashSet<>();
-        for (User user : userList) {
-            usernames.add(user.getUsername());
-        }
-        List<UserPost> userPostList = userPostService.list(usernames, postId);
-        usernames.clear();
-        for (UserPost userPost : userPostList) {
-            usernames.add(userPost.getUsername());
+        if (userList == null) {
+            return new ArrayList<>();
         }
 
-        Iterator<User> iterator = userList.iterator();
-        while (iterator.hasNext()) {
-            User user = iterator.next();
-            if (!usernames.contains(user.getUsername())) {
-                iterator.remove();
+        if (postId > 0L) {
+            Set<String> usernames = new HashSet<>();
+            for (User user : userList) {
+                if (user == null) {
+                    continue;
+                }
+                usernames.add(user.getUsername());
+            }
+
+            // 在用户中筛选中拥有postId职位的用户
+            List<UserPost> userPostList = userPostService.list(usernames, postId);
+            usernames.clear();
+            if (userPostList != null) {
+                for (UserPost userPost : userPostList) {
+                    if (userPost == null) {
+                        continue;
+                    }
+                    usernames.add(userPost.getUsername());
+                }
+            }
+
+            if (usernames.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            Iterator<User> iterator = userList.iterator();
+            while (iterator.hasNext()) {
+                User user = iterator.next();
+                if (user == null) {
+                    iterator.remove();
+                    continue;
+                }
+                if (!usernames.contains(user.getUsername())) {
+                    iterator.remove();
+                }
             }
         }
 

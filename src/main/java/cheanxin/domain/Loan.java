@@ -138,13 +138,8 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(30) COMMENT '学历'")
     private String applicantQualification;
 
-    @Size(max = 20)
-    @Column(columnDefinition = "VARCHAR(20) COMMENT '户籍'")
-    private String applicantCensus;
-
-    @NotNull
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED DEFAULT TRUE COMMENT '是否本地户籍'")
-    private Boolean applicantIsLocalCensus;
+    @Column(columnDefinition = "INT(10) COMMENT '户籍所在城市'")
+    private Long applicantCensusCityId;
 
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) COMMENT '现居住地'")
@@ -202,6 +197,10 @@ public class Loan {
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) COMMENT '邮寄地址'")
     private String applicantPostAddress;
+
+    @Size(min = 6, max = 6)
+    @Column(columnDefinition = "CHAR(6) COMMENT '邮编'")
+    private String applicantPostCode;
 
     @Size(min = 2, max = 30)
     @Column(columnDefinition = "VARCHAR(30) COMMENT '紧急联系人1'")
@@ -267,11 +266,6 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(200) COMMENT '共同申请人姓名'")
     private String coApplicantName;
 
-    @Min(0)
-    @Max(8)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '证件类型'")
-    private Integer coApplicantCertificateType;
-
     @Size(min = 6, max = 20)
     @Column(columnDefinition = "VARCHAR(20) COMMENT '证件号码'")
     private String coApplicantCertificateNumber;
@@ -285,9 +279,8 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(30) COMMENT '学历'")
     private String coApplicantQualification;
 
-    @Size(max = 20)
-    @Column(columnDefinition = "VARCHAR(20) COMMENT '户籍'")
-    private String coApplicantCensus;
+    @Column(columnDefinition = "INT(10) COMMENT '户籍所在城市'")
+    private Long coApplicantCensusCityId;
 
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) COMMENT '现居住地'")
@@ -328,6 +321,31 @@ public class Loan {
     @Size(max = 500)
     @Column(columnDefinition = "VARCHAR(500) COMMENT '其他图片'")
     private String coApplicantOtherFileIds;
+
+    @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '担保人姓名'")
+    private String guarantorName;
+
+    @Size(max = 10)
+    @Column(columnDefinition = "VARCHAR(10) COMMENT '担保人与申请人的关系'")
+    private String guarantorRelationship;
+
+    @Size(min = 6, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '担保人证件号码'")
+    private String guarantorCertificateNumber;
+
+    @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) COMMENT '担保人房产权属'")
+    private String guarantorRealEstateOwnType;
+
+    @Min(0)
+    @Column(columnDefinition = "INT(10) COMMENT '担保人月收入'")
+    private Long guarantorIncomePerMonth;
+
+    @Size(min = 11, max = 11)
+    @Column(columnDefinition = "CHAR(11) COMMENT '担保人手机号'")
+    @Pattern(regexp = "^1[34578][0-9]{9}$")
+    private String guarantorMobileNumber;
 
     @Size(min = 5, max = 100)
     @Column(columnDefinition = "VARCHAR(100) COMMENT '证件图片'")
@@ -420,8 +438,11 @@ public class Loan {
     public Loan() {}
 
     public Loan(LoanDraft loanDraft) {
+        this.loanDraftId = loanDraft.getId();
         this.vehicleDealPrice = loanDraft.getVehicleDealPrice();
         this.productId = loanDraft.getProductId();
+        this.productName = loanDraft.getProductName();
+        this.productType = loanDraft.getProductType();
         this.loanRate = loanDraft.getLoanRate();
         this.loanTerms = loanDraft.getLoanTerms();
         this.loanMonthlyInterestRate = loanDraft.getLoanMonthlyInterestRate();
@@ -442,7 +463,7 @@ public class Loan {
         this.applicantGender = loanDraft.getApplicantGender();
         this.applicantBirthYearMonth = loanDraft.getApplicantBirthYearMonth();
         this.applicantQualification = loanDraft.getApplicantQualification();
-        this.applicantCensus = loanDraft.getApplicantCensus();
+        this.applicantCensusCityId = loanDraft.getApplicantCensusCityId();
         this.applicantAddress = loanDraft.getApplicantAddress();
         this.applicantIncomePerMonth = loanDraft.getApplicantIncomePerMonth();
         this.applicantTelephone = loanDraft.getApplicantTelephone();
@@ -457,6 +478,7 @@ public class Loan {
         this.applicantPosition = loanDraft.getApplicantPosition();
         this.applicantJobTitle = loanDraft.getApplicantJobTitle();
         this.applicantPostAddress = loanDraft.getApplicantPostAddress();
+        this.applicantPostCode = loanDraft.getApplicantPostCode();
         this.applicantFirstEmergencyContact = loanDraft.getApplicantFirstEmergencyContact();
         this.applicantFirstEmergencyContactRelationship = loanDraft.getApplicantFirstEmergencyContactRelationship();
         this.applicantFirstEmergencyContactMobileNumber = loanDraft.getApplicantFirstEmergencyContactMobileNumber();
@@ -472,11 +494,10 @@ public class Loan {
         this.applicantVehicleFileIds = loanDraft.getApplicantVehicleFileIds();
         this.applicantOtherFileIds = loanDraft.getApplicantOtherFileIds();
         this.coApplicantName = loanDraft.getCoApplicantName();
-        this.coApplicantCertificateType = loanDraft.getCoApplicantCertificateType();
         this.coApplicantCertificateNumber = loanDraft.getCoApplicantCertificateNumber();
         this.coApplicantMobileNumber = loanDraft.getCoApplicantMobileNumber();
         this.coApplicantQualification = loanDraft.getCoApplicantQualification();
-        this.coApplicantCensus = loanDraft.getCoApplicantCensus();
+        this.coApplicantCensusCityId = loanDraft.getCoApplicantCensusCityId();
         this.coApplicantAddress = loanDraft.getCoApplicantAddress();
         this.coApplicantIncomePerMonth = loanDraft.getCoApplicantIncomePerMonth();
         this.coApplicantTelephone = loanDraft.getCoApplicantTelephone();
@@ -487,6 +508,12 @@ public class Loan {
         this.coApplicantIncomeFileIds = loanDraft.getCoApplicantIncomeFileIds();
         this.coApplicantEstateFileIds = loanDraft.getCoApplicantEstateFileIds();
         this.coApplicantOtherFileIds = loanDraft.getCoApplicantOtherFileIds();
+        this.guarantorName = loanDraft.getGuarantorName();
+        this.guarantorRelationship = loanDraft.getGuarantorRelationship();
+        this.guarantorCertificateNumber = loanDraft.getGuarantorCertificateNumber();
+        this.guarantorRealEstateOwnType = loanDraft.getGuarantorRealEstateOwnType();
+        this.guarantorIncomePerMonth = loanDraft.getGuarantorIncomePerMonth();
+        this.guarantorMobileNumber = loanDraft.getGuarantorMobileNumber();
         this.guarantorCertificateFileIds = loanDraft.getGuarantorCertificateFileIds();
         this.guarantorIncomeFileIds = loanDraft.getGuarantorIncomeFileIds();
         this.guarantorEstateFileIds = loanDraft.getGuarantorEstateFileIds();
@@ -510,8 +537,11 @@ public class Loan {
     }
 
     public Loan(Loan that) {
+        this.loanDraftId = that.getLoanDraftId();
         this.vehicleDealPrice = that.getVehicleDealPrice();
         this.productId = that.getProductId();
+        this.productName = that.getProductName();
+        this.productType = that.getProductType();
         this.loanRate = that.getLoanRate();
         this.loanTerms = that.getLoanTerms();
         this.loanMonthlyInterestRate = that.getLoanMonthlyInterestRate();
@@ -532,7 +562,7 @@ public class Loan {
         this.applicantGender = that.getApplicantGender();
         this.applicantBirthYearMonth = that.getApplicantBirthYearMonth();
         this.applicantQualification = that.getApplicantQualification();
-        this.applicantCensus = that.getApplicantCensus();
+        this.applicantCensusCityId = that.getApplicantCensusCityId();
         this.applicantAddress = that.getApplicantAddress();
         this.applicantIncomePerMonth = that.getApplicantIncomePerMonth();
         this.applicantTelephone = that.getApplicantTelephone();
@@ -547,6 +577,7 @@ public class Loan {
         this.applicantPosition = that.getApplicantPosition();
         this.applicantJobTitle = that.getApplicantJobTitle();
         this.applicantPostAddress = that.getApplicantPostAddress();
+        this.applicantPostCode = that.getApplicantPostCode();
         this.applicantFirstEmergencyContact = that.getApplicantFirstEmergencyContact();
         this.applicantFirstEmergencyContactRelationship = that.getApplicantFirstEmergencyContactRelationship();
         this.applicantFirstEmergencyContactMobileNumber = that.getApplicantFirstEmergencyContactMobileNumber();
@@ -562,11 +593,10 @@ public class Loan {
         this.applicantVehicleFileIds = that.getApplicantVehicleFileIds();
         this.applicantOtherFileIds = that.getApplicantOtherFileIds();
         this.coApplicantName = that.getCoApplicantName();
-        this.coApplicantCertificateType = that.getCoApplicantCertificateType();
         this.coApplicantCertificateNumber = that.getCoApplicantCertificateNumber();
         this.coApplicantMobileNumber = that.getCoApplicantMobileNumber();
         this.coApplicantQualification = that.getCoApplicantQualification();
-        this.coApplicantCensus = that.getCoApplicantCensus();
+        this.coApplicantCensusCityId = that.getCoApplicantCensusCityId();
         this.coApplicantAddress = that.getCoApplicantAddress();
         this.coApplicantIncomePerMonth = that.getCoApplicantIncomePerMonth();
         this.coApplicantTelephone = that.getCoApplicantTelephone();
@@ -577,6 +607,12 @@ public class Loan {
         this.coApplicantIncomeFileIds = that.getCoApplicantIncomeFileIds();
         this.coApplicantEstateFileIds = that.getCoApplicantEstateFileIds();
         this.coApplicantOtherFileIds = that.getCoApplicantOtherFileIds();
+        this.guarantorName = that.getGuarantorName();
+        this.guarantorRelationship = that.getGuarantorRelationship();
+        this.guarantorCertificateNumber = that.getGuarantorCertificateNumber();
+        this.guarantorRealEstateOwnType = that.getGuarantorRealEstateOwnType();
+        this.guarantorIncomePerMonth = that.getGuarantorIncomePerMonth();
+        this.guarantorMobileNumber = that.getGuarantorMobileNumber();
         this.guarantorCertificateFileIds = that.getGuarantorCertificateFileIds();
         this.guarantorIncomeFileIds = that.getGuarantorIncomeFileIds();
         this.guarantorEstateFileIds = that.getGuarantorEstateFileIds();
@@ -819,20 +855,12 @@ public class Loan {
         this.applicantQualification = applicantQualification;
     }
 
-    public String getApplicantCensus() {
-        return applicantCensus;
+    public Long getApplicantCensusCityId() {
+        return applicantCensusCityId;
     }
 
-    public void setApplicantCensus(String applicantCensus) {
-        this.applicantCensus = applicantCensus;
-    }
-
-    public Boolean getApplicantIsLocalCensus() {
-        return applicantIsLocalCensus;
-    }
-
-    public void setApplicantIsLocalCensus(Boolean applicantIsLocalCensus) {
-        this.applicantIsLocalCensus = applicantIsLocalCensus;
+    public void setApplicantCensusCityId(Long applicantCensusCityId) {
+        this.applicantCensusCityId = applicantCensusCityId;
     }
 
     public String getApplicantAddress() {
@@ -945,6 +973,14 @@ public class Loan {
 
     public void setApplicantPostAddress(String applicantPostAddress) {
         this.applicantPostAddress = applicantPostAddress;
+    }
+
+    public String getApplicantPostCode() {
+        return applicantPostCode;
+    }
+
+    public void setApplicantPostCode(String applicantPostCode) {
+        this.applicantPostCode = applicantPostCode;
     }
 
     public String getApplicantFirstEmergencyContact() {
@@ -1067,14 +1103,6 @@ public class Loan {
         this.coApplicantName = coApplicantName;
     }
 
-    public Integer getCoApplicantCertificateType() {
-        return coApplicantCertificateType;
-    }
-
-    public void setCoApplicantCertificateType(Integer coApplicantCertificateType) {
-        this.coApplicantCertificateType = coApplicantCertificateType;
-    }
-
     public String getCoApplicantCertificateNumber() {
         return coApplicantCertificateNumber;
     }
@@ -1099,12 +1127,12 @@ public class Loan {
         this.coApplicantQualification = coApplicantQualification;
     }
 
-    public String getCoApplicantCensus() {
-        return coApplicantCensus;
+    public Long getCoApplicantCensusCityId() {
+        return coApplicantCensusCityId;
     }
 
-    public void setCoApplicantCensus(String coApplicantCensus) {
-        this.coApplicantCensus = coApplicantCensus;
+    public void setCoApplicantCensusCityId(Long coApplicantCensusCityId) {
+        this.coApplicantCensusCityId = coApplicantCensusCityId;
     }
 
     public String getCoApplicantAddress() {
@@ -1185,6 +1213,54 @@ public class Loan {
 
     public void setCoApplicantOtherFileIds(String coApplicantOtherFileIds) {
         this.coApplicantOtherFileIds = coApplicantOtherFileIds;
+    }
+
+    public String getGuarantorName() {
+        return guarantorName;
+    }
+
+    public void setGuarantorName(String guarantorName) {
+        this.guarantorName = guarantorName;
+    }
+
+    public String getGuarantorRelationship() {
+        return guarantorRelationship;
+    }
+
+    public void setGuarantorRelationship(String guarantorRelationship) {
+        this.guarantorRelationship = guarantorRelationship;
+    }
+
+    public String getGuarantorCertificateNumber() {
+        return guarantorCertificateNumber;
+    }
+
+    public void setGuarantorCertificateNumber(String guarantorCertificateNumber) {
+        this.guarantorCertificateNumber = guarantorCertificateNumber;
+    }
+
+    public String getGuarantorRealEstateOwnType() {
+        return guarantorRealEstateOwnType;
+    }
+
+    public void setGuarantorRealEstateOwnType(String guarantorRealEstateOwnType) {
+        this.guarantorRealEstateOwnType = guarantorRealEstateOwnType;
+    }
+
+    public Long getGuarantorIncomePerMonth() {
+        return guarantorIncomePerMonth;
+    }
+
+    public void setGuarantorIncomePerMonth(Long guarantorIncomePerMonth) {
+        this.guarantorIncomePerMonth = guarantorIncomePerMonth;
+    }
+
+    public String getGuarantorMobileNumber() {
+        return guarantorMobileNumber;
+    }
+
+    public void setGuarantorMobileNumber(String guarantorMobileNumber) {
+        this.guarantorMobileNumber = guarantorMobileNumber;
     }
 
     public String getGuarantorCertificateFileIds() {

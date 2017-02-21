@@ -132,12 +132,8 @@ public class LoanDraft {
     @Pattern(regexp = "^1[34578][0-9]{9}$")
     private String applicantMobileNumber;
 
-    @Size(max = 20)
-    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '户籍'")
-    private String applicantCensus;
-
-    @Column(columnDefinition = "TINYINT(1) UNSIGNED DEFAULT TRUE COMMENT '是否本地户籍'")
-    private Boolean applicantIsLocalCensus;
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '申请人户籍所在城市'")
+    private Long applicantCensusCityId;
 
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '现居住地'")
@@ -195,6 +191,10 @@ public class LoanDraft {
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '邮寄地址'")
     private String applicantPostAddress;
+
+    @Size(min = 6, max = 6)
+    @Column(columnDefinition = "CHAR(6) DEFAULT NULL COMMENT '邮编'")
+    private String applicantPostCode;
 
     @Size(min = 2, max = 30)
     @Column(columnDefinition = "VARCHAR(30) DEFAULT NULL COMMENT '紧急联系人1'")
@@ -255,15 +255,16 @@ public class LoanDraft {
     @Column(columnDefinition = "VARCHAR(500) DEFAULT NULL COMMENT '其他图片'")
     private String applicantOtherFileIds;
 
-
     @Size(max = 20)
     @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '共同申请人姓名'")
     private String coApplicantName;
 
-    @Min(0)
-    @Max(8)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED DEFAULT NULL COMMENT '证件类型'")
-    private Integer coApplicantCertificateType;
+    @Size(max = 10)
+    @Column(columnDefinition = "VARCHAR(10) DEFAULT NULL COMMENT '共同申请人与申请人的关系'")
+    private String coApplicantRelationship;
+
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '共同申请人户籍所在城市'")
+    private Long coApplicantCensusCityId;
 
     @Size(min = 6, max = 20)
     @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '证件号码'")
@@ -277,10 +278,6 @@ public class LoanDraft {
     @Size(max = 30)
     @Column(columnDefinition = "VARCHAR(30) DEFAULT NULL COMMENT '学历'")
     private String coApplicantQualification;
-
-    @Size(max = 20)
-    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '户籍'")
-    private String coApplicantCensus;
 
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '现居住地'")
@@ -322,6 +319,31 @@ public class LoanDraft {
     @Column(columnDefinition = "VARCHAR(500) DEFAULT NULL COMMENT '其他图片'")
     private String coApplicantOtherFileIds;
 
+    @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '担保人姓名'")
+    private String guarantorName;
+
+    @Size(max = 10)
+    @Column(columnDefinition = "VARCHAR(10) DEFAULT NULL COMMENT '担保人与申请人的关系'")
+    private String guarantorRelationship;
+
+    @Size(min = 6, max = 20)
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '担保人证件号码'")
+    private String guarantorCertificateNumber;
+
+    @Size(max = 20)
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '担保人房产权属'")
+    private String guarantorRealEstateOwnType;
+
+    @Min(0)
+    @Column(columnDefinition = "INT(10) DEFAULT NULL COMMENT '担保人月收入'")
+    private Long guarantorIncomePerMonth;
+
+    @Size(min = 11, max = 11)
+    @Column(columnDefinition = "CHAR(11) DEFAULT NULL COMMENT '担保人手机号'")
+    @Pattern(regexp = "^1[34578][0-9]{9}$")
+    private String guarantorMobileNumber;
+    
     @Size(min = 5, max = 100)
     @Column(columnDefinition = "VARCHAR(100) DEFAULT NULL COMMENT '证件图片'")
     private String guarantorCertificateFileIds;
@@ -624,20 +646,12 @@ public class LoanDraft {
         this.applicantMobileNumber = applicantMobileNumber;
     }
 
-    public String getApplicantCensus() {
-        return applicantCensus;
+    public Long getApplicantCensusCityId() {
+        return applicantCensusCityId;
     }
 
-    public void setApplicantCensus(String applicantCensus) {
-        this.applicantCensus = applicantCensus;
-    }
-
-    public Boolean getApplicantIsLocalCensus() {
-        return applicantIsLocalCensus;
-    }
-
-    public void setApplicantIsLocalCensus(Boolean applicantIsLocalCensus) {
-        this.applicantIsLocalCensus = applicantIsLocalCensus;
+    public void setApplicantCensusCityId(Long applicantCensusCityId) {
+        this.applicantCensusCityId = applicantCensusCityId;
     }
 
     public String getApplicantAddress() {
@@ -750,6 +764,14 @@ public class LoanDraft {
 
     public void setApplicantPostAddress(String applicantPostAddress) {
         this.applicantPostAddress = applicantPostAddress;
+    }
+
+    public String getApplicantPostCode() {
+        return applicantPostCode;
+    }
+
+    public void setApplicantPostCode(String applicantPostCode) {
+        this.applicantPostCode = applicantPostCode;
     }
 
     public String getApplicantFirstEmergencyContact() {
@@ -872,12 +894,20 @@ public class LoanDraft {
         this.coApplicantName = coApplicantName;
     }
 
-    public Integer getCoApplicantCertificateType() {
-        return coApplicantCertificateType;
+    public String getCoApplicantRelationship() {
+        return coApplicantRelationship;
     }
 
-    public void setCoApplicantCertificateType(Integer coApplicantCertificateType) {
-        this.coApplicantCertificateType = coApplicantCertificateType;
+    public void setCoApplicantRelationship(String coApplicantRelationship) {
+        this.coApplicantRelationship = coApplicantRelationship;
+    }
+
+    public Long getCoApplicantCensusCityId() {
+        return coApplicantCensusCityId;
+    }
+
+    public void setCoApplicantCensusCityId(Long coApplicantCensusCityId) {
+        this.coApplicantCensusCityId = coApplicantCensusCityId;
     }
 
     public String getCoApplicantCertificateNumber() {
@@ -902,14 +932,6 @@ public class LoanDraft {
 
     public void setCoApplicantQualification(String coApplicantQualification) {
         this.coApplicantQualification = coApplicantQualification;
-    }
-
-    public String getCoApplicantCensus() {
-        return coApplicantCensus;
-    }
-
-    public void setCoApplicantCensus(String coApplicantCensus) {
-        this.coApplicantCensus = coApplicantCensus;
     }
 
     public String getCoApplicantAddress() {
@@ -990,6 +1012,54 @@ public class LoanDraft {
 
     public void setCoApplicantOtherFileIds(String coApplicantOtherFileIds) {
         this.coApplicantOtherFileIds = coApplicantOtherFileIds;
+    }
+
+    public String getGuarantorName() {
+        return guarantorName;
+    }
+
+    public void setGuarantorName(String guarantorName) {
+        this.guarantorName = guarantorName;
+    }
+
+    public String getGuarantorRelationship() {
+        return guarantorRelationship;
+    }
+
+    public void setGuarantorRelationship(String guarantorRelationship) {
+        this.guarantorRelationship = guarantorRelationship;
+    }
+
+    public String getGuarantorCertificateNumber() {
+        return guarantorCertificateNumber;
+    }
+
+    public void setGuarantorCertificateNumber(String guarantorCertificateNumber) {
+        this.guarantorCertificateNumber = guarantorCertificateNumber;
+    }
+
+    public String getGuarantorRealEstateOwnType() {
+        return guarantorRealEstateOwnType;
+    }
+
+    public void setGuarantorRealEstateOwnType(String guarantorRealEstateOwnType) {
+        this.guarantorRealEstateOwnType = guarantorRealEstateOwnType;
+    }
+
+    public Long getGuarantorIncomePerMonth() {
+        return guarantorIncomePerMonth;
+    }
+
+    public void setGuarantorIncomePerMonth(Long guarantorIncomePerMonth) {
+        this.guarantorIncomePerMonth = guarantorIncomePerMonth;
+    }
+
+    public String getGuarantorMobileNumber() {
+        return guarantorMobileNumber;
+    }
+
+    public void setGuarantorMobileNumber(String guarantorMobileNumber) {
+        this.guarantorMobileNumber = guarantorMobileNumber;
     }
 
     public String getGuarantorCertificateFileIds() {

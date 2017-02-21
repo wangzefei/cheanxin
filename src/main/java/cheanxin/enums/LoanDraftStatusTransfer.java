@@ -46,12 +46,13 @@ public enum LoanDraftStatusTransfer {
 
     public static void checkAuthority(User user, int fromStatus, int toStatus) throws UnauthorizedException {
         LoanDraftStatusTransfer productStatusTransfer = LoanDraftStatusTransfer.valueOf(fromStatus, toStatus);
-        if (productStatusTransfer == null)
+        if (productStatusTransfer == null) {
             throw new UnauthorizedException("Undefined state transfer.");
+        }
         GrantedAuthority neededAuthority = productStatusTransfer.authority;
         Collection<? extends GrantedAuthority> userAuthorities = user.getAuthorities();
-        if (userAuthorities == null || !userAuthorities.contains(neededAuthority))
+        if (userAuthorities == null || !userAuthorities.contains(neededAuthority)) {
             throw new UnauthorizedException("User unauthorized.");
-
+        }
     }
 }
