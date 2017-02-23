@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-23 10:56:26
+Date: 2017-02-23 15:41:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,7 +71,7 @@ CREATE TABLE `loan` (
   `applicant_certificate_file_ids` varchar(100) DEFAULT NULL COMMENT '证件图片',
   `applicant_certificate_number` varchar(20) DEFAULT NULL COMMENT '证件号码',
   `applicant_certificate_type` tinyint(2) unsigned DEFAULT NULL COMMENT '证件类型',
-  `applicant_employer_address` varchar(200) DEFAULT NULL COMMENT '单位居住地',
+  `applicant_employer_address` varchar(200) DEFAULT NULL COMMENT '单位所在地',
   `applicant_employer_industry` varchar(100) DEFAULT NULL COMMENT '工作单位所属行业',
   `applicant_employer_name` varchar(200) DEFAULT NULL COMMENT '工作单位名称',
   `applicant_employer_telephone` varchar(20) DEFAULT NULL COMMENT '单位电话',
@@ -146,7 +146,7 @@ CREATE TABLE `loan` (
   `source_person_name` varchar(30) DEFAULT NULL COMMENT '来源联系人姓名',
   `source_person_tel` varchar(20) DEFAULT NULL COMMENT '来源联系人电话',
   `source_receiver` varchar(30) DEFAULT NULL COMMENT '收单员',
-  `status` tinyint(2) unsigned DEFAULT NULL COMMENT '贷款草稿状态',
+  `status` tinyint(2) unsigned DEFAULT NULL COMMENT '贷款状态',
   `vehicle_brand` varchar(20) DEFAULT NULL COMMENT '品牌',
   `vehicle_deal_price` int(10) unsigned DEFAULT NULL COMMENT '车辆成交价格',
   `vehicle_emission` varchar(10) DEFAULT NULL COMMENT '排放标准',
@@ -162,13 +162,15 @@ CREATE TABLE `loan` (
   `vehicle_vin` char(17) DEFAULT NULL COMMENT '车辆vin码',
   PRIMARY KEY (`id`),
   KEY `idx_creator_username` (`creator_username`),
-  KEY `idx_modified_time` (`modified_time`)
+  KEY `idx_created_time` (`created_time`),
+  KEY `idx_source_financial_commissioner` (`source_financial_commissioner`),
+  KEY `idx_applicant_name` (`applicant_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('1', null, null, null, '1.png,2.png', '430426', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '13078889999', '蒋一鸣', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1.jpg,2.jpg,3.jpg', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1487815222', '273', null, null, null, null, null, null, null, null, null, null, null, '10000', '0.7800', '4', '12', '1487818250', '2', null, '1', '1', '11牛人', 'tatata', '13456789876', '喔喔喔', '0', '丰田', '20000', null, '21.jpg', null, '23.jpg,11.jpg', '广汽丰田', null, '34.png,85.jpg', null, '汉兰达', null, '12345678645223457');
+INSERT INTO `loan` VALUES ('1', '福建厦门', '199006', '1', '1.jpg,2.jpg,3.jpg', '430426', '1', '福州市鼓楼区', '电信', '中国电信', '10000', '国企', '1.jpg,2.jpg,3.jpg', '蒋介水', '福建三明', '18798721123', '母亲', '1', '1.jpg,2.jpg,3.jpg', '18999', '高级客服', '1', '13078889999', '蒋一鸣', '客户服务', '1.jpg,2.jpg,3.jpg', '客服经理', '客服', '福州市东大路1号', '350000', '本科', '1.jpg,2.jpg,3.jpg', '江无忌', '江苏无锡', '13234338867', '朋友', '059126131234', '1.jpg,2.jpg,3.jpg', '6', '1.jpg,2.jpg,3.jpg', '浙江杭州', '2', '1.jpg,2.jpg,3.jpg', '350101198802031122', '浙江杭州西湖区', '阿里巴巴集团', '079188772233', '1.jpg,2.jpg,3.jpg', '1.jpg,2.jpg,3.jpg', '20000', '17001023456', '张家豪', '1.jpg,2.jpg,3.jpg', '硕士', '同学', '079138872234', '1487835028', '273', '4', '1.jpg,2.jpg,3.jpg', '350102197001035831', '1.jpg,2.jpg,3.jpg', '1.jpg,2.jpg,3.jpg', '5000', '18606070809', '刘维佳', '1.jpg,2.jpg,3.jpg', '自有', '舅舅', '10000', '0.7800', '4', '12', '1487835028', '2', '备注信息', '1', '1', '魏伟', '张三', '13456789876', '李四', '1', '丰田', null, '国V', '1.jpg,2.jpg,3.jpg', '1.8500', '1.jpg,2.jpg,3.jpg', '广汽丰田', '201605', '1.jpg,2.jpg,3.jpg', '201606', '汉兰达', '家用', '12345678645223457');
 
 -- ----------------------------
 -- Table structure for `loan_log`
@@ -185,26 +187,12 @@ CREATE TABLE `loan_log` (
   PRIMARY KEY (`id`),
   KEY `idx_loan_id` (`loan_id`),
   KEY `idx_operator_username` (`operator_username`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan_log
 -- ----------------------------
-INSERT INTO `loan_log` VALUES ('1', '1487815222', '1', '1', '273', null, '1');
-INSERT INTO `loan_log` VALUES ('2', '1487815318', '1', '1', '273', null, '2');
-INSERT INTO `loan_log` VALUES ('3', '1487815936', '2', '1', '273', 'This is just a 备注', '1');
-INSERT INTO `loan_log` VALUES ('4', '1487816017', '1', '1', '273', 'This is just a 备注', '2');
-INSERT INTO `loan_log` VALUES ('5', '1487816032', '2', '1', '273', 'This is just a 备注', '1');
-INSERT INTO `loan_log` VALUES ('6', '1487816040', '1', '1', '273', 'This is just a 备注', '2');
-INSERT INTO `loan_log` VALUES ('7', '1487816061', '2', '1', '273', 'This is just a 备注', '3');
-INSERT INTO `loan_log` VALUES ('8', '1487816130', '3', '1', '273', 'This is just a 备注', '4');
-INSERT INTO `loan_log` VALUES ('20', '1487817814', '4', '1', '273', 'This is just a 备注', '6');
-INSERT INTO `loan_log` VALUES ('21', '1487817964', '6', '1', '273', 'This is just a 备注', '7');
-INSERT INTO `loan_log` VALUES ('22', '1487818150', '7', '1', '273', 'This is just a 备注', '4');
-INSERT INTO `loan_log` VALUES ('23', '1487818162', '4', '1', '273', 'This is just a 备注', '5');
-INSERT INTO `loan_log` VALUES ('24', '1487818208', '5', '1', '273', 'This is just a 备注', '4');
-INSERT INTO `loan_log` VALUES ('25', '1487818231', '4', '1', '273', 'This is just a 备注', '6');
-INSERT INTO `loan_log` VALUES ('26', '1487818250', '6', '1', '273', 'This is just a 备注', '0');
+INSERT INTO `loan_log` VALUES ('1', '1487835028', '1', '1', '273', '备注信息', '1');
 
 -- ----------------------------
 -- Table structure for `post`
