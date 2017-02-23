@@ -124,7 +124,9 @@ public class LoanServiceImpl extends LoanService {
         Product product = productService.getOne(loan.getProductId());
         if (product != null) {
             loan.setProductName(product.getName());
-            loan.setProductType(ProductType.valueOf(product.getProductType().intValue()).getDesc());
+            ProductType productType = ProductType.valueOf(product.getProductType());
+            String productTypeStr = productType == null ? null : productType.getDesc();
+            loan.setProductType(productTypeStr);
         }
 
         return loan;
@@ -164,6 +166,9 @@ public class LoanServiceImpl extends LoanService {
                     continue;
                 }
                 loan.setProductName(product.getName());
+                ProductType productType = ProductType.valueOf(product.getProductType());
+                String productTypeStr = productType == null ? null : productType.getDesc();
+                loan.setProductType(productTypeStr);
             }
         }
         

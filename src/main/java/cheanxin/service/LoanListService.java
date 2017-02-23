@@ -103,20 +103,23 @@ public abstract class LoanListService<T> {
             @Override
             public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 List<Predicate> predicate = new ArrayList<>();
-                if (searchLoan.getSourceFinancialCommissioner() != null && !searchLoan.getSourceFinancialCommissioner().trim().isEmpty()) {
-                    predicate.add(cb.equal(root.get("financialCommissioner").as(String.class), searchLoan.getSourceFinancialCommissioner()));
-                }
-                if (searchLoan.getApplicantMobileNumber() != null && !searchLoan.getApplicantMobileNumber().trim().isEmpty()) {
-                    predicate.add(cb.equal(root.get("applicantMobileNumber").as(String.class), searchLoan.getApplicantMobileNumber()));
-                }
-                if (searchLoan.getApplicantName() != null && !searchLoan.getApplicantName().trim().isEmpty()) {
-                    predicate.add(cb.like(root.get("applicantName").as(String.class), searchLoan.getApplicantName() + "%"));
+                if (searchLoan.getCreatorUsername() != null && !searchLoan.getCreatorUsername().trim().isEmpty()) {
+                    predicate.add(cb.equal(root.get("creatorUsername").as(String.class), searchLoan.getCreatorUsername()));
                 }
                 if (searchLoan.getCreatedTimeFrom() > 0) {
                     predicate.add(cb.ge(root.get("createdTime").as(Long.class), searchLoan.getCreatedTimeFrom()));
                 }
                 if (searchLoan.getCreatedTimeTo() > 0) {
                     predicate.add(cb.le(root.get("createdTime").as(Long.class), searchLoan.getCreatedTimeTo()));
+                }
+                if (searchLoan.getSourceFinancialCommissioner() != null && !searchLoan.getSourceFinancialCommissioner().trim().isEmpty()) {
+                    predicate.add(cb.equal(root.get("sourceFinancialCommissioner").as(String.class), searchLoan.getSourceFinancialCommissioner()));
+                }
+                if (searchLoan.getApplicantName() != null && !searchLoan.getApplicantName().trim().isEmpty()) {
+                    predicate.add(cb.like(root.get("applicantName").as(String.class), searchLoan.getApplicantName() + "%"));
+                }
+                if (searchLoan.getApplicantMobileNumber() != null && !searchLoan.getApplicantMobileNumber().trim().isEmpty()) {
+                    predicate.add(cb.equal(root.get("applicantMobileNumber").as(String.class), searchLoan.getApplicantMobileNumber()));
                 }
                 if (searchLoan.getStatus() >= 0) {
                     predicate.add(cb.equal(root.get("status").as(Integer.class), searchLoan.getStatus()));
