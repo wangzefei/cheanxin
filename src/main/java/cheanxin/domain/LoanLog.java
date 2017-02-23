@@ -11,22 +11,15 @@ import javax.validation.constraints.Size;
  * 贷款操作日志
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_username", columnList = "operatorUsername"), @Index(name = "idx_loan_draft_id", columnList = "loanDraftId")})
+@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_username", columnList = "operatorUsername")})
 public class LoanLog {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '自增id'")
-    // 自增id
     private Long id;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款id'")
-    // 贷款id
     private Long loanId;
-
-    @NotNull
-    @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '贷款草稿箱id'")
-    // 贷款草稿箱id
-    private Long loanDraftId;
 
     @NotNull
     @Column(columnDefinition = "VARCHAR(20) COMMENT '操作人username'")
@@ -35,34 +28,29 @@ public class LoanLog {
     @NotNull
     @Min(0)
     @Max(16)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '操作类型'")
-    // 操作类型
-    private Integer operatorType;
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '原贷款状态'")
+    private Integer fromStatus;
+
+    @NotNull
+    @Min(0)
+    @Max(16)
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '目标贷款状态'")
+    private Integer toStatus;
 
     @Size(max = 255)
     @Column(columnDefinition = "VARCHAR(255) COMMENT '备注'")
-    // 备注
     private String remark;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
-    // 创建时间
     private Long createdTime;
 
     public LoanLog() {}
 
-    public LoanLog(Long loanId, Long loanDraftId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
+    public LoanLog(Long loanId, String operatorUsername, Integer fromStatus, Integer toStatus, String remark, Long createdTime) {
         this.loanId = loanId;
-        this.loanDraftId = loanDraftId;
         this.operatorUsername = operatorUsername;
-        this.operatorType = operatorType;
-        this.remark = remark;
-        this.createdTime = createdTime;
-    }
-
-    public LoanLog(Long loanDraftId, String operatorUsername, Integer operatorType, String remark, Long createdTime) {
-        this.loanDraftId = loanDraftId;
-        this.operatorUsername = operatorUsername;
-        this.operatorType = operatorType;
+        this.fromStatus = fromStatus;
+        this.toStatus = toStatus;
         this.remark = remark;
         this.createdTime = createdTime;
     }
@@ -70,10 +58,11 @@ public class LoanLog {
     @Override
     public String toString() {
         return "LoanLog{" +
-                "loanDraftId=" + loanDraftId +
+                "loanId=" + loanId +
                 ", id=" + id +
                 ", operatorUsername='" + operatorUsername + '\'' +
-                ", operatorType=" + operatorType +
+                ", fromStatus=" + fromStatus +
+                ", toStatus=" + toStatus +
                 '}';
     }
 
@@ -93,14 +82,6 @@ public class LoanLog {
         this.loanId = loanId;
     }
 
-    public Long getLoanDraftId() {
-        return loanDraftId;
-    }
-
-    public void setLoanDraftId(Long loanDraftId) {
-        this.loanDraftId = loanDraftId;
-    }
-
     public String getOperatorUsername() {
         return operatorUsername;
     }
@@ -109,12 +90,20 @@ public class LoanLog {
         this.operatorUsername = operatorUsername;
     }
 
-    public Integer getOperatorType() {
-        return operatorType;
+    public Integer getFromStatus() {
+        return fromStatus;
     }
 
-    public void setOperatorType(Integer operatorType) {
-        this.operatorType = operatorType;
+    public void setFromStatus(Integer fromStatus) {
+        this.fromStatus = fromStatus;
+    }
+
+    public Integer getToStatus() {
+        return toStatus;
+    }
+
+    public void setToStatus(Integer toStatus) {
+        this.toStatus = toStatus;
     }
 
     public String getRemark() {

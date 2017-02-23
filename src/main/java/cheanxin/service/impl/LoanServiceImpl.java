@@ -1,15 +1,19 @@
 package cheanxin.service.impl;
 
 import cheanxin.data.LoanRepository;
-import cheanxin.domain.*;
-import cheanxin.enums.LoanDraftStatus;
-import cheanxin.enums.LoanStatusTransfer;
+import cheanxin.domain.Loan;
+import cheanxin.domain.LoanLog;
+import cheanxin.domain.Product;
+import cheanxin.domain.User;
+import cheanxin.enums.LoanOperation;
 import cheanxin.enums.ProductType;
+import cheanxin.exceptions.ResourceNotFoundException;
 import cheanxin.exceptions.UnauthorizedException;
-import cheanxin.service.LoanDraftService;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
 import cheanxin.service.ProductService;
+import cheanxin.state.LoanState;
+import cheanxin.state.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +22,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,33 +40,77 @@ public class LoanServiceImpl extends LoanService {
     LoanLogService loanLogService;
 
     @Autowired
-    LoanDraftService loanDraftService;
-
-    @Autowired
     private ProductService productService;
+
+    private Map<Integer, LoanState> loanStateMap = new HashMap<>();
+    private LoanState abortedLoanState = new AbortedLoanState(this);
+    private LoanState draftLoanState = new DraftLoanState(this);
+    private LoanState firstReviewPendingLoanState = new FirstReviewPendingLoanState(this);
+    private LoanState pricingPendingLoanState = new PricingPendingLoanState(this);
+    private LoanState secondReviewPendingLoanState = new SecondReviewPendingLoanState(this);
+    private LoanState materialsPendingLoanState = new MaterialsPendingLoanState(this);
+    private LoanState contractPendingLoanState = new ContractPendingLoanState(this);
+    private LoanState schemePendingLoanState = new SchemePendingLoanState(this);
+    private LoanState disbursementPendingLoanState = new DisbursementPendingLoanState(this);
+
+    public LoanServiceImpl() {
+        loanStateMap.put(0, abortedLoanState);
+        loanStateMap.put(1, draftLoanState);
+        loanStateMap.put(2, firstReviewPendingLoanState);
+        loanStateMap.put(3, pricingPendingLoanState);
+        loanStateMap.put(4, secondReviewPendingLoanState);
+        loanStateMap.put(5, materialsPendingLoanState);
+        loanStateMap.put(6, contractPendingLoanState);
+        loanStateMap.put(7, schemePendingLoanState);
+        loanStateMap.put(8, disbursementPendingLoanState);
+    }
+
+    @Override
+    public Loan handle(User user, LoanOperation loanOperation, Loan unsavedLoan) throws Throwable {
+        Loan savedLoan = loanRepository.findOne(unsavedLoan.getId());
+        if (savedLoan == null || savedLoan.getStatus() == null) {
+            return null;
+        }
+        LoanState loanState = loanStateMap.get(savedLoan.getStatus());
+        if (loanState == null) {
+            throw new ResourceNotFoundException("Loan", "id", String.valueOf(unsavedLoan.getId()));
+        }
+        unsavedLoan.setStatus(savedLoan.getStatus());
+
+        String methodName = loanOperation.getMethodName();
+        Method method = loanState.getClass().getDeclaredMethod(methodName, User.class, Loan.class, Loan.class);
+        try {
+            return (Loan) method.invoke(loanState, user, unsavedLoan, savedLoan);
+        } catch (InvocationTargetException e) {
+            throw e.getTargetException();
+        }
+    }
+
+    @Override
+    public boolean isLoanLogExists(long id, LoanState fromLoanState, LoanState toLoanState) {
+        return loanLogService.isExists(id, fromLoanState.getValue(), toLoanState.getValue());
+    }
 
     @Override
     @Transactional
-    public Loan save(Loan unsavedLoan, LoanDraft loanDraft) {
-        if (loanDraft != null) {
-            loanDraftService.save(LoanDraftStatus.SECOND_DRAFT.value(), loanDraft);
-        }
-
+    public Loan save(Loan unsavedLoan, boolean isLog) {
         Loan savedLoan = loanRepository.save(unsavedLoan);
         if (savedLoan == null) {
             throw new InternalError("Save loan error.");
         }
 
-        LoanLog loanLog = new LoanLog(
-                savedLoan.getId(),
-                savedLoan.getLoanDraftId(),
-                savedLoan.getCreatorUsername(),
-                LoanStatusTransfer.FIRST_REVIEW_ACCEPTED_TO_FIRST_REVIEW_ACCEPTED.getValue(),
-                savedLoan.getRemark(),
-                savedLoan.getModifiedTime());
-        loanLogService.save(loanLog);
+        if (isLog && unsavedLoan.getStatus() != null) {
+            LoanLog loanLog = new LoanLog(
+                    savedLoan.getId(),
+                    savedLoan.getCreatorUsername(),
+                    unsavedLoan.getStatus(),
+                    unsavedLoan.getStatus(),
+                    savedLoan.getRemark(),
+                    savedLoan.getModifiedTime());
+            loanLogService.save(loanLog);
+        }
 
-        return loanRepository.save(unsavedLoan);
+        return savedLoan;
     }
 
     @Override
@@ -122,31 +172,75 @@ public class LoanServiceImpl extends LoanService {
 
     @Override
     @Transactional
-    public Loan updateStatus(User user, int fromStatus, Loan unsavedLoan) {
-        if (unsavedLoan == null || unsavedLoan.getStatus() == null) {
+    public Loan updateStatus(User user, Loan unsavedLoan, Loan savedLoan, boolean isLog) {
+        if (savedLoan == null || savedLoan.getStatus() == null) {
             return null;
         }
 
-        LoanStatusTransfer loanStatusTransfer = LoanStatusTransfer.valueOf(fromStatus, unsavedLoan.getStatus());
-        if (loanStatusTransfer == null) {
-            throw new UnauthorizedException("Loan status transfer undefined.");
+        savedLoan.setModifiedTime(unsavedLoan.getModifiedTime());
+        savedLoan = loanRepository.save(savedLoan);
+        if (savedLoan == null) {
+            throw new InternalError("Save loan error.");
         }
 
-        Loan savedLoan = save(unsavedLoan);
-
         // save loan operation log.
-        LoanLog loanLog = new LoanLog(
-                savedLoan.getId(),
-                user.getUsername(),
-                loanStatusTransfer.getValue(),
-                unsavedLoan.getRemark(),
-                System.currentTimeMillis() / 1000);
-        loanLogService.save(loanLog);
+        savedLoan.setReviewRemark(unsavedLoan.getReviewRemark());
+        if (isLog && savedLoan.getStatus() != null) {
+            LoanLog loanLog = new LoanLog(
+                    savedLoan.getId(),
+                    user.getUsername(),
+                    unsavedLoan.getStatus(),
+                    savedLoan.getStatus(),
+                    savedLoan.getReviewRemark(),
+                    savedLoan.getModifiedTime());
+            loanLogService.save(loanLog);
+        }
 
         return savedLoan;
     }
 
-    private Loan save(Loan unsavedLoan) {
-        return save(unsavedLoan, null);
+    @Override
+    public LoanState getAbortedLoanState() {
+        return abortedLoanState;
+    }
+
+    @Override
+    public LoanState getDraftLoanState() {
+        return draftLoanState;
+    }
+
+    @Override
+    public LoanState getFirstReviewPendingLoanState() {
+        return firstReviewPendingLoanState;
+    }
+
+    @Override
+    public LoanState getPricingPendingLoanState() {
+        return pricingPendingLoanState;
+    }
+
+    @Override
+    public LoanState getSecondReviewPendingLoanState() {
+        return secondReviewPendingLoanState;
+    }
+
+    @Override
+    public LoanState getMaterialsPendingLoanState() {
+        return materialsPendingLoanState;
+    }
+
+    @Override
+    public LoanState getContractPendingLoanState() {
+        return contractPendingLoanState;
+    }
+
+    @Override
+    public LoanState getSchemePendingLoanState() {
+        return schemePendingLoanState;
+    }
+
+    @Override
+    public LoanState getDisbursementPendingLoanState() {
+        return disbursementPendingLoanState;
     }
 }

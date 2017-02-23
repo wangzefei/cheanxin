@@ -2,16 +2,12 @@ package cheanxin.web;
 
 import cheanxin.constant.LogicConstants;
 import cheanxin.domain.Loan;
-import cheanxin.domain.LoanDraft;
 import cheanxin.domain.User;
-import cheanxin.enums.LoanDraftStatus;
-import cheanxin.enums.LoanStatus;
-import cheanxin.enums.LoanStatusTransfer;
-import cheanxin.service.LoanDraftService;
-import cheanxin.service.LoanListService;
+import cheanxin.enums.LoanOperation;
+import cheanxin.exceptions.ResourceNotFoundException;
+import cheanxin.exceptions.UnauthorizedException;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
-import cheanxin.util.ReflectUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,6 +18,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Jawinton on 17/02/09.
@@ -35,9 +32,6 @@ public class LoanController extends BaseController {
     @Autowired
     LoanLogService loanLogService;
 
-    @Autowired
-    LoanDraftService loanDraftService;
-
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Loan> save(
             @Valid @RequestBody Loan unsavedLoan,
@@ -46,22 +40,13 @@ public class LoanController extends BaseController {
         String errorMessage = errors.hasErrors() ? errors.getAllErrors().get(0).getDefaultMessage() : null;
         Assert.isNull(errorMessage, errorMessage);
 
-        LoanDraft loanDraft = loanDraftService.getOne(unsavedLoan.getLoanDraftId());
-        Assert.notNull(loanDraft, "Loan draft does not exists.");
-        Assert.isTrue(LoanDraftStatus.SECOND_DRAFT.value().equals(loanDraft.getStatus()), "Loan draft status error.");
-
-        LoanStatusTransfer.checkAuthority(user, LoanStatus.FIRST_REVIEW_ACCEPTED.value(), LoanStatus.FIRST_REVIEW_ACCEPTED.value());
-
         long now = System.currentTimeMillis() / 1000;
-
-        loanDraft.setStatus(LoanDraftStatus.DRAFT_ACCEPTED.value());
-        loanDraft.setModifiedTime(now);
-
         unsavedLoan.setCreatorUsername(user.getUsername());
         unsavedLoan.setCreatedTime(now);
         unsavedLoan.setModifiedTime(now);
-        unsavedLoan.setStatus(LoanStatus.FIRST_REVIEW_ACCEPTED.value());
-        return new ResponseEntity<>(loanService.save(unsavedLoan, loanDraft), HttpStatus.CREATED);
+        unsavedLoan.setStatus(loanService.getDraftLoanState().getValue());
+        unsavedLoan.setVehicleDealPrice(null);
+        return new ResponseEntity<>(loanService.save(unsavedLoan, true), HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -90,39 +75,20 @@ public class LoanController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public ResponseEntity<Loan> patch(
             @PathVariable(value = "id") long id,
+            @RequestParam(value = "loanOperate", defaultValue = "0") int loanOperate,
             @RequestBody Loan unsavedLoan,
-            @AuthenticationPrincipal User user) throws IllegalAccessException {
-        Assert.isTrue(unsavedLoan.getRemark() != null && !unsavedLoan.getRemark().trim().isEmpty(), "Remark should not be empty.");
+            @AuthenticationPrincipal User user) throws Throwable {
+        unsavedLoan.setId(id);
+        unsavedLoan.setModifiedTime(System.currentTimeMillis() / 1000);
 
-        Loan savedLoan = loanService.getOne(id);
-        Assert.notNull(savedLoan, "Loan not found");
-        if (unsavedLoan.getStatus() == null) {
-            unsavedLoan.setStatus(savedLoan.getStatus());
-        }
-        int fromStatus = savedLoan.getStatus();
+        LoanOperation loanOperation = LoanOperation.valueOf(loanOperate);
+        Assert.notNull(loanOperation, "Loan operate error.");
 
-        LoanStatusTransfer.checkAuthority(user, savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());
-
-        LoanStatusTransfer loanStatusTransfer = LoanStatusTransfer.valueOf(savedLoan.getStatus().intValue(), unsavedLoan.getStatus().intValue());
-
-        if (LoanStatusTransfer.SECOND_REVIEW_PENDING_TO_SECOND_REVIEW_REJECTED.equals(loanStatusTransfer) && loanLogService.isExists(id, loanStatusTransfer)) {
-            // directly abort loan if loan review rejected for second time.
-            loanStatusTransfer = LoanStatusTransfer.SECOND_REVIEW_PENDING_TO_LOAN_ABORTED;
-        } else if (LoanStatusTransfer.SECOND_REVIEW_ACCEPTED_TO_CONTRACT_REJECTED.equals(loanStatusTransfer) && loanLogService.isExists(id, loanStatusTransfer)) {
-            // directly abort loan if loan contract rejected for second time.
-            loanStatusTransfer = LoanStatusTransfer.SECOND_REVIEW_ACCEPTED_TO_LOAN_ABORTED;
-        } else if (LoanStatusTransfer.SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanStatusTransfer)) {
-            ReflectUtil.mergeObject(unsavedLoan, savedLoan);
-        } else if (LoanStatusTransfer.CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING.equals(loanStatusTransfer)) {
-            savedLoan.setProductId(unsavedLoan.getProductId());
-            savedLoan.setLoanRate(unsavedLoan.getLoanRate());
-            savedLoan.setLoanTerms(unsavedLoan.getLoanTerms());
-            savedLoan.setLoanMonthlyInterestRate(unsavedLoan.getLoanMonthlyInterestRate());
-            savedLoan.setPrepaymentPenaltyRate(unsavedLoan.getPrepaymentPenaltyRate());
+        Loan savedLoan = loanService.handle(user, loanOperation, unsavedLoan);
+        if (savedLoan == null) {
+            throw new ResourceNotFoundException("Loan", "id", String.valueOf(id));
         }
 
-        savedLoan.setModifiedTime(System.currentTimeMillis() / 1000);
-        savedLoan.setStatus(loanStatusTransfer.getToStatus().value());
-        return new ResponseEntity<>(loanService.updateStatus(user, fromStatus, savedLoan), HttpStatus.OK);
+        return new ResponseEntity<>(savedLoan, HttpStatus.OK);
     }
 }

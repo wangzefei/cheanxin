@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface LoanLogRepository extends JpaRepository<LoanLog, Long> {
-    Page<LoanLog> findByLoanIdAndOperatorType(long loanId, int operatorType, Pageable pageable);
+    Page<LoanLog> findByLoanIdAndFromStatusAndToStatus(long loanId, int fromStatus, int toStatus, Pageable pageable);
 }

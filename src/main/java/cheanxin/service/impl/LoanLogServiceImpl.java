@@ -2,7 +2,6 @@ package cheanxin.service.impl;
 
 import cheanxin.data.LoanLogRepository;
 import cheanxin.domain.LoanLog;
-import cheanxin.enums.LoanStatusTransfer;
 import cheanxin.service.LoanLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +21,7 @@ public class LoanLogServiceImpl implements LoanLogService {
     }
 
     @Override
-    public boolean isExists(long loanId, LoanStatusTransfer loanStatusTransfer) {
-        if (loanStatusTransfer == null) {
-            return false;
-        }
-        return loanLogRepository.findByLoanIdAndOperatorType(loanId, loanStatusTransfer.getValue().intValue(), new PageRequest(0, 1)).hasNext();
+    public boolean isExists(long loanId, int fromStatus, int toStatus) {
+        return loanLogRepository.findByLoanIdAndFromStatusAndToStatus(loanId, fromStatus, toStatus, new PageRequest(0, 1)).hasContent();
     }
 }

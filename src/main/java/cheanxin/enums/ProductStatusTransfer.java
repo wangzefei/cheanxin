@@ -12,8 +12,8 @@ import java.util.Collection;
  * Created by 273cn on 17/1/3.
  */
 public enum ProductStatusTransfer {
-    PENDING_REVIEW_TO_ACCEPTED(1, ProductStatus.PENDING_REVIEW, ProductStatus.ACCEPTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_ACCEPTED.name())),
-    PENDING_REVIEW_TO_REJECTED(2, ProductStatus.PENDING_REVIEW, ProductStatus.REJECTED, new SimpleGrantedAuthority(Authority.ROLE_PENDING_REVIEW_TO_REJECTED.name()));
+    PENDING_REVIEW_TO_ACCEPTED(1, ProductStatus.PENDING_REVIEW, ProductStatus.ACCEPTED, new SimpleGrantedAuthority(Authority.ROLE_PRODUCT_REVIEW.name())),
+    PENDING_REVIEW_TO_REJECTED(2, ProductStatus.PENDING_REVIEW, ProductStatus.REJECTED, new SimpleGrantedAuthority(Authority.ROLE_PRODUCT_REVIEW.name()));
 
     private final Integer value;
     private final ProductStatus fromStatus;
