@@ -5,7 +5,6 @@ import cheanxin.domain.Loan;
 import cheanxin.domain.User;
 import cheanxin.enums.LoanOperation;
 import cheanxin.exceptions.ResourceNotFoundException;
-import cheanxin.exceptions.UnauthorizedException;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Jawinton on 17/02/09.
