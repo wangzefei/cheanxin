@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-21 17:04:00
+Date: 2017-02-23 10:56:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,117 +64,6 @@ INSERT INTO `dept_city` VALUES ('4', '90', '1487230032', '273', '1');
 -- ----------------------------
 DROP TABLE IF EXISTS `loan`;
 CREATE TABLE `loan` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `applicant_address` varchar(200) DEFAULT NULL COMMENT '现居住地',
-  `applicant_birth_year_month` char(6) DEFAULT NULL COMMENT '出生年月',
-  `applicant_census_city_id` int(10) unsigned DEFAULT NULL COMMENT '户籍所在城市',
-  `applicant_certificate_file_ids` varchar(100) NOT NULL COMMENT '证件图片',
-  `applicant_certificate_number` varchar(20) NOT NULL COMMENT '证件号码',
-  `applicant_certificate_type` tinyint(2) unsigned NOT NULL COMMENT '证件类型',
-  `applicant_employer_address` varchar(200) DEFAULT NULL COMMENT '单位居住地',
-  `applicant_employer_industry` varchar(100) DEFAULT NULL COMMENT '工作单位所属行业',
-  `applicant_employer_name` varchar(200) DEFAULT NULL COMMENT '工作单位名称',
-  `applicant_employer_telephone` varchar(20) DEFAULT NULL COMMENT '单位电话',
-  `applicant_employer_type` varchar(50) DEFAULT NULL COMMENT '工作单位性质(国企、私企、外企等等)',
-  `applicant_estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
-  `applicant_first_emergency_contact` varchar(30) DEFAULT NULL COMMENT '紧急联系人1',
-  `applicant_first_emergency_contact_address` varchar(200) DEFAULT NULL COMMENT '紧急联系人1地址',
-  `applicant_first_emergency_contact_mobile_number` char(11) DEFAULT NULL COMMENT '紧急联系人1手机号码',
-  `applicant_first_emergency_contact_relationship` varchar(10) DEFAULT NULL COMMENT '紧急联系人1与申请人的关系',
-  `applicant_gender` tinyint(1) unsigned DEFAULT NULL COMMENT '性别',
-  `applicant_income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
-  `applicant_income_per_month` int(10) NOT NULL COMMENT '月收入',
-  `applicant_job_title` varchar(50) DEFAULT NULL COMMENT '申请人职称',
-  `applicant_marriage` tinyint(1) unsigned NOT NULL COMMENT '婚姻状态',
-  `applicant_mobile_number` char(11) NOT NULL COMMENT '申请人手机号',
-  `applicant_name` varchar(30) NOT NULL COMMENT '贷款申请人姓名',
-  `applicant_occupation` varchar(50) DEFAULT NULL COMMENT '申请人职业',
-  `applicant_other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
-  `applicant_position` varchar(50) DEFAULT NULL COMMENT '申请人职务',
-  `applicant_post` varchar(50) DEFAULT NULL COMMENT '申请人工作岗位',
-  `applicant_post_address` varchar(200) DEFAULT NULL COMMENT '邮寄地址',
-  `applicant_post_code` char(6) DEFAULT NULL COMMENT '邮编',
-  `applicant_qualification` varchar(30) DEFAULT NULL COMMENT '学历',
-  `applicant_qualification_file_ids` varchar(200) DEFAULT NULL COMMENT '学历证明图片',
-  `applicant_second_emergency_contact` varchar(30) DEFAULT NULL COMMENT '紧急联系人2',
-  `applicant_second_emergency_contact_address` varchar(200) DEFAULT NULL COMMENT '紧急联系人2地址',
-  `applicant_second_emergency_contact_mobile_number` char(11) DEFAULT NULL COMMENT '紧急联系人2手机号码',
-  `applicant_second_emergency_contact_relationship` varchar(10) DEFAULT NULL COMMENT '紧急联系人1与申请人的关系',
-  `applicant_telephone` varchar(20) DEFAULT NULL COMMENT '申请人电话',
-  `applicant_vehicle_file_ids` varchar(200) DEFAULT NULL COMMENT '车辆图片',
-  `applicant_work_years` tinyint(2) unsigned DEFAULT NULL COMMENT '申请人工作年限',
-  `application_pic_url` varchar(1000) DEFAULT NULL COMMENT '申请图片列表',
-  `co_applicant_address` varchar(200) DEFAULT NULL COMMENT '共同申请人现居住地',
-  `co_applicant_census_city_id` int(10) unsigned DEFAULT NULL COMMENT '共同申请人户籍所在城市',
-  `co_applicant_certificate_file_ids` varchar(100) DEFAULT NULL COMMENT '共同申请人证件图片',
-  `co_applicant_certificate_number` varchar(20) DEFAULT NULL COMMENT '证件号码',
-  `co_applicant_employer_address` varchar(200) DEFAULT NULL COMMENT '共同申请人单位所在地',
-  `co_applicant_employer_name` varchar(200) DEFAULT NULL COMMENT '共同申请人工作单位名称',
-  `co_applicant_employer_telephone` varchar(20) DEFAULT NULL COMMENT '共同申请人单位电话',
-  `co_applicant_estate_file_ids` varchar(200) DEFAULT NULL COMMENT '共同申请人房产图片',
-  `co_applicant_income_file_ids` varchar(500) DEFAULT NULL COMMENT '共同申请人收入证明图片',
-  `co_applicant_income_per_month` int(10) DEFAULT NULL COMMENT '共同申请人月收入',
-  `co_applicant_mobile_number` char(11) DEFAULT NULL COMMENT '共同申请人手机号',
-  `co_applicant_name` varchar(200) DEFAULT NULL COMMENT '共同申请人姓名',
-  `co_applicant_other_file_ids` varchar(500) DEFAULT NULL COMMENT '共同申请人其他图片',
-  `co_applicant_qualification` varchar(30) DEFAULT NULL COMMENT '共同申请人学历',
-  `co_applicant_telephone` varchar(20) DEFAULT NULL COMMENT '共同申请人电话',
-  `created_time` int(10) unsigned DEFAULT NULL COMMENT '贷款创建时间',
-  `creator_username` varchar(20) DEFAULT NULL COMMENT '创建贷款草稿用户',
-  `guarantor_certificate_file_ids` varchar(100) DEFAULT NULL COMMENT '证件图片',
-  `guarantor_certificate_number` varchar(20) DEFAULT NULL COMMENT '担保人证件号码',
-  `guarantor_estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
-  `guarantor_income_file_ids` varchar(500) DEFAULT NULL COMMENT '收入证明图片',
-  `guarantor_income_per_month` int(10) DEFAULT NULL COMMENT '担保人月收入',
-  `guarantor_mobile_number` char(11) DEFAULT NULL COMMENT '担保人手机号',
-  `guarantor_name` varchar(20) DEFAULT NULL COMMENT '担保人姓名',
-  `guarantor_other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
-  `guarantor_real_estate_own_type` varchar(20) DEFAULT NULL COMMENT '担保人房产权属',
-  `guarantor_relationship` varchar(10) DEFAULT NULL COMMENT '担保人与申请人的关系',
-  `loan_draft_id` int(10) unsigned NOT NULL COMMENT '贷款草稿id',
-  `loan_monthly_interest_rate` decimal(6,4) unsigned NOT NULL COMMENT '贷款月利率',
-  `loan_rate` tinyint(2) unsigned NOT NULL COMMENT '贷款比率',
-  `loan_terms` smallint(3) unsigned NOT NULL COMMENT '贷款期数',
-  `modified_time` int(10) unsigned DEFAULT NULL COMMENT '修改时间',
-  `prepayment_penalty_rate` decimal(6,4) unsigned NOT NULL COMMENT '提前还款违约金比例',
-  `product_id` int(10) unsigned NOT NULL COMMENT '产品id',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `source_channel` tinyint(2) unsigned NOT NULL COMMENT '来源渠道',
-  `source_city_id` int(10) unsigned NOT NULL COMMENT '城市id',
-  `source_financial_commissioner` varchar(30) NOT NULL COMMENT '跟单金融专员',
-  `source_person_name` varchar(30) NOT NULL COMMENT '来源联系人姓名',
-  `source_person_tel` varchar(20) NOT NULL COMMENT '来源联系人电话',
-  `source_receiver` varchar(30) NOT NULL COMMENT '收单员',
-  `status` tinyint(3) unsigned NOT NULL COMMENT '贷款状态',
-  `vehicle_brand` varchar(20) NOT NULL COMMENT '品牌',
-  `vehicle_deal_price` int(10) unsigned NOT NULL COMMENT '车辆成交价格',
-  `vehicle_emission` varchar(10) DEFAULT NULL COMMENT '排放标准',
-  `vehicle_file_ids` varchar(2000) NOT NULL COMMENT '车辆图片',
-  `vehicle_kilometers` decimal(7,4) unsigned NOT NULL COMMENT '公里数',
-  `vehicle_license_file_ids` varchar(100) NOT NULL COMMENT '机动车行驶证图片',
-  `vehicle_manufacturers` varchar(20) NOT NULL COMMENT '厂家',
-  `vehicle_production_year_month` varchar(10) DEFAULT NULL COMMENT '生产年月',
-  `vehicle_registration_certificate_file_ids` varchar(100) NOT NULL COMMENT '车辆登记证书图片',
-  `vehicle_registration_year_month` varchar(10) DEFAULT NULL COMMENT '首次登记年月',
-  `vehicle_series` varchar(50) NOT NULL COMMENT '车系',
-  `vehicle_utility_type` varchar(20) DEFAULT NULL COMMENT '使用性质',
-  `vehicle_vin` char(17) NOT NULL COMMENT '车辆vin码',
-  PRIMARY KEY (`id`),
-  KEY `idx_applicantName` (`applicant_name`),
-  KEY `idx_applicant_mobile_number` (`applicant_mobile_number`),
-  KEY `idx_source_financial_commissioner` (`source_financial_commissioner`),
-  KEY `idx_created_time` (`created_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of loan
--- ----------------------------
-
--- ----------------------------
--- Table structure for `loan_draft`
--- ----------------------------
-DROP TABLE IF EXISTS `loan_draft`;
-CREATE TABLE `loan_draft` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `applicant_address` varchar(200) DEFAULT NULL COMMENT '现居住地',
   `applicant_birth_year_month` char(6) DEFAULT NULL COMMENT '出生年月',
@@ -233,6 +122,7 @@ CREATE TABLE `loan_draft` (
   `co_applicant_telephone` varchar(20) DEFAULT NULL COMMENT '共同申请人电话',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
   `creator_username` varchar(20) DEFAULT NULL COMMENT '创建贷款草稿用户',
+  `guarantor_census_city_id` int(10) unsigned DEFAULT NULL COMMENT '担保人户籍所在城市',
   `guarantor_certificate_file_ids` varchar(100) DEFAULT NULL COMMENT '证件图片',
   `guarantor_certificate_number` varchar(20) DEFAULT NULL COMMENT '担保人证件号码',
   `guarantor_estate_file_ids` varchar(200) DEFAULT NULL COMMENT '房产图片',
@@ -243,11 +133,11 @@ CREATE TABLE `loan_draft` (
   `guarantor_other_file_ids` varchar(500) DEFAULT NULL COMMENT '其他图片',
   `guarantor_real_estate_own_type` varchar(20) DEFAULT NULL COMMENT '担保人房产权属',
   `guarantor_relationship` varchar(10) DEFAULT NULL COMMENT '担保人与申请人的关系',
+  `loan_first_payment` int(10) unsigned DEFAULT NULL COMMENT '首付款金额',
   `loan_monthly_interest_rate` decimal(6,4) unsigned DEFAULT NULL COMMENT '贷款月利率',
   `loan_rate` tinyint(2) unsigned DEFAULT NULL COMMENT '贷款比率',
   `loan_terms` smallint(3) unsigned DEFAULT NULL COMMENT '贷款期数',
   `modified_time` int(10) unsigned DEFAULT NULL COMMENT '修改时间',
-  `prepayment_penalty_rate` decimal(6,4) unsigned DEFAULT NULL COMMENT '提前还款违约金比例',
   `product_id` int(10) unsigned DEFAULT NULL COMMENT '产品id',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `source_channel` tinyint(2) unsigned DEFAULT NULL COMMENT '来源渠道',
@@ -273,11 +163,12 @@ CREATE TABLE `loan_draft` (
   PRIMARY KEY (`id`),
   KEY `idx_creator_username` (`creator_username`),
   KEY `idx_modified_time` (`modified_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of loan_draft
+-- Records of loan
 -- ----------------------------
+INSERT INTO `loan` VALUES ('1', null, null, null, '1.png,2.png', '430426', '1', null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1', '13078889999', '蒋一鸣', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1.jpg,2.jpg,3.jpg', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, '1487815222', '273', null, null, null, null, null, null, null, null, null, null, null, '10000', '0.7800', '4', '12', '1487818250', '2', null, '1', '1', '11牛人', 'tatata', '13456789876', '喔喔喔', '0', '丰田', '20000', null, '21.jpg', null, '23.jpg,11.jpg', '广汽丰田', null, '34.png,85.jpg', null, '汉兰达', null, '12345678645223457');
 
 -- ----------------------------
 -- Table structure for `loan_log`
@@ -286,20 +177,34 @@ DROP TABLE IF EXISTS `loan_log`;
 CREATE TABLE `loan_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `created_time` int(10) unsigned DEFAULT NULL COMMENT '创建时间',
-  `loan_draft_id` int(10) unsigned NOT NULL COMMENT '贷款草稿箱id',
+  `from_status` tinyint(2) unsigned NOT NULL COMMENT '原贷款状态',
   `loan_id` int(10) unsigned DEFAULT NULL COMMENT '贷款id',
-  `operator_type` tinyint(2) unsigned NOT NULL COMMENT '操作类型',
   `operator_username` varchar(20) NOT NULL COMMENT '操作人username',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `to_status` tinyint(2) unsigned NOT NULL COMMENT '目标贷款状态',
   PRIMARY KEY (`id`),
   KEY `idx_loan_id` (`loan_id`),
-  KEY `idx_operator_username` (`operator_username`),
-  KEY `idx_loan_draft_id` (`loan_draft_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `idx_operator_username` (`operator_username`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan_log
 -- ----------------------------
+INSERT INTO `loan_log` VALUES ('1', '1487815222', '1', '1', '273', null, '1');
+INSERT INTO `loan_log` VALUES ('2', '1487815318', '1', '1', '273', null, '2');
+INSERT INTO `loan_log` VALUES ('3', '1487815936', '2', '1', '273', 'This is just a 备注', '1');
+INSERT INTO `loan_log` VALUES ('4', '1487816017', '1', '1', '273', 'This is just a 备注', '2');
+INSERT INTO `loan_log` VALUES ('5', '1487816032', '2', '1', '273', 'This is just a 备注', '1');
+INSERT INTO `loan_log` VALUES ('6', '1487816040', '1', '1', '273', 'This is just a 备注', '2');
+INSERT INTO `loan_log` VALUES ('7', '1487816061', '2', '1', '273', 'This is just a 备注', '3');
+INSERT INTO `loan_log` VALUES ('8', '1487816130', '3', '1', '273', 'This is just a 备注', '4');
+INSERT INTO `loan_log` VALUES ('20', '1487817814', '4', '1', '273', 'This is just a 备注', '6');
+INSERT INTO `loan_log` VALUES ('21', '1487817964', '6', '1', '273', 'This is just a 备注', '7');
+INSERT INTO `loan_log` VALUES ('22', '1487818150', '7', '1', '273', 'This is just a 备注', '4');
+INSERT INTO `loan_log` VALUES ('23', '1487818162', '4', '1', '273', 'This is just a 备注', '5');
+INSERT INTO `loan_log` VALUES ('24', '1487818208', '5', '1', '273', 'This is just a 备注', '4');
+INSERT INTO `loan_log` VALUES ('25', '1487818231', '4', '1', '273', 'This is just a 备注', '6');
+INSERT INTO `loan_log` VALUES ('26', '1487818250', '6', '1', '273', 'This is just a 备注', '0');
 
 -- ----------------------------
 -- Table structure for `post`
@@ -332,29 +237,21 @@ CREATE TABLE `post_authority` (
   `post_id` int(10) unsigned NOT NULL COMMENT '岗位id',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_post_id_authority` (`post_id`,`authority`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of post_authority
 -- ----------------------------
-INSERT INTO `post_authority` VALUES ('25', 'ROLE_CONTRACT_REJECTED_TO_LOAN_ABORTED', '4');
-INSERT INTO `post_authority` VALUES ('24', 'ROLE_CONTRACT_REJECTED_TO_SECOND_REVIEW_PENDING', '4');
-INSERT INTO `post_authority` VALUES ('3', 'ROLE_FIRST_DRAFT_TO_FIRST_DRAFT', '4');
-INSERT INTO `post_authority` VALUES ('4', 'ROLE_FIRST_DRAFT_TO_SECOND_DRAFT', '4');
-INSERT INTO `post_authority` VALUES ('12', 'ROLE_FIRST_REVIEW_ACCEPTED_TO_FIRST_REVIEW_ACCEPTED', '4');
-INSERT INTO `post_authority` VALUES ('15', 'ROLE_FIRST_REVIEW_ACCEPTED_TO_SECOND_REVIEW_PENDING', '4');
-INSERT INTO `post_authority` VALUES ('1', 'ROLE_PENDING_REVIEW_TO_ACCEPTED', '4');
-INSERT INTO `post_authority` VALUES ('2', 'ROLE_PENDING_REVIEW_TO_REJECTED', '4');
-INSERT INTO `post_authority` VALUES ('8', 'ROLE_SECOND_DRAFT_TO_DRAFT_ABORTED', '4');
-INSERT INTO `post_authority` VALUES ('6', 'ROLE_SECOND_DRAFT_TO_DRAFT_ACCEPTED', '4');
-INSERT INTO `post_authority` VALUES ('7', 'ROLE_SECOND_DRAFT_TO_DRAFT_REJECTED', '4');
-INSERT INTO `post_authority` VALUES ('5', 'ROLE_SECOND_DRAFT_TO_SECOND_DRAFT', '4');
-INSERT INTO `post_authority` VALUES ('22', 'ROLE_SECOND_REVIEW_ACCEPTED_TO_CONTRACT_ACCEPTED', '4');
-INSERT INTO `post_authority` VALUES ('23', 'ROLE_SECOND_REVIEW_ACCEPTED_TO_CONTRACT_REJECTED', '4');
-INSERT INTO `post_authority` VALUES ('16', 'ROLE_SECOND_REVIEW_PENDING_TO_SECOND_REVIEW_ACCEPTED', '4');
-INSERT INTO `post_authority` VALUES ('19', 'ROLE_SECOND_REVIEW_PENDING_TO_SECOND_REVIEW_REJECTED', '4');
-INSERT INTO `post_authority` VALUES ('21', 'ROLE_SECOND_REVIEW_REJECTED_TO_LOAN_ABORTED', '4');
-INSERT INTO `post_authority` VALUES ('20', 'ROLE_SECOND_REVIEW_REJECTED_TO_SECOND_REVIEW_PENDING', '4');
+INSERT INTO `post_authority` VALUES ('2', 'ROLE_LOAN_ABORTED', '4');
+INSERT INTO `post_authority` VALUES ('10', 'ROLE_LOAN_CONTRACT', '4');
+INSERT INTO `post_authority` VALUES ('12', 'ROLE_LOAN_DISBURSEMENT', '4');
+INSERT INTO `post_authority` VALUES ('5', 'ROLE_LOAN_DRAFT', '4');
+INSERT INTO `post_authority` VALUES ('6', 'ROLE_LOAN_FIRST_REVIEW', '4');
+INSERT INTO `post_authority` VALUES ('9', 'ROLE_LOAN_MATERIALS', '4');
+INSERT INTO `post_authority` VALUES ('7', 'ROLE_LOAN_PRICING', '4');
+INSERT INTO `post_authority` VALUES ('11', 'ROLE_LOAN_SCHEME', '4');
+INSERT INTO `post_authority` VALUES ('8', 'ROLE_LOAN_SECOND_REVIEW', '4');
+INSERT INTO `post_authority` VALUES ('1', 'ROLE_PRODUCT_REVIEW', '4');
 
 -- ----------------------------
 -- Table structure for `post_type`
