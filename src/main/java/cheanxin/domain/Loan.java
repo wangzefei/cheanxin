@@ -7,7 +7,10 @@ import javax.validation.constraints.*;
  * Created by Jawinton on 17/02/08.
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_creator_username", columnList = "creatorUsername"), @Index(name = "idx_modified_time", columnList = "modifiedTime")})
+@Table(indexes = {@Index(name = "idx_creator_username", columnList = "creatorUsername"),
+        @Index(name = "idx_created_time", columnList = "createdTime"),
+        @Index(name = "idx_source_financial_commissioner", columnList = "sourceFinancialCommissioner"),
+        @Index(name = "idx_applicant_name", columnList = "applicantName")})
 public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,11 +54,6 @@ public class Loan {
     @Digits(integer = 2, fraction = 4)
     @Column(columnDefinition = "DECIMAL(6,4) UNSIGNED DEFAULT NULL COMMENT '贷款月利率'")
     private Float loanMonthlyInterestRate;
-
-    //@NotNull
-    @Size(max = 1000)
-    @Column(columnDefinition = "VARCHAR(1000) DEFAULT NULL COMMENT '申请图片列表'")
-    private String applicationPicUrl;
 
     @Size(max = 255)
     @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL COMMENT '备注'")
@@ -157,7 +155,7 @@ public class Loan {
     private String applicantEmployerTelephone;
 
     @Size(max = 200)
-    @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '单位居住地'")
+    @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '单位所在地'")
     private String applicantEmployerAddress;
 
     @Size(max = 50)
@@ -229,6 +227,11 @@ public class Loan {
     @Size(max = 200)
     @Column(columnDefinition = "VARCHAR(200) DEFAULT NULL COMMENT '紧急联系人2地址'")
     private String applicantSecondEmergencyContactAddress;
+
+    //@NotNull
+    @Size(max = 1000)
+    @Column(columnDefinition = "VARCHAR(1000) DEFAULT NULL COMMENT '申请图片列表'")
+    private String applicationPicUrl;
 
     //@NotNull
     @Size(max = 100)
@@ -422,7 +425,7 @@ public class Loan {
     //@NotNull
     @Min(0)
     @Max(64)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款草稿状态'")
+    @Column(columnDefinition = "TINYINT(2) UNSIGNED COMMENT '贷款状态'")
     private Integer status;
 
     @Column(columnDefinition = "INT(10) UNSIGNED COMMENT '创建时间'")
