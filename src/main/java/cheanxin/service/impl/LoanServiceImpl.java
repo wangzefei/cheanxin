@@ -8,7 +8,6 @@ import cheanxin.domain.User;
 import cheanxin.enums.LoanOperation;
 import cheanxin.enums.ProductType;
 import cheanxin.exceptions.ResourceNotFoundException;
-import cheanxin.exceptions.UnauthorizedException;
 import cheanxin.service.LoanLogService;
 import cheanxin.service.LoanService;
 import cheanxin.service.ProductService;
