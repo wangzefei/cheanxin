@@ -74,21 +74,25 @@ public class UserServiceImpl implements UserService {
         }
 
         // set user dept info and post info.
-        Map<Long, Dept> deptMap = new HashMap<>();
         Set<String> usernames = new HashSet<>();
         for (User user : userPage) {
-            if (user == null) {
+            if (user == null || user.getUsername() == null) {
                 continue;
             }
-            if (user.getDeptId() != null) {
-                deptMap.put(user.getDeptId(), null);
-            }
             usernames.add(user.getUsername());
+        }
+
+        Map<Long, Dept> deptMap = new HashMap<>();
+        for (User user : userPage) {
+            if (user == null || user.getDeptId() == null) {
+                continue;
+            }
+            deptMap.put(user.getDeptId(), null);
         }
         List<Dept> deptList = deptService.list(deptMap.keySet());
         if (deptList != null) {
             for (Dept dept : deptList) {
-                if (dept == null) {
+                if (dept == null || dept.getId() == null) {
                     continue;
                 }
                 deptMap.put(dept.getId(), dept);
@@ -96,12 +100,13 @@ public class UserServiceImpl implements UserService {
         }
 
         Map<String, Collection<Post>> userPostListMap = userPostService.listUserPostListMap(usernames);
-        if (userPostListMap != null) {
+        if (userPostListMap != null && !userPostListMap.isEmpty()) {
             for (User user : userPage) {
-                if (user == null) {
+                if (user == null || user.getUsername() == null) {
                     continue;
                 }
                 user.setPosts(userPostListMap.get(user.getUsername()));
+                user.setDept(deptMap.get(user.getDeptId()));
             }
         }
 
@@ -123,7 +128,7 @@ public class UserServiceImpl implements UserService {
         if (postId > 0L) {
             Set<String> usernames = new HashSet<>();
             for (User user : userList) {
-                if (user == null) {
+                if (user == null || user.getUsername() == null) {
                     continue;
                 }
                 usernames.add(user.getUsername());
@@ -134,7 +139,7 @@ public class UserServiceImpl implements UserService {
             usernames.clear();
             if (userPostList != null) {
                 for (UserPost userPost : userPostList) {
-                    if (userPost == null) {
+                    if (userPost == null || userPost.getUsername() == null) {
                         continue;
                     }
                     usernames.add(userPost.getUsername());
