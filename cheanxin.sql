@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-23 15:41:39
+Date: 2017-02-28 10:19:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -158,6 +158,7 @@ CREATE TABLE `loan` (
   `vehicle_registration_certificate_file_ids` varchar(100) DEFAULT NULL COMMENT '车辆登记证书图片',
   `vehicle_registration_year_month` varchar(10) DEFAULT NULL COMMENT '首次登记年月',
   `vehicle_series` varchar(50) DEFAULT NULL COMMENT '车系',
+  `vehicle_type` varchar(100) DEFAULT NULL COMMENT '车型',
   `vehicle_utility_type` varchar(20) DEFAULT NULL COMMENT '使用性质',
   `vehicle_vin` char(17) DEFAULT NULL COMMENT '车辆vin码',
   PRIMARY KEY (`id`),
@@ -165,12 +166,11 @@ CREATE TABLE `loan` (
   KEY `idx_created_time` (`created_time`),
   KEY `idx_source_financial_commissioner` (`source_financial_commissioner`),
   KEY `idx_applicant_name` (`applicant_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('1', '福建厦门', '199006', '1', '1.jpg,2.jpg,3.jpg', '430426', '1', '福州市鼓楼区', '电信', '中国电信', '10000', '国企', '1.jpg,2.jpg,3.jpg', '蒋介水', '福建三明', '18798721123', '母亲', '1', '1.jpg,2.jpg,3.jpg', '18999', '高级客服', '1', '13078889999', '蒋一鸣', '客户服务', '1.jpg,2.jpg,3.jpg', '客服经理', '客服', '福州市东大路1号', '350000', '本科', '1.jpg,2.jpg,3.jpg', '江无忌', '江苏无锡', '13234338867', '朋友', '059126131234', '1.jpg,2.jpg,3.jpg', '6', '1.jpg,2.jpg,3.jpg', '浙江杭州', '2', '1.jpg,2.jpg,3.jpg', '350101198802031122', '浙江杭州西湖区', '阿里巴巴集团', '079188772233', '1.jpg,2.jpg,3.jpg', '1.jpg,2.jpg,3.jpg', '20000', '17001023456', '张家豪', '1.jpg,2.jpg,3.jpg', '硕士', '同学', '079138872234', '1487835028', '273', '4', '1.jpg,2.jpg,3.jpg', '350102197001035831', '1.jpg,2.jpg,3.jpg', '1.jpg,2.jpg,3.jpg', '5000', '18606070809', '刘维佳', '1.jpg,2.jpg,3.jpg', '自有', '舅舅', '10000', '0.7800', '4', '12', '1487835028', '2', '备注信息', '1', '1', '魏伟', '张三', '13456789876', '李四', '1', '丰田', null, '国V', '1.jpg,2.jpg,3.jpg', '1.8500', '1.jpg,2.jpg,3.jpg', '广汽丰田', '201605', '1.jpg,2.jpg,3.jpg', '201606', '汉兰达', '家用', '12345678645223457');
 
 -- ----------------------------
 -- Table structure for `loan_log`
@@ -186,13 +186,13 @@ CREATE TABLE `loan_log` (
   `to_status` tinyint(2) unsigned NOT NULL COMMENT '目标贷款状态',
   PRIMARY KEY (`id`),
   KEY `idx_loan_id` (`loan_id`),
-  KEY `idx_operator_username` (`operator_username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `idx_operator_username` (`operator_username`),
+  KEY `idx_status` (`from_status`,`to_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan_log
 -- ----------------------------
-INSERT INTO `loan_log` VALUES ('1', '1487835028', '1', '1', '273', '备注信息', '1');
 
 -- ----------------------------
 -- Table structure for `post`

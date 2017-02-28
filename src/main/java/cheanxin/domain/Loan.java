@@ -386,6 +386,10 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(50) DEFAULT NULL COMMENT '车系'")
     private String vehicleSeries;
 
+    @Size(max = 100)
+    @Column(columnDefinition = "VARCHAR(100) DEFAULT NULL COMMENT '车型'")
+    private String vehicleType;
+
     @Size(min = 4, max = 10)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT NULL COMMENT '生产年月'")
     private String vehicleProductionYearMonth;
@@ -1141,6 +1145,14 @@ public class Loan {
 
     public void setVehicleSeries(String vehicleSeries) {
         this.vehicleSeries = vehicleSeries;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getVehicleProductionYearMonth() {

@@ -30,8 +30,27 @@ public class PricingPendingLoanState extends LoanState {
         super.checkAuthority(user);
 
         Assert.notNull(unsavedLoan.getVehicleDealPrice(), "Vehicle deal price is empty.");
+        Assert.notNull(unsavedLoan.getVehicleBrand(), "Vehicle brand is empty");
+        Assert.notNull(unsavedLoan.getVehicleSeries(), "Vehicle series is empty");
+        Assert.notNull(unsavedLoan.getVehicleType(), "Vehicle type is empty");
+        Assert.notNull(unsavedLoan.getVehicleVin(), "Vehicle vin is empty");
+        Assert.notNull(unsavedLoan.getVehicleProductionYearMonth(), "Vehicle production year month is empty");
+        Assert.notNull(unsavedLoan.getVehicleKilometers(), "Vehicle kilometers is empty");
+        Assert.notNull(unsavedLoan.getVehicleRegistrationYearMonth(), "Vehicle registration year month is empty");
+        Assert.notNull(unsavedLoan.getVehicleEmission(), "Vehicle emission is empty.");
+        Assert.notNull(unsavedLoan.getVehicleUtilityType(), "Vehicle utility type is empty.");
+
 
         savedLoan.setVehicleDealPrice(unsavedLoan.getVehicleDealPrice());
+        savedLoan.setVehicleBrand(unsavedLoan.getVehicleBrand());
+        savedLoan.setVehicleSeries(unsavedLoan.getVehicleSeries());
+        savedLoan.setVehicleType(unsavedLoan.getVehicleType());
+        savedLoan.setVehicleVin(unsavedLoan.getVehicleVin());
+        savedLoan.setVehicleProductionYearMonth(unsavedLoan.getVehicleProductionYearMonth());
+        savedLoan.setVehicleKilometers(unsavedLoan.getVehicleKilometers());
+        savedLoan.setVehicleRegistrationYearMonth(unsavedLoan.getVehicleRegistrationYearMonth());
+        savedLoan.setVehicleEmission(unsavedLoan.getVehicleEmission());
+        savedLoan.setVehicleUtilityType(unsavedLoan.getVehicleUtilityType());
         return super.updateLoan(unsavedLoan, savedLoan, false);
     }
 

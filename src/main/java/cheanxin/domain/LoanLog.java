@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
  * 贷款操作日志
  */
 @Entity
-@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_username", columnList = "operatorUsername")})
+@Table(indexes = {@Index(name = "idx_loan_id", columnList = "loanId"), @Index(name = "idx_operator_username", columnList = "operatorUsername"), @Index(name = "idx_status", columnList = "fromStatus, toStatus")})
 public class LoanLog {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
