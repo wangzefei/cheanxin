@@ -180,8 +180,8 @@ public class Loan {
     private String applicantOccupation;
 
     @Max(99)
-    @Column(columnDefinition = "TINYINT(2) UNSIGNED DEFAULT NULL COMMENT '申请人工作年限'")
-    private Integer applicantWorkYears;
+    @Column(columnDefinition = "VARCHAR(20) DEFAULT NULL COMMENT '申请人工作年限'")
+    private String applicantWorkYears;
 
     @Size(max = 50)
     @Column(columnDefinition = "VARCHAR(50) DEFAULT NULL COMMENT '申请人职务'")
@@ -760,11 +760,11 @@ public class Loan {
         this.applicantOccupation = applicantOccupation;
     }
 
-    public Integer getApplicantWorkYears() {
+    public String getApplicantWorkYears() {
         return applicantWorkYears;
     }
 
-    public void setApplicantWorkYears(Integer applicantWorkYears) {
+    public void setApplicantWorkYears(String applicantWorkYears) {
         this.applicantWorkYears = applicantWorkYears;
     }
 
