@@ -28,7 +28,7 @@ public class DraftLoanState extends LoanState {
     public Loan update(User user, Loan unsavedLoan, Loan savedLoan) throws IllegalAccessException {
         super.checkSelfAuthority(user, savedLoan);
 
-        unsavedLoan.setVehicleDealPrice(null);
+        unsavedLoan.setVehiclePredictPrice(null);
         return super.updateLoan(unsavedLoan, savedLoan, true);
     }
 
