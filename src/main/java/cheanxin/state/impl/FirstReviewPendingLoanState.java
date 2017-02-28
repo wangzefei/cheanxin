@@ -29,7 +29,7 @@ public class FirstReviewPendingLoanState extends LoanState {
     public Loan update(User user, Loan unsavedLoan, Loan savedLoan) throws IllegalAccessException {
         super.checkAuthority(user);
 
-        unsavedLoan.setVehicleDealPrice(null);
+        unsavedLoan.setVehiclePredictPrice(null);
         return super.updateLoan(unsavedLoan, savedLoan, true);
     }
 

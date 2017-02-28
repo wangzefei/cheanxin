@@ -43,7 +43,7 @@ public class LoanController extends BaseController {
         unsavedLoan.setCreatedTime(now);
         unsavedLoan.setModifiedTime(now);
         unsavedLoan.setStatus(loanService.getDraftLoanState().getValue());
-        unsavedLoan.setVehicleDealPrice(null);
+        unsavedLoan.setVehiclePredictPrice(null);
         return new ResponseEntity<>(loanService.save(unsavedLoan, true), HttpStatus.CREATED);
     }
 

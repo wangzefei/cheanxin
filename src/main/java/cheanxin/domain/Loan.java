@@ -23,6 +23,11 @@ public class Loan {
     @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '车辆成交价格'")
     private Integer vehicleDealPrice;
 
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '车辆成交价格'")
+    private Integer vehiclePredictPrice;
+
     //@NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id'")
     private Long productId;
@@ -386,6 +391,10 @@ public class Loan {
     @Column(columnDefinition = "VARCHAR(50) DEFAULT NULL COMMENT '车系'")
     private String vehicleSeries;
 
+    @Size(max = 100)
+    @Column(columnDefinition = "VARCHAR(100) DEFAULT NULL COMMENT '车型'")
+    private String vehicleType;
+
     @Size(min = 4, max = 10)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT NULL COMMENT '生产年月'")
     private String vehicleProductionYearMonth;
@@ -469,6 +478,14 @@ public class Loan {
 
     public void setVehicleDealPrice(Integer vehicleDealPrice) {
         this.vehicleDealPrice = vehicleDealPrice;
+    }
+
+    public Integer getVehiclePredictPrice() {
+        return vehiclePredictPrice;
+    }
+
+    public void setVehiclePredictPrice(Integer vehiclePredictPrice) {
+        this.vehiclePredictPrice = vehiclePredictPrice;
     }
 
     public Long getProductId() {
@@ -1141,6 +1158,14 @@ public class Loan {
 
     public void setVehicleSeries(String vehicleSeries) {
         this.vehicleSeries = vehicleSeries;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getVehicleProductionYearMonth() {
