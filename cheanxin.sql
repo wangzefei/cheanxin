@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2017-02-28 10:19:46
+Date: 2017-02-28 10:29:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -161,6 +161,7 @@ CREATE TABLE `loan` (
   `vehicle_type` varchar(100) DEFAULT NULL COMMENT '车型',
   `vehicle_utility_type` varchar(20) DEFAULT NULL COMMENT '使用性质',
   `vehicle_vin` char(17) DEFAULT NULL COMMENT '车辆vin码',
+  `vehicle_predict_price` int(10) unsigned DEFAULT NULL COMMENT '车辆成交价格',
   PRIMARY KEY (`id`),
   KEY `idx_creator_username` (`creator_username`),
   KEY `idx_created_time` (`created_time`),

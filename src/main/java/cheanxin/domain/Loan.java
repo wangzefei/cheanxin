@@ -23,6 +23,11 @@ public class Loan {
     @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '车辆成交价格'")
     private Integer vehicleDealPrice;
 
+    @Min(0)
+    @Max(Integer.MAX_VALUE)
+    @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '车辆成交价格'")
+    private Integer vehiclePredictPrice;
+
     //@NotNull
     @Column(columnDefinition = "INT(10) UNSIGNED DEFAULT NULL COMMENT '产品id'")
     private Long productId;
@@ -473,6 +478,14 @@ public class Loan {
 
     public void setVehicleDealPrice(Integer vehicleDealPrice) {
         this.vehicleDealPrice = vehicleDealPrice;
+    }
+
+    public Integer getVehiclePredictPrice() {
+        return vehiclePredictPrice;
+    }
+
+    public void setVehiclePredictPrice(Integer vehiclePredictPrice) {
+        this.vehiclePredictPrice = vehiclePredictPrice;
     }
 
     public Long getProductId() {

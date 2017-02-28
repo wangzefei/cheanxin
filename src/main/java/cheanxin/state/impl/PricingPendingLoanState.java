@@ -29,7 +29,7 @@ public class PricingPendingLoanState extends LoanState {
     public Loan update(User user, Loan unsavedLoan, Loan savedLoan) throws IllegalAccessException {
         super.checkAuthority(user);
 
-        Assert.notNull(unsavedLoan.getVehicleDealPrice(), "Vehicle deal price is empty.");
+        Assert.notNull(unsavedLoan.getVehiclePredictPrice(), "Vehicle predict price is empty.");
         Assert.notNull(unsavedLoan.getVehicleBrand(), "Vehicle brand is empty");
         Assert.notNull(unsavedLoan.getVehicleSeries(), "Vehicle series is empty");
         Assert.notNull(unsavedLoan.getVehicleType(), "Vehicle type is empty");
@@ -41,7 +41,7 @@ public class PricingPendingLoanState extends LoanState {
         Assert.notNull(unsavedLoan.getVehicleUtilityType(), "Vehicle utility type is empty.");
 
 
-        savedLoan.setVehicleDealPrice(unsavedLoan.getVehicleDealPrice());
+        savedLoan.setVehiclePredictPrice(unsavedLoan.getVehiclePredictPrice());
         savedLoan.setVehicleBrand(unsavedLoan.getVehicleBrand());
         savedLoan.setVehicleSeries(unsavedLoan.getVehicleSeries());
         savedLoan.setVehicleType(unsavedLoan.getVehicleType());
